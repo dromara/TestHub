@@ -1,0 +1,27 @@
+export default {
+    'testhub.FormulaLog.val': 'Value',
+    'testhub.FormulaLog.func': 'Function',
+    'testhub.FormulaLog.result': 'Result',
+    'testhub.FormulaLog.variable': 'Variable',
+    'testhub.FormulaLog.index': 'Index',
+
+    'testhub.ExpLog.and': 'AND',
+    'testhub.ExpLog.or': 'OR',
+
+    'testhub.DataTypeShow.gt': 'Greater',
+    'testhub.DataTypeShow.le': 'Less or Equal',
+    'testhub.DataTypeShow.lt': 'Less',
+    'testhub.DataTypeShow.ge': 'Greater or Equal',
+    'testhub.DataTypeShow.eq': 'Equal',
+    'testhub.DataTypeShow.neq': 'Not Equal',
+    'testhub.DataTypeShow.eqd': 'Equal (*)',
+    'testhub.DataTypeShow.neqd': 'Not Equal (*)',
+    'testhub.DataTypeShow.in': 'In ',
+    'testhub.DataTypeShow.nin': 'Not In ',
+    'testhub.DataTypeShow.en': 'Empty',
+    'testhub.DataTypeShow.nn': 'Not Empty',
+    'testhub.DataTypeShow.be': 'Between []',
+    'testhub.DataTypeShow.nbe': 'Not Between []',
+    'testhub.DataTypeShow.bed': 'Between ()',
+    'testhub.DataTypeShow.nbed': 'Not Between ()',
+};

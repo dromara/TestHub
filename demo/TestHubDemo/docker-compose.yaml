@@ -1,0 +1,54 @@
+version: "3" # 表示该 Docker-Compose 文件使用的是 Version 3 file
+
+services:
+  ######################################################################################################  TestHub
+  testhub:
+    image: vinc02131/testhub:1.0.0
+    hostname: testhub
+    container_name: testhub
+    ports:
+      - "11018:11018"
+      - "12003:12003"
+    volumes:
+      - ./env/testhub/data:/backend/data
+    networks:
+      extnetwork:
+        ipv4_address: 192.168.0.3
+
+  ######################################################################################################  被测试的服务
+  server:
+    image: vinc02131/server:1.0.0
+    hostname: server
+    container_name: server
+    ports:
+      - "12004:12004"
+    networks:
+      extnetwork:
+        ipv4_address: 192.168.0.4
+
+  ######################################################################################################  PGsql
+  postgres:
+    hostname: postgres
+    container_name: postgres
+    image: postgres:11-alpine
+    shm_size: 1600M
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      TZ: Asia/Shanghai
+    # volumes:
+    #   - ./env/pgsql:/var/lib/postgresql/data
+    volumes:
+      - ./env/pgsql:/docker-entrypoint-initdb.d
+    ports:
+      - "12005:5432"
+    networks:
+      extnetwork:
+        ipv4_address: 192.168.0.5
+
+networks:
+  extnetwork:
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.0.0/24

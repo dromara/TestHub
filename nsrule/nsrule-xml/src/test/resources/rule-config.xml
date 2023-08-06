@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <rulePath>demo/RULE_Check.xml</rulePath>
+    <projects>
+        <project code="xiangmu1" name="项目1">
+            <globalParams env="default">
+                <param code="c" name="变量c" dataType="NUMBER" complex="0" data="123"/>
+                <param code="a" name="变量a" dataType="NUMBER" complex="0" data="123"/>
+                <param code="b" name="变量b" dataType="NUMBER" complex="0" data="123"/>
+            </globalParams>
+            <globalParams env="ceshi">
+                <param code="c" name="变量c" dataType="NUMBER" complex="0" data="123"/>
+                <param code="a" name="变量a" dataType="NUMBER" complex="0" data="123"/>
+                <param code="b" name="变量b" dataType="NUMBER" complex="0" data="123"/>
+            </globalParams>
+        </project>
+    </projects>
+    <actions>
+        <action code ="check" name = "校验" type = "CHECK" dataType="map"/>
+        <action code ="checkObj" name = "校验对象" type = "CHECK_OBJ" dataType="map"/>
+        <action code ="sleep" name = "休眠" type = "SLEEP" dataType="map"/>
+        <action code ="begin" name = "事务开启" type = "SQL_BEGIN" dataType="map"/>
+        <action code ="commit" name = "事务提交" type = "SQL_COMMIT" dataType="map"/>
+    </actions>
+</configuration>

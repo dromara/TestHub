@@ -1,0 +1,17 @@
+mybatis-plus:
+#  configuration:
+#    #打印日志
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: INPUT
+    #逻辑删除
+    logic-delete-value: true
+    #逻辑存在
+    logic-not-delete-value: false
+    #xml配置
+  mapper-locations: classpath:/mapper/*Mapper.xml
+  #实体配置
+  type-aliases-package: com.goddess.testhub.*.infrastructure.repository.po
+
+

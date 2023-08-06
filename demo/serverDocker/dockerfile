@@ -1,0 +1,11 @@
+# 使用 openjdk 17 作为基础镜像
+FROM openjdk:17-alpine
+
+# 将后台服务的可执行文件复制到容器中
+COPY /backend /backend
+# 设置工作目录
+WORKDIR /backend
+# 暴露后台服务和前端静态文件的端口
+EXPOSE 12004 12004
+# 启动后台服务
+CMD java -jar server-1.0-SNAPSHOT.jar
