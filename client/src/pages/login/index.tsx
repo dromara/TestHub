@@ -17,6 +17,7 @@ import { LoginResDto } from '@/typings/server/user';
 import { message } from 'antd';
 import { getLocationHash } from '@/utils';
 import { getUserInfo, removeUserInfo, setSatoken, setUserInfo } from '@/utils/localStorage';
+const { ipcRenderer } = window.require("electron");
 
 
 export default () => {
@@ -32,11 +33,15 @@ export default () => {
             // 否则移除
             removeUserInfo();
           }
-          const params = getLocationHash();
-          if (params.callback == undefined) {
-            window.location.href = "/";
+          if (__UMI_ENV__ == "desktop") {
+            ipcRenderer.send("login-success");
           } else {
-            window.location.href = params.callback;
+            const params = getLocationHash();
+            if (params.callback == undefined) {
+              window.location.href = "/";
+            } else {
+              window.location.href = params.callback;
+            }
           }
         } else {
           message.error(loginResDto.msg);

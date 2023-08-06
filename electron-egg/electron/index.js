@@ -1,4 +1,9 @@
 const { Application } = require('ee-core');
+const { ipcMain } = require("electron");
+const url = require("url");
+const UtilsPs = require('ee-core/ps');
+const Log = require('ee-core/log');
+const Conf = require('ee-core/config');
 
 class Index extends Application {
 
@@ -34,6 +39,20 @@ class Index extends Application {
         win.show();
       })
     }
+    ipcMain.on("login-success", () => {
+
+      Log.info("[mian:indexPath]"+Conf.getValue('mainServer.indexPath'));
+      Log.info("[mian:getHomeDir] ", UtilsPs.getHomeDir());
+
+      // 页面导航
+      this.electron.mainWindow.loadURL(
+        url.format({
+          pathname: UtilsPs.getHomeDir()+"/"+Conf.getValue('mainServer.indexPath'),
+          protocol: "file:",
+          slashes: true,
+        })
+      );
+    })
   }
 
   /**
