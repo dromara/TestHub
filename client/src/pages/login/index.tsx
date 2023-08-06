@@ -17,8 +17,8 @@ import { LoginResDto } from '@/typings/server/user';
 import { message } from 'antd';
 import { getLocationHash } from '@/utils';
 import { getUserInfo, removeUserInfo, setSatoken, setUserInfo } from '@/utils/localStorage';
-const { ipcRenderer } = window.require("electron");
 
+const ipcRenderer = __UMI_ENV__ == "desktop" ? window.require("electron").ipcRenderer : null;
 
 export default () => {
   const [formData, setFormData] = useState<IUserInfo>(getUserInfo());

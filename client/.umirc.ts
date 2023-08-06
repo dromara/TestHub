@@ -1,4 +1,3 @@
-import { formatDate } from '@/utils';
 import { defineConfig } from 'umi';
 const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 
@@ -77,7 +76,7 @@ export default defineConfig({
     __APP_NAME__: "TestHub",
     __UMI_ENV__: "local",
     __BUILD_TIME__: "2023-08-01",
-    __APP_VERSION__: '0.0.1',
+    __APP_VERSION__: '1.0.1',
     __APP_PORT__: 12003,
   }
 });

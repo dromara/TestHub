@@ -303,7 +303,7 @@ export function ProxyBody() {
   const [apiPrefix, setApiPrefix] = useState(window._BaseURL)
   const [appPort, setAppPort] = useState<number>(parseInt(localStorage.getItem('_APP_PORT') || __APP_PORT__ || "12003"))
   //服务模式
-  const [model, setModel] = useState(localStorage.getItem('_MODEL') || "local");
+  const [model, setModel] = useState(__UMI_ENV__ == "desktop" ? localStorage.getItem('_MODEL') || "local" : "server");
 
   const handleRadioChange = (e: { target: { value: any; }; }) => {
     setModel(e.target.value)
@@ -332,7 +332,7 @@ export function ProxyBody() {
       }
       const xhr = new XMLHttpRequest();
       xhr.withCredentials = true;
-      xhr.open('GET', `${apiPrefix}/api/system/get-version-a`);
+      xhr.open('GET', `${apiPrefix}/api/system/getVersion`);
       xhr.onload = function () {
         if (xhr.status === 200) {
           localStorage.setItem('_BaseURL', apiPrefix);
@@ -395,7 +395,7 @@ export function ProxyBody() {
         <div className={classnames(styles.content, styles.chatGPTKey)}>
           {/* <Input value={apiPrefix} onChange={updateApi} placeholder='http://localhost:12003' /> */}
           <ProFormText
-            placeholder={"http://localhost:12003"}
+            placeholder={"http://localhost:" + __APP_PORT__}
             rules={[{ required: true, message: "不能为空" }]}
             fieldProps={{
               defaultValue: apiPrefix,

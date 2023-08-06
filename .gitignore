@@ -6,3 +6,12 @@ server/data
 client/src/.umi
 client/node_modules
 electron-egg/node_modules
+electron-egg/out
+**/.flattened-pom.xml
+client/dist
+electron-egg/logs
+electron-egg/build/extraResources/jdk-17.0.6
+electron-egg/build/extraResources/TestHub.jar
+electron-egg/public/dist/*
+electron-egg/public/!dist/
+electron-egg/build/extraResources/data
