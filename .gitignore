@@ -1,2 +1,8 @@
 .DS_Store
 electron-egg/build/jre
+target/
+.idea
+server/data
+client/src/.umi
+client/node_modules
+electron-egg/node_modules
