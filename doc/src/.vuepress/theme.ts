@@ -1,6 +1,6 @@
 import { hopeTheme } from "vuepress-theme-hope";
-import { zhNavbar } from "./navbar/index.js";
-import { zhSidebar } from "./sidebar/index.js";
+import navbar from "./navbar.js";
+import sidebar from "./sidebar.js";
 
 export default hopeTheme({
   hostname: "https://gitee.com/failedgoddess",
@@ -18,44 +18,36 @@ export default hopeTheme({
 
   docsDir: "src",
 
-  locales: {
-    /**
-     * Chinese locale config
-     */
-    "/": {
-      // navbar
-      navbar: zhNavbar,
+  // navbar
+  navbar,
 
-      // sidebar
-      sidebar: zhSidebar,
+  // sidebar
+  sidebar,
 
-      footer: '<a href="https://beian.miit.gov.cn/#/Integrated/index" target="_blank">冀ICP备2023015071号</a>',
+  footer: '<a href="https://beian.miit.gov.cn/#/Integrated/index" target="_blank">冀ICP备2023015071号</a>',
 
-      displayFooter: true,
-
-      // page meta
-      // metaLocales: {
-      //   editLink: "在 GitHub 上编辑此页",
-      // },
-    },
-  },
+  displayFooter: true,
 
   encrypt: {
     config: {
       "/demo/encrypt.html": ["1234"],
-      "/zh/demo/encrypt.html": ["1234"],
     },
   },
 
+  // page meta
+  // metaLocales: {
+  //   editLink: "在 GitHub 上编辑此页",
+  // },
+
   plugins: {
     // You should generate and use your own comment service
-    // comment: {
-    //   provider: "Giscus",
-    //   repo: "vuepress-theme-hope/giscus-discussions",
-    //   repoId: "R_kgDOG_Pt2A",
-    //   category: "Announcements",
-    //   categoryId: "DIC_kwDOG_Pt2M4COD69",
-    // },
+    comment: {
+      provider: "Giscus",
+      repo: "vuepress-theme-hope/giscus-discussions",
+      repoId: "R_kgDOG_Pt2A",
+      category: "Announcements",
+      categoryId: "DIC_kwDOG_Pt2M4COD69",
+    },
 
     // All features are enabled for demo, only preserve features you need here
     mdEnhance: {
@@ -63,7 +55,7 @@ export default hopeTheme({
       attrs: true,
       chart: true,
       codetabs: true,
-      demo: false,
+      demo: true,
       echarts: true,
       figure: true,
       flowchart: true,

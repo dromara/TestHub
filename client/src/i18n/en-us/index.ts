@@ -4,9 +4,11 @@ import setting from './setting';
 import pluginEnUs from '@/components/testHub/plugins/plugin-en-us';
 import testhub from './testhub';
 import app from './app';
+import login from './login';
 
 export default {
   lang: 'en',
+  ...login,
   ...app,
   ...setting,
   ...layouts,

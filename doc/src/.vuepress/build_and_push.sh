@@ -6,7 +6,7 @@ echo
 read -p "TAG 标签号: " DOCKER_IMAGE_TAG
 
 # 设置变量
-DOCKER_IMAGE_NAME="testhub-doc"
+DOCKER_IMAGE_NAME="testhub_doc"
 DOCKER_USERNAME="vinc02131"
 DOCKERHUB_REPO="vinc02131"
 

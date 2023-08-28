@@ -13,9 +13,44 @@ star: true
 # copyright: 无版权
 ---
 
+## V 1.0.1
+
+**2023 年 8 月 27 日**
+
+- 🪲🪲 修复 BUG🪲🪲
+
+  - 解决没有配置校验项提示语导致展示结果不对的问题
+  - 解决文本太长超出父组件宽度的问题
+  - 卸载入法自动保存个人文件
+
+- 👍👍 新增功能 👍👍
+
+  - 集成<a href="https://sa-token.cc/">sa-token</a> 实现权限登陆
+  - 支持 pgsql 作为做数据库
+  - http 支持设置超时时间
+  - 新增版本升级记录
+
 ## V 1.0.0
 
-**2023 年 7 月 18 日**
+**2023 年 7 月 31 日**
 TestHub 正式开源 1.0.0 版本发布
+
+同日加入<a align="center" target="_blank"  href="https://dromara.org/zh/">dromara 社区</a>，跪谢 🙇 社区一众大佬。
+
+感谢 🙇 <a align="center" target="_blank"  href="https://wind.kim/">SMS4J</a> 作者 <a align="center" target="_blank"  href="https://gitee.com/MR-wind">风如歌</a>大佬的鼎力支持
+
+## 内测
+
+**2023 年 2 月 7 日**
+TestHub 发布<a align="center" target="_blank"  href="https://www.crootway.com/">根网科技</a>内测初版
+
+TestHub 测试平台是从 2022 年 10 月开始做的一个项目，期间经历了各种改版，结合根网科技的私有协议需求，又进行了更多的功能开发和完善，在此向感谢一下在 TestHub 的成长过程中给予支持的各位领导和一起付出努力和提出建议的各位同事。
+
+首先感谢 TestHub 起步时给予大力支持的`项目组大佬刘培琦`，是您的支持才有了 TestHub 的诞生。
+
+然后感谢 `部门总监黎伟` 给予的大力支持，是您的支持，才有了 TestHub 的第二次改版， 从一个简陋的小工具，到功能逐步完善，是您的强力推进落地，才有了平台在公司落地为研发团队赋能， 在 CTS 让 TestHub 真正的完善，成为一个可使用的功能完善的产品。
+
+感谢根网 CTS 团队的小伙伴们一起对 TestHub 进行完善。
+感谢使用 TestHub 的各位同事在使用过程中的不断反馈，平台也是在大家的使用和反馈中不断完善的。
 
 <!-- <Badge text="数据校验" color="#242378" /> -->

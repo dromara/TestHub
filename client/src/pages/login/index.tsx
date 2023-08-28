@@ -17,6 +17,7 @@ import { LoginResDto } from '@/typings/server/user';
 import { message } from 'antd';
 import { getLocationHash } from '@/utils';
 import { getUserInfo, removeUserInfo, setSatoken, setUserInfo } from '@/utils/localStorage';
+import i18n from '@/i18n';
 
 const ipcRenderer = __UMI_ENV__ == "desktop" ? window.require("electron").ipcRenderer : null;
 
@@ -60,10 +61,15 @@ export default () => {
       <div className={styles.loginItem}>
         <LoginForm
           className={styles.loginBox1}
-          title="TestHub"
-          subTitle="第二懂你的自动化测试工具"
+          title={__APP_NAME__}
+          subTitle={i18n('login.title.slogan')}
           initialValues={formData}
           onFinish={async (values) => { handleLogin(); return true }}
+          submitter={{
+            searchConfig: {
+              submitText: i18n('login.title.name')
+            },
+          }}
         >
           <ProFormText
             name="userName"
@@ -74,15 +80,15 @@ export default () => {
                 setFormData(prev => ({ ...prev, userName: e.target.value }))
               }
             }}
-            placeholder={'用户名: admin'}
+            placeholder={i18n('login.text.userName') + ': admin'}
             rules={[
               {
                 required: true,
-                message: '请输入用户名!',
+                message: i18n('login.msg.notNull'),
               },
               {
-                max: 12,
-                message: '用户名长度必须在20个字符之内',
+                max: 18,
+                message: i18n('login.msg.userNameLength'),
               },
             ]}
           />
@@ -93,16 +99,16 @@ export default () => {
               prefix: <LockOutlined className={'prefixIcon'} />,
               onChange: (e) => setFormData(prev => ({ ...prev, password: e.target.value }))
             }}
-            placeholder={'密码: 123456'}
+            placeholder={i18n('login.text.password') + ': 123456'}
             rules={[
               {
                 required: true,
-                message: '请输入密码！',
+                message: i18n('login.msg.notNull'),
               },
               {
                 min: 6,
                 max: 12,
-                message: '密码长度必须在6到12个字符之间',
+                message: i18n('login.msg.passwordLength'),
               },
             ]}
           />
@@ -117,19 +123,20 @@ export default () => {
               fieldProps={{
                 onChange: (e) => setFormData(prev => ({ ...prev, rememberMe: e.target.checked }))
               }}>
-              记住密码
+
+              {i18n('login.text.rememberMe')}
             </ProFormCheckbox>
             <a
               style={{
                 float: 'right',
               }}
             >
-              忘记密码
+              {i18n('login.text.forgot')}
             </a>
           </div>
         </LoginForm>
       </div>
-    </div>
+    </div >
     // </ProConfigProvider>
   );
 };

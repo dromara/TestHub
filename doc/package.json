@@ -1,5 +1,5 @@
 {
-  "name": "test_hub",
+  "name": "testhub_doc",
   "version": "1.0.0",
   "description": "流程编排，插件驱动，测试无限可能",
   "license": "Apache License 2.0",
@@ -8,12 +8,12 @@
     "docs:build": "vuepress build src",
     "docs:clean-dev": "vuepress dev src --clean-cache",
     "docs:dev": "vuepress dev src",
-    "docs:update-package": "yarn dlx vp-update"
+    "docs:update-package": "pnpm dlx vp-update"
   },
   "devDependencies": {
-    "@vuepress/client": "2.0.0-beta.63",
-    "vue": "^3.2.47",
-    "vuepress": "1.9.9",
-    "vuepress-theme-hope": "2.0.0-beta.233"
+    "@vuepress/client": "2.0.0-beta.66",
+    "vue": "^3.3.4",
+    "vuepress": "2.0.0-beta.66",
+    "vuepress-theme-hope": "2.0.0-beta.235"
   }
 }

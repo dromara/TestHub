@@ -23,14 +23,12 @@ import org.springframework.http.MediaType;
 
 import java.net.ConnectException;
 import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
+import java.net.http.*;
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 import java.util.*;
 
 public class HttpPlugin implements Plugin {
-    private static HttpClient HTTP_CLIENT = HttpClient.newHttpClient();
     public static JSONObject NONE_INFO = new JSONObject();
 
     public static Map<Integer, String> STATUS_DESC = new HashMap<>();
@@ -126,14 +124,37 @@ public class HttpPlugin implements Plugin {
         Object reqBody = getBody(context, httpModel, data, actionHttp);
         runState.addRunParams("body", reqBody);
 
-        HttpRequest.Builder httpBuilder = HttpRequest.newBuilder().uri(URI.create(url));
+
+        HttpClient httpClient;
+
+        HttpRequest.Builder httpBuilder;
+
+        if(httpModel.getTimeout()!=-1){
+            httpBuilder = HttpRequest.newBuilder()
+                    .timeout(Duration.ofSeconds(httpModel.getTimeout()))
+                    .uri(URI.create(url));
+            httpClient = HttpClient.newBuilder()
+                    .connectTimeout(Duration.ofSeconds(httpModel.getTimeout()))
+                    .build();
+        }else {
+            httpBuilder = HttpRequest.newBuilder()
+                    .uri(URI.create(url));
+            httpClient = HttpClient.newBuilder()
+                    .build();
+        }
+
         initHeaders(httpBuilder, headers);
         initBody(httpBuilder, reqBody, httpModel);
 
         HttpRequest request = httpBuilder.build();
 
         try {
-            HttpResponse<String> response = HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
+
+
+            httpClient.connectTimeout().map(Duration::toSeconds)
+                    .ifPresent(sec -> System.out.println("Timeout in seconds: " + sec));
+
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 
             result.put("headers", response.headers().map().entrySet().stream().collect(HashMap::new, (map, entry) -> map.put(entry.getKey(), String.join(";", entry.getValue())), HashMap::putAll));
             runState.addRunParams("statusCode", response.statusCode());
@@ -153,6 +174,18 @@ public class HttpPlugin implements Plugin {
             result.put("headers", NONE_INFO);
             runState.addRunParams("statusCode", "ConnectException");
             runState.addRunParams("statusName", "连接异常");
+        }catch (HttpConnectTimeoutException e){
+            runState.getResult().setBizError(true);
+            result.put("data", NONE_INFO);
+            result.put("headers", NONE_INFO);
+            runState.addRunParams("statusCode", "ConnectTimeoutException");
+            runState.addRunParams("statusName", "链接超时"+httpModel.getTimeout()+"秒");
+        }catch (HttpTimeoutException e){
+            runState.getResult().setBizError(true);
+            result.put("data", NONE_INFO);
+            result.put("headers", NONE_INFO);
+            runState.addRunParams("statusCode", "TimeoutException");
+            runState.addRunParams("statusName", "返回超时"+httpModel.getTimeout()+"秒");
         }
 
         if (executeHttp.getExpression() != null) {

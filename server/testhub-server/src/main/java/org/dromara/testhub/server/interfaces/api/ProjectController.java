@@ -13,6 +13,7 @@ import org.dromara.testhub.framework.web.ResultResponse;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -27,6 +28,14 @@ import java.util.Map;
 public class ProjectController {
     @Autowired
     private ProjectService projectService;
+
+//    private final ScheduledTaskRegistrar taskRegistrar;
+
+//    @Autowired
+//    public ProjectController(ScheduledTaskRegistrar taskRegistrar) {
+//        this.taskRegistrar = taskRegistrar;
+//    }
+
 
     @SaCheckRole("user")
     @ApiOperation(value = "查询项目列表", tags = {"项目"}, nickname = "getProjectList")

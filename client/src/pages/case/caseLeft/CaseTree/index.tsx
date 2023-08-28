@@ -31,13 +31,13 @@ function approximateTreeNode(treeData: TreeNodeResDto[], target: string, isDelet
                 if (item.name?.toUpperCase()?.indexOf(target?.toUpperCase()) == -1 && approximateTreeNode(item.children, target).length < 1 && isDelete) {
                     delete newTree[index];
                 } else {
-                    item.name = item.name?.replace(target, `<span style='color:red;'>${target}</span>`);
+                    item.nameDiv = item.name?.replace(target, `<span style='color:red;'>${target}</span>`);
                 }
             } else {
                 if (item.name?.toUpperCase()?.indexOf(target?.toUpperCase()) == -1 && isDelete) {
                     delete newTree[index];
                 } else {
-                    item.name = item.name?.replace(target, `<span style='color:red;'>${target}</span>`);
+                    item.nameDiv = item.name?.replace(target, `<span style='color:red;'>${target}</span>`);
                 }
             }
 
@@ -249,7 +249,7 @@ function CaseTreeNode(props: INodeProps) {
                                         <Iconfont code={recognizeIcon(data.nodeType)!}></Iconfont>
                                     </div>
                                     <div className={styles.contentText} >
-                                        <div className={styles.name} dangerouslySetInnerHTML={{ __html: data.name }}></div>
+                                        <div className={styles.name} dangerouslySetInnerHTML={{ __html: appPage.caseSearchInfo == null || appPage.caseSearchInfo == "" ? data.name : data.nameDiv }}></div>
                                     </div>
                                 </div>
                             </div>

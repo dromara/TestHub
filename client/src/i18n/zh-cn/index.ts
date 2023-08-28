@@ -4,10 +4,12 @@ import caseI18n from './caseI18n';
 import pluginZhCn from '@/components/testHub/plugins/plugin-zh-cn';
 import testhub from './testhub';
 import app from './app';
+import login from './login';
 
 
 export default {
   lang: 'zh-cn',
+  ...login,
   ...app,
   ...setting,
   ...layouts,

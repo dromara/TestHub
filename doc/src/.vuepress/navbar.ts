@@ -1,7 +1,6 @@
 import { navbar } from "vuepress-theme-hope";
 
-export const zhNavbar = navbar([
-
+export default navbar([
   {
     text: "🏡首页",
     link: "/README.md",
@@ -13,9 +12,9 @@ export const zhNavbar = navbar([
   //   text: "📒javaDoc",
   //   link: "https://apidoc.gitee.com/dromara/sms4j"
   // },
-  { text: "🏮gitee", link: "https://gitee.com/failedgoddess/TestHub" },
-  // { text: "🪀github", link: "https://github.com/dromara/SMSAggregation" },
-  // { text: "🤝Dromara组织", link: "https://dromara.org/zh/" },
+  { text: "🏮gitee", link: "https://gitee.com/dromara/TestHub" },
+  { text: "🪀github", link: "https://github.com/dromara/TestHub" },
+  { text: "🤝Dromara组织", link: "https://dromara.org/zh/" },
   { text: "🔍常见问题", link: "/issue" },
   { text: "💡更新日志", link: "/log" },
   // { text: "🎎贡献者", link: "/doc/developer.md" },

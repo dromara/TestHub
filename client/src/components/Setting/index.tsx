@@ -349,18 +349,18 @@ export function ProxyBody() {
 
   return <>
     <div className={styles.title}>
-      服务模式
+      {i18n('setting.label.model')}
     </div>
     <div className={classnames(styles.content, styles.chatGPTKey)}>
       <Radio.Group onChange={handleRadioChange} value={model}>
         <Radio value='local'>
-          <Tooltip title="本地模式会为您启动后台服务进程,数据将在本地存储">
-            本地
+          <Tooltip title={i18n('setting.text.localMsg')}>
+            {i18n('setting.text.local')}
           </Tooltip>
         </Radio>
         <Radio value='server'>
-          <Tooltip title="远程模式需要您配置远程服务器地址">
-            远程
+          <Tooltip title={i18n('setting.text.localMsg')}>
+            {i18n('setting.text.server')}
           </Tooltip>
         </Radio>
       </Radio.Group>
@@ -369,13 +369,12 @@ export function ProxyBody() {
       model == "local" &&
       <>
         <div className={styles.title}>
-          {/* {i18n('setting.label.serviceAddress')} */}
-          端口
+          {i18n('setting.text.port')}
         </div>
         <div className={classnames(styles.content, styles.chatGPTKey)}>
           <ProFormDigit
-            placeholder={"1024-40000之间的端口号"}
-            rules={[{ required: true, message: "不能为空" }]}
+            placeholder={i18n('setting.msg.port')}
+            rules={[{ required: true, message: i18n('setting.msg.notNull') }]}
             fieldProps={{
               defaultValue: appPort,
               step: "1",
@@ -389,14 +388,13 @@ export function ProxyBody() {
       model == "server" &&
       <>
         <div className={styles.title}>
-          {/* {i18n('setting.label.serviceAddress')} */}
-          服务地址
+          {i18n('setting.label.serviceAddress')}
         </div>
         <div className={classnames(styles.content, styles.chatGPTKey)}>
           {/* <Input value={apiPrefix} onChange={updateApi} placeholder='http://localhost:12003' /> */}
           <ProFormText
             placeholder={"http://localhost:" + __APP_PORT__}
-            rules={[{ required: true, message: "不能为空" }]}
+            rules={[{ required: true, message: i18n('setting.msg.notNull') }]}
             fieldProps={{
               defaultValue: apiPrefix,
               onChange: (e) => updateApi(e)

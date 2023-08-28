@@ -7,7 +7,7 @@ import { CardTabListType } from 'antd/lib/card';
 import i18n from '@/i18n';
 import ExpLog from '../../expLog';
 import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
-
+import TextEllipsis from '@/components/TextEllipsis';
 
 
 
@@ -59,6 +59,7 @@ const columns = [
         title: i18n('http.columns.val'),
         dataIndex: 'val',
         width: '60%',
+        ellipsis: true,
     },
 ];
 

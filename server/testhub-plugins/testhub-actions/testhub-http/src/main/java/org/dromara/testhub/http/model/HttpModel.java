@@ -10,6 +10,7 @@ public class HttpModel {
     private String baseUrl;
     private String url;
     private String method;
+    private int timeout;
 
     private List<Param> headers;
     private Body body;

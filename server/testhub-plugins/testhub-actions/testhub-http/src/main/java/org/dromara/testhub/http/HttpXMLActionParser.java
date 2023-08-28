@@ -33,6 +33,7 @@ public class HttpXMLActionParser implements BaseXMLActionParser {
         HttpModel httpModel = new HttpModel();
         httpModel.setUrl(element.attributeValue("url"));
         httpModel.setMethod(element.attributeValue("method"));
+        httpModel.setTimeout(StringUtils.isEmpty(element.attributeValue("timeout"))?-1:Integer.parseInt(element.attributeValue("timeout")));
         httpModel.setHeaders(XMLRuleConfigBuilder.parseParams(element.element("headers")));
         httpModel.setParams(XMLRuleConfigBuilder.parseParams(element.element("params")));
         httpModel.setRests(XMLRuleConfigBuilder.parseParams(element.element("rests")));

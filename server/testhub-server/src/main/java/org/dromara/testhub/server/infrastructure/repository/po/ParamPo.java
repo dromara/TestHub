@@ -39,7 +39,7 @@ public class ParamPo extends BasePo<ParamPo> implements Serializable {
     private String dataType;
 
     // 列表维度
-    private String complex;
+    private Integer complex;
 
     // 是否必填
     private Boolean necessary;

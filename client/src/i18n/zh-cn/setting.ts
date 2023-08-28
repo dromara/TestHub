@@ -15,6 +15,14 @@ export default {
     'setting.text.followOS': '自动',
 
     'setting.label.serviceAddress': '服务地址',
+    'setting.label.model': '服务模式',
+    'setting.text.local': '本地',
+    'setting.text.localMsg': '本地模式会为您启动后台服务进程,数据将在本地存储',
+    'setting.text.server': '远程',
+    'setting.text.serverMsg': '远程模式需要您配置远程服务器地址',
+    'setting.msg.notNull': '不能为空',
+    'setting.text.port': '端口',
+    'setting.msg.port': '1024-40000之间的端口号',
     'setting.button.apply': '应用',
 
 

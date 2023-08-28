@@ -7,7 +7,7 @@ export default {
     'http.text.pass': '通过',
     'http.text.fail': '失败',
     'http.columns.param': '参数',
-    'http.columns.val': '参数',
+    'http.columns.val': '参数值',
     'http.data.params': 'Params参数',
     'http.data.rests': 'Rests参数',
     'http.data.headers': '请求头',

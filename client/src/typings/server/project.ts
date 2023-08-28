@@ -72,6 +72,8 @@ export interface TreeNodeResDto {
     leaf: boolean;
     /** 名称 */
     name: string;
+    /** 搜索时展示的名字 */
+    nameDiv: string;
     /** 节点类型：FILE文件夹 CASE用例 */
     nodeType: string;
 };

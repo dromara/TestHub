@@ -56,3 +56,9 @@ COMMENT ON COLUMN "public"."version"."modify_time" IS '修改时间';
 INSERT INTO "public"."version" ("id", "code", "pre_code", "inited", "deleted", "create_user_id", "create_time", "modify_user_id", "modify_time")
 VALUES (1, '', 'v1.0.1', true, false, 1, CURRENT_TIMESTAMP, 1, CURRENT_TIMESTAMP);
 
+ALTER TABLE BASE_PARAM
+    ALTER COLUMN DATA TYPE VARCHAR(1024);
+ALTER TABLE base_flow ALTER COLUMN rule_code TYPE VARCHAR(1024);
+ALTER TABLE base_execute ALTER COLUMN rule_code TYPE VARCHAR(1024);
+ALTER TABLE base_inject ALTER COLUMN rule_code TYPE VARCHAR(1024);
+
