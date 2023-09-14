@@ -66,7 +66,7 @@ public class Param extends BaseDataPo {
         }
         //第一优先使用 传入进来的
         for (Param param : params) {
-            if(data.containsKey(param.getCode())){
+            if(data !=null && data.containsKey(param.getCode())){
                 json.put(param.getCode(),data.get(param.getCode()));
             }
         }
