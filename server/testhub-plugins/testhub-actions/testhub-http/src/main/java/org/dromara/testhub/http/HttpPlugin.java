@@ -1,6 +1,7 @@
 package org.dromara.testhub.http;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.goddess.nsrule.core.executer.context.Context;
 import com.goddess.nsrule.core.executer.mode.base.action.Param;
@@ -127,32 +128,22 @@ public class HttpPlugin implements Plugin {
 
         HttpClient httpClient;
 
-        HttpRequest.Builder httpBuilder;
-
-        if(httpModel.getTimeout()!=-1){
-            httpBuilder = HttpRequest.newBuilder()
-                    .timeout(Duration.ofSeconds(httpModel.getTimeout()))
-                    .uri(URI.create(url));
-            httpClient = HttpClient.newBuilder()
-                    .connectTimeout(Duration.ofSeconds(httpModel.getTimeout()))
-                    .build();
-        }else {
-            httpBuilder = HttpRequest.newBuilder()
-                    .uri(URI.create(url));
-            httpClient = HttpClient.newBuilder()
-                    .build();
-        }
+        HttpRequest.Builder httpBuilder = HttpRequest.newBuilder()
+                .timeout(Duration.ofSeconds(getTimeout(httpModel)))
+                .uri(URI.create(url));
+        httpClient = HttpClient.newBuilder()
+                .connectTimeout(Duration.ofSeconds(getTimeout(httpModel)))
+                .build();
 
         initHeaders(httpBuilder, headers);
         initBody(httpBuilder, reqBody, httpModel);
 
         HttpRequest request = httpBuilder.build();
 
+        result.put("data", NONE_INFO);
+        result.put("headers", NONE_INFO);
+
         try {
-
-
-            httpClient.connectTimeout().map(Duration::toSeconds)
-                    .ifPresent(sec -> System.out.println("Timeout in seconds: " + sec));
 
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 
@@ -170,22 +161,17 @@ public class HttpPlugin implements Plugin {
             runState.addRunParams("result", result);
         } catch (ConnectException e) {
             runState.getResult().setBizError(true);
-            result.put("data", NONE_INFO);
-            result.put("headers", NONE_INFO);
+
             runState.addRunParams("statusCode", "ConnectException");
             runState.addRunParams("statusName", "连接异常");
-        }catch (HttpConnectTimeoutException e){
+        } catch (HttpConnectTimeoutException e) {
             runState.getResult().setBizError(true);
-            result.put("data", NONE_INFO);
-            result.put("headers", NONE_INFO);
             runState.addRunParams("statusCode", "ConnectTimeoutException");
-            runState.addRunParams("statusName", "链接超时"+httpModel.getTimeout()+"秒");
-        }catch (HttpTimeoutException e){
+            runState.addRunParams("statusName", "链接超时" + getTimeout(httpModel) + "秒");
+        } catch (HttpTimeoutException e) {
             runState.getResult().setBizError(true);
-            result.put("data", NONE_INFO);
-            result.put("headers", NONE_INFO);
             runState.addRunParams("statusCode", "TimeoutException");
-            runState.addRunParams("statusName", "返回超时"+httpModel.getTimeout()+"秒");
+            runState.addRunParams("statusName", "返回超时" + getTimeout(httpModel) + "秒");
         }
 
         if (executeHttp.getExpression() != null) {
@@ -197,7 +183,7 @@ public class HttpPlugin implements Plugin {
                 if (!flag) {
                     runState.getResult().setBizError(true);
                 }
-            }finally {
+            } finally {
                 context.removeData();
             }
         }
@@ -222,12 +208,13 @@ public class HttpPlugin implements Plugin {
         } else if (splitTypes.contains(MediaType.APPLICATION_JSON_VALUE)) {
             reMap.put("data", JSON.parse(response.body()));
             reMap.put("type", "json");
-        }else {
+        } else {
             reMap.put("type", "text");
             reMap.put("data", response.body());
         }
         return reMap;
     }
+
     public static String formatHTMLString(String htmlString) {
         Document doc = Jsoup.parse(htmlString, "", Parser.xmlParser());
         doc.outputSettings().indentAmount(2);
@@ -259,10 +246,8 @@ public class HttpPlugin implements Plugin {
     private void initBody(HttpRequest.Builder httpBuilder, Object bodyInfo, HttpModel httpModel) {
         String method = httpModel.getMethod();
         if (method.equalsIgnoreCase("POST")) {
-            if (bodyInfo instanceof String) {
+            if (bodyInfo instanceof String || bodyInfo instanceof JSONArray || bodyInfo instanceof JSONObject) {
                 httpBuilder.POST(HttpRequest.BodyPublishers.ofString(bodyInfo.toString(), StandardCharsets.UTF_8));
-            } else if (bodyInfo instanceof JSONObject) {
-                httpBuilder.POST(HttpRequest.BodyPublishers.ofString(JSONObject.toJSONString(bodyInfo), StandardCharsets.UTF_8));
             } else {
                 httpBuilder.GET();
             }
@@ -322,7 +307,11 @@ public class HttpPlugin implements Plugin {
         if (Body.ROW.equalsIgnoreCase(body.getType())) {
             String content = getContent(context, data, body, action);
             if (Body.JSON.equalsIgnoreCase(body.getLanguage())) {
-                return JSONObject.parseObject(content);
+                try {
+                    return JSONObject.parseObject(content);
+                } catch (Exception e) {
+                    return JSONArray.parseArray(content);
+                }
             } else if (Body.XML.equalsIgnoreCase(body.getLanguage())) {
                 return formatHTMLString(content);
             } else if (Body.TEXT.equalsIgnoreCase(body.getLanguage())) {
@@ -375,11 +364,15 @@ public class HttpPlugin implements Plugin {
     public String getContent(Context context, JSONObject param, Body body, TestHubActionHttp action) throws Exception {
         try {
             return body.getBound().build(context);
-        }catch (TestHubException e){
+        } catch (TestHubException e) {
             throw e;
-        }catch (Exception e){
-            throw new TestHubException("模板异常"+e.getMessage());
+        } catch (Exception e) {
+            throw new TestHubException("模板异常" + e.getMessage());
         }
+    }
+
+    public int getTimeout(HttpModel httpModel) {
+        return httpModel.getTimeout() != -1 ? httpModel.getTimeout() : 60;
     }
 
 }
