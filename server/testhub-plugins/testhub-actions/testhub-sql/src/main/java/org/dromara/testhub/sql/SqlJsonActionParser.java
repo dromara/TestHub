@@ -13,11 +13,12 @@ import org.apache.commons.lang3.StringUtils;
 public class SqlJsonActionParser implements BaseJsonActionParser {
     private static BoundParser<String, FreeMarker> boundParser = new BoundParserFreeMarker();
     private static String BOUND = "bound";
+
     @Override
     public TestHubAction json2Model(JSONObject element, TestHubAction action) {
         TestHubActionSql actionSql = new TestHubActionSql(action);
         String boundStr = element.getString(BOUND);
-        if(StringUtils.isEmpty(boundStr)){
+        if (StringUtils.isEmpty(boundStr)) {
             return actionSql;
         }
 
@@ -30,9 +31,9 @@ public class SqlJsonActionParser implements BaseJsonActionParser {
 
     @Override
     public JSONObject model2json(TestHubAction action) {
-        TestHubActionSql actionSql = ( TestHubActionSql)action;
+        TestHubActionSql actionSql = (TestHubActionSql) action;
         JSONObject element = new JSONObject();
-        element.put(BOUND,actionSql.getText());
+        element.put(BOUND, actionSql.getText());
         return element;
     }
 }

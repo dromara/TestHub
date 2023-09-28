@@ -9,4 +9,5 @@ export default {
     'sql.text.yes': 'yes',
     'sql.text.no': 'no',
     'sql.text.conkey': 'Transaction',
+    'sql.text.commit': 'Auto Commit'
 }

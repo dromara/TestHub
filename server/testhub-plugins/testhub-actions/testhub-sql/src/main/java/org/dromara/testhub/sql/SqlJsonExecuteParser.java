@@ -10,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 
 public class SqlJsonExecuteParser implements BaseJsonExecuteParser {
     private static String CON_KEY = "conKey";
+    private static String COMMIT = "commit";
 
     @Override
     public TestHubExecute json2model(JSONObject element, TestHubExecute execute, TestHubAction action) {
@@ -23,6 +24,7 @@ public class SqlJsonExecuteParser implements BaseJsonExecuteParser {
         TestHubExecuteSql executeSql = (TestHubExecuteSql)execute;
         JSONObject extendInfo = new JSONObject();
         extendInfo.put(CON_KEY,executeSql.getConKey());
+        extendInfo.put(COMMIT,executeSql.getCommit());
         return extendInfo;
     }
 }

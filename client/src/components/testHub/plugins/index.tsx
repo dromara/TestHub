@@ -23,6 +23,7 @@ function Plugins(props: IProps) {
         return <Sleep size={props.size} flowResult={props.flowResult} executeResult={props.executeResult} executionResult={props.executionResult} />
     } else if (executeResult.actionType.toUpperCase() == 'SQL' ||
         executeResult.actionType.toUpperCase() == 'SQL_CALL' ||
+        executeResult.actionType.toUpperCase() == 'SQL_BATCH' ||
         executeResult.actionType.toUpperCase() == 'SQL_BEGIN' ||
         executeResult.actionType.toUpperCase() == 'SQL_COMMIT') {
         return <Sql size={props.size} flowResult={props.flowResult} executeResult={props.executeResult} executionResult={props.executionResult} />

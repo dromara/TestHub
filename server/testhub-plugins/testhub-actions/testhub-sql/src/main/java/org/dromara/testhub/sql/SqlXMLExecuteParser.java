@@ -13,6 +13,7 @@ public class SqlXMLExecuteParser implements BaseXMLExecuteParser {
     public TestHubExecute xml2model(Element element, TestHubExecute execute, TestHubAction action) {
         TestHubExecuteSql executeSql = new TestHubExecuteSql(execute);
         executeSql.setConKey(StringUtils.isBlank(element.attributeValue("conKey")) ? element.attributeValue("code") : element.attributeValue("conKey"));
+        executeSql.setCommit(!StringUtils.isBlank(element.attributeValue("commit")) && Boolean.parseBoolean(element.attributeValue("commit")));
         return executeSql;
     }
 

@@ -9,4 +9,5 @@ export default {
     'sql.text.yes': '是',
     'sql.text.no': '否',
     'sql.text.conkey': '事务ID',
+    'sql.text.commit': '自动提交'
 }

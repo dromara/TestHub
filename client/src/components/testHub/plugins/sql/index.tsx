@@ -24,7 +24,7 @@ function Sql(props: IProps) {
         setTheme(themeColor == 'dark' ? 'BlackTheme' : 'default');
     }, [themeColor]);
 
-    if (executeResult?.actionType.toUpperCase() == 'SQL' || executeResult?.actionType.toUpperCase() == 'SQL_CALL') {
+    if (executeResult?.actionType.toUpperCase() == 'SQL' || executeResult?.actionType.toUpperCase() == 'SQL_CALL' || executeResult?.actionType.toUpperCase() == "SQL_BATCH") {
         return (
             <>
                 <Descriptions column={1}>
@@ -70,8 +70,7 @@ function Sql(props: IProps) {
                 />
             </>
         );
-    }
-    if (executeResult?.actionType.toUpperCase() == 'SQL_BEGIN' || executeResult?.actionType.toUpperCase() == 'SQL_COMMIT') {
+    } else if (executeResult?.actionType.toUpperCase() == 'SQL_BEGIN' || executeResult?.actionType.toUpperCase() == 'SQL_COMMIT') {
         return (
             <>
                 <Descriptions column={1}>
@@ -92,6 +91,7 @@ function Sql(props: IProps) {
                 </Descriptions>
             </>
         );
+
     }
 
     return <></>
