@@ -191,7 +191,7 @@ module.exports = (appInfo) => {
       enable: true,
       port: 12003,
       jreVersion: 'jdk-17.0.6',
-      opt: '-server -Xms512M -Xmx512M -Xss512k -Dspring.profiles.active=prod',
+      opt: '-server -Xms512M -Xmx512M -Xss512k',
       name: 'TestHub.jar'
     }
   };
