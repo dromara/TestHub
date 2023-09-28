@@ -37,7 +37,7 @@ public class XMLRuleParser implements RuleParser<Document> {
     private static XMLRuleParser instance = null;
 
     private XMLRuleParser(RuleConfig ruleConfig) {
-        this.ruleConfig = ruleConfig;
+        XMLRuleParser.ruleConfig = ruleConfig;
     }
 
     public static XMLRuleParser getInstance(RuleConfig ruleConfig) {

@@ -2,6 +2,7 @@ package com.goddess.nsrule.core.executer.operation;
 
 
 import com.goddess.nsrule.core.constant.Constant;
+import com.goddess.nsrule.core.constant.RuleException;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -19,9 +20,8 @@ public abstract class Operation {
 
     public abstract String getOperationCode();
 
-
-    public String executeStr(String dataTypeCode, Integer coverComplex, Object cover,
-                             Integer thresholdComplex, Object threshold) {
+    public boolean execute(String dataTypeCode, Integer coverComplex, Object cover,
+                                    Integer thresholdComplex, Object threshold){
         switch (dataTypeCode) {
             case Constant.DataType.NUMBER:
                 return String.format(" %s %s %s ", cover, convertOp(getOperationCode()), threshold);
@@ -35,13 +35,10 @@ public abstract class Operation {
                 return String.format(" %s %s '%s' ", cover, convertOp(getOperationCode()), getTimeHms(threshold));
             case Constant.DataType.TIME_YMDHMS:
                 return String.format(" %s %s '%s' ", cover, convertOp(getOperationCode()), getTimeYdmhms(threshold));
+            default:
+                throw new RuleException(getOperationCode() + "不支持数据类型: " + dataTypeCode);
         }
-
-        return "";
     }
-
-    public abstract boolean execute(String dataTypeCode, Integer coverComplex, Object cover,
-                                    Integer thresholdComplex, Object threshold);
 
 
     public abstract boolean timeHms(LocalTime t1, LocalTime t2);
@@ -451,24 +448,4 @@ public abstract class Operation {
         return oneOp;
     }
 
-    public String convertOp(String op) {
-        Map<String, String> map = new HashMap<>();
-        map.put(Constant.OperationType.GT, " > ");//大于
-        map.put(Constant.OperationType.LE, " <= ");//小于等于
-
-        map.put(Constant.OperationType.LT, " < ");//小于
-        map.put(Constant.OperationType.GE, " >= ");//大于等于
-
-        map.put(Constant.OperationType.EQ, " = ");//等于
-        map.put(Constant.OperationType.NEQ, " != ");//不等于
-
-        map.put(Constant.OperationType.IN, " in ");//在集合
-        map.put(Constant.OperationType.NIN, " not in ");//不在集合
-
-        map.put(Constant.OperationType.EN, " is null ");//为空
-        map.put(Constant.OperationType.NIN, " is not null ");//不为空
-
-
-        return map.get(op);
-    }
 }
