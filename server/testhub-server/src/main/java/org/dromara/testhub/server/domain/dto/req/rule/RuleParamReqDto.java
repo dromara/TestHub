@@ -8,6 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 
+import javax.validation.constraints.NotNull;
+
 @Validated
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,12 +19,14 @@ public class RuleParamReqDto {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "编码")
+    @NotNull
     private String code;
 
     @ApiModelProperty(value = "描述")
     private String name;
 
     @ApiModelProperty(value = "数据类型")
+    @NotNull
     private String dataType;
 
     @ApiModelProperty(value = "维度")

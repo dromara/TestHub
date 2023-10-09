@@ -42,11 +42,11 @@ export interface RuleProjectSimpleResDto {
 };
 export interface RuleProjectResDto {
     /** 行为列表 */
-    actions?: RuleActionResDto[];
+    actions: RuleActionResDto[];
     /** 编码 */
     code: string;
     /** 环境列表 */
-    environments?: RuleEnvironmentResDto[];
+    environments: RuleEnvironmentResDto[];
     /** id */
     id?: number;
     /** 元对象列表 */
@@ -115,7 +115,9 @@ export interface RuleEnvironmentResDto {
     /** 名称 */
     name?: string;
     /** 编码 */
-    code: string;
+    code?: string;
+    /** 备注 */
+    remark?: string;
     /** 参数列表 */
     params?: RuleParamResDto[];
 };
@@ -234,11 +236,11 @@ export interface RuleInjectResDto {
 
 export interface RuleActionResDto {
     /** 行为编码 */
-    code?: string;
+    code: string;
     /** 返回值列表维度 */
     complex?: number;
     /** 返回值数据类型 */
-    dataType?: string;
+    dataType: string;
     /** 扩展信息 */
     extraInto?: Record<string, any>;
     /** 行为描述 */
@@ -252,7 +254,7 @@ export interface RuleActionResDto {
     /** 备注 */
     remark?: string;
     /** 类型 */
-    type?: string;
+    type: string;
 };
 
 export interface RuleMappingResDto {
@@ -264,7 +266,6 @@ export interface RuleMappingResDto {
     result?: string;
 };
 export interface RuleParamResDto {
-    /** 参数编码 */
     code: string;
     /** 列表维度 */
     complex?: number;

@@ -31,6 +31,11 @@ export default defineConfig({
           routes: [
             {
               exact: true,
+              path: '/assembly',
+              component: '@/pages/assembly',
+            },
+            {
+              exact: true,
               path: '/',
               component: '@/pages/case',
             },
@@ -75,8 +80,8 @@ export default defineConfig({
   define: {
     __APP_NAME__: "TestHub",
     __UMI_ENV__: "local",
-    __BUILD_TIME__: "2023-08-01",
-    __APP_VERSION__: '1.0.1',
+    __BUILD_TIME__: "2023-10-01",
+    __APP_VERSION__: '1.0.2',
     __APP_PORT__: 12003,
   }
 });

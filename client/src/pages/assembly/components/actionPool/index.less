@@ -1,0 +1,38 @@
+.my_masonry_grid {
+  display: -webkit-box;
+  /* Not needed if autoprefixing */
+  display: -ms-flexbox;
+  /* Not needed if autoprefixing */
+  display: flex;
+  margin-left: -30px;
+  /* gutter size offset */
+  width: auto;
+}
+
+.my_masonry_grid_column {
+  padding-left: 30px;
+  /* gutter size */
+  background-clip: padding-box;
+}
+
+.ellipsis {
+  white-space: nowrap;
+  /* 不换行 */
+  overflow: hidden;
+  /* 超出部分隐藏 */
+  text-overflow: ellipsis;
+  /* 显示省略号 */
+  max-width: 100%;
+  /* 最大宽度，根据需要设置 */
+}
+
+
+.card_container {
+  height: max-content;
+  overflow: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  /* 设置列宽，自动换行 */
+  gap: 10px;
+  /* 可选，设置卡片之间的间距 */
+}

@@ -13,4 +13,6 @@ public interface ParamMapper extends IBaseMapper<ParamPo> {
 
     int physicsDeleteBatchIds(@Param("ids") List<Long> ids);
 
+    int physicsDeleteByOwner(@Param("ownerId")Long ownerId);
+
 }

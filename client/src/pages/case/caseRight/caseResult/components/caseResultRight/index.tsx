@@ -7,7 +7,7 @@ import { IAppPageState } from '@/models/appPage';
 import { ExecutionXmlReqDto, IConsoleIndo, TreeNodeResDto } from '@/typings';
 import { ExecutionResult, FlowResult } from '@/typings/server/execution';
 import { CardTabListType } from 'antd/lib/card';
-import Plugins from '@/components/testHub/plugins';
+import Plugins from '@/components/testHub/plugins/Result';
 import MyReactJson from '@/components/testHub/myReactJson';
 import ErrorBoundary from '@/components/testHub/errorBoundary';
 import i18n from '@/i18n';

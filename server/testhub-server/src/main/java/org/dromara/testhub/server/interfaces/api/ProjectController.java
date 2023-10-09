@@ -2,12 +2,9 @@ package org.dromara.testhub.server.interfaces.api;
 
 import cn.dev33.satoken.annotation.SaCheckRole;
 import org.dromara.testhub.server.domain.dto.req.other.RuleTreeReqDto;
-import org.dromara.testhub.server.domain.dto.req.rule.ExecutionXmlReqDto;
-import org.dromara.testhub.server.domain.dto.req.rule.RuleDocumentReqDto;
+import org.dromara.testhub.server.domain.dto.req.rule.*;
 import org.dromara.testhub.server.domain.dto.res.ExecuteResult.ExecutionResult;
-import org.dromara.testhub.server.domain.dto.res.rule.RuleProjectResDto;
-import org.dromara.testhub.server.domain.dto.res.rule.RuleProjectSimpleResDto;
-import org.dromara.testhub.server.domain.dto.res.rule.RuleResDto;
+import org.dromara.testhub.server.domain.dto.res.rule.*;
 import org.dromara.testhub.server.domain.service.ProjectService;
 import org.dromara.testhub.framework.web.ResultResponse;
 import io.swagger.annotations.*;
@@ -50,8 +47,35 @@ public class ProjectController {
     @ApiOperation(value = "查询项目详细信息", tags = {"项目"}, nickname = "getProject")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "操作是否成功,000000:成功，否则失败")})
     @GetMapping(value = "/one/{projectCode}", produces = {"application/json"})
-    public ResultResponse<RuleProjectResDto> getProject(@ApiParam(value = "项目编码", required = true) @PathVariable("projectCode") String projectCode) {
+    public ResultResponse<RuleProjectResDto> getProject(
+            @ApiParam(value = "项目编码", required = true) @PathVariable("projectCode") String projectCode) {
         return ResultResponse.ok(projectService.getProject(projectCode));
+    }
+
+
+
+    @SaCheckRole("admin")
+    @ApiOperation(value = "添加环境", tags = {"项目"}, nickname = "addEnvironment")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "操作是否成功,000000:成功，否则失败")})
+    @PostMapping(value = "/addEnvironment", produces = {"application/json"})
+    public ResultResponse<RuleEnvironmentResDto> addEnvironment(@Valid @RequestBody RuleEnvironmentReqDto environmentReqDto) {
+        return ResultResponse.ok(projectService.saveEnvironment(environmentReqDto,false));
+    }
+    @SaCheckRole("admin")
+    @ApiOperation(value = "更新环境", tags = {"项目"}, nickname = "updateEnvironment")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "操作是否成功,000000:成功，否则失败")})
+    @PostMapping(value = "/updateEnvironment", produces = {"application/json"})
+    public ResultResponse<RuleEnvironmentResDto> updateEnvironment(@Valid @RequestBody RuleEnvironmentReqDto environmentReqDto) {
+        return ResultResponse.ok(projectService.saveEnvironment(environmentReqDto,true));
+    }
+
+    @SaCheckRole("admin")
+    @ApiOperation(value = "删除环境", tags = {"项目"}, nickname = "delEnvironment")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "操作是否成功,000000:成功，否则失败")})
+    @PostMapping(value = "/delEnvironment", produces = {"application/json"})
+    public ResultResponse<Boolean> updateEnvironment(@Valid @RequestBody RuleDelEnvironmentReqDto environmentReqDto) {
+        projectService.delEnvironment(environmentReqDto);
+        return ResultResponse.ok(true);
     }
 
     @SaCheckRole("user")

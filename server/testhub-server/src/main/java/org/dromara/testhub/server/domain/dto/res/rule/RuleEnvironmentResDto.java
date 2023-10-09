@@ -21,6 +21,8 @@ public class RuleEnvironmentResDto {
     @ApiModelProperty(value = "名称")
     private String name;
 
+    @ApiModelProperty(value = "备注")
+    private String remark;
     @ApiModelProperty(value = "参数列表")
     private List<RuleParamResDto> params;
 

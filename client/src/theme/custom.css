@@ -8084,7 +8084,7 @@ _:-ms-fullscreen
   padding-top: 6px;
   line-height: 1.5715;
   white-space: initial;
-  text-align: center;
+  text-align: left;
 
 }
 .custom-form-vertical .custom-form-item-label > label,
@@ -16831,7 +16831,7 @@ textarea.custom-mentions {
   line-height: 0;
   text-align: left;
   list-style: none;
-  background: var(--color-bg-100) ;
+  /* background: var(--color-bg-100) ; */
   outline: none;
   box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.12),
     0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
@@ -16906,6 +16906,9 @@ textarea.custom-mentions {
 }
 .custom-menu-title-content {
   transition: color 0.3s;
+  background-color: var(--color-bg-100);
+  border-radius: 10px;
+
 }
 .custom-menu-item a {
   color: var(--color-text-85);
@@ -16957,12 +16960,12 @@ textarea.custom-mentions {
   color: var(--custom-primary-color);
 }
 .custom-menu:not(.custom-menu-horizontal) .custom-menu-item-selected {
-  background-color: var(--custom-primary-1);
+  /* background-color: var(--custom-primary-1); */
 }
 .custom-menu-inline,
 .custom-menu-vertical,
 .custom-menu-vertical-left {
-  border-right: 1px solid var(--color-bg-6);
+  /* border-right: 1px solid var(--color-bg-6); */
 }
 .custom-menu-vertical-right {
   border-left: 1px solid var(--color-bg-6);
@@ -17334,6 +17337,7 @@ textarea.custom-mentions {
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
+  text-align: center;
 }
 .custom-menu-inline.custom-menu-root .custom-menu-item > *,
 .custom-menu-inline.custom-menu-root .custom-menu-submenu-title > * {

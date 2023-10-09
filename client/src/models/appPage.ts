@@ -1,4 +1,4 @@
-import { RuleProjectResDto, RuleProjectSimpleResDto, RuleResDto, TreeNodeResDto, ConsoleStatus, IConsoleIndo } from '@/typings';
+import { RuleProjectResDto, RuleProjectSimpleResDto, RuleResDto, TreeNodeResDto, ConsoleStatus, IConsoleIndo, RuleEnvironmentResDto } from '@/typings';
 import projectService, { } from '@/service/project';
 import treeService, { } from '@/service/tree';
 import systemService, { } from '@/service/system';
@@ -8,7 +8,7 @@ import { parseInt } from 'lodash';
 export interface IAppPageState {
   projects: RuleProjectSimpleResDto[],
   //当前项目
-  curProject?: RuleProjectResDto;
+  curProject: RuleProjectResDto;
 
   caseConsoles: IConsoleIndo<TreeNodeResDto>[];
   caseActiveKey?: string;
@@ -35,6 +35,8 @@ export interface IAppPageType {
     setNowFileContent: Reducer<any>;//设置tab中编辑后内容
     setCaseFileContent: Reducer<any>;//设置tree中的文件内容
     setExecutionResult: Reducer<any>;//设置运行结果
+    remoreEnvironment: Reducer<any>;//设置环境信息
+    setEnvironment: Reducer<any>;//设置环境信息
   };
   effects: {
     getProjects: Effect;//获取项目列表
@@ -47,6 +49,8 @@ export interface IAppPageType {
     updateTree: Effect;//编辑类目树
     getCode: Effect;//生成编码
     saveRuleTree: Effect;//调整规则类目
+    delEnvironment: Effect;//删除环境
+    saveEnvironment: Effect;//保存环境
   };
 }
 
@@ -157,13 +161,29 @@ const AppPageModel: IAppPageType = {
       const index = oldConsoles.findIndex(item => item.key === payload.key);
       oldConsoles[index].executionResult = payload.executionResult;
       return { ...state, caseConsoles: [...oldConsoles] };
+    },
+    setEnvironment(state, { payload }) {
+      const newCurProject = state.curProject;
+      if (payload.index > -1) {
+        newCurProject.environments.splice(payload.index, 1);
+      }
+      newCurProject.environments.push(payload.data);
+      return { ...state, curProject: newCurProject };
+    },
+    remoreEnvironment(state, { payload }) {
+      const newCurProject = state.curProject;
+      if (payload.index > -1) {
+        newCurProject.environments.splice(payload.index, 1);
+      }
+      console.log(newCurProject)
+      return { ...state, curProject: newCurProject };
     }
   },
   effects: {
     *getProjects({ payload, callback }, { put, call }) {
       try {
         const projects = (yield projectService.getProjectSimpleList()) as RuleProjectSimpleResDto[];
-        console.log(projects);
+        // console.log(projects);
         yield put({
           type: 'setProjects',
           payload: projects,
@@ -296,6 +316,46 @@ const AppPageModel: IAppPageType = {
         const ruleResDto = (yield projectService.saveRuleTree(payload)) as RuleResDto;
         if (callback && typeof callback === 'function') {
           callback(ruleResDto);
+        }
+      }
+      catch {
+      }
+    },
+    *delEnvironment({ payload, callback }, { put, select }) {
+      try {
+        const flag = (yield projectService.delEnvironment(payload)) as boolean;
+        if (flag) {
+          yield put({
+            type: 'remoreEnvironment',
+            payload: {
+              index: payload.index
+            },
+          });
+        }
+        if (callback && typeof callback === 'function') {
+          callback(flag);
+        }
+      }
+      catch {
+      }
+    },
+    *saveEnvironment({ payload, callback }, { put, select }) {
+      try {
+        var data = null;
+        if (payload.index > -1) {
+          data = (yield projectService.updateEnvironment(payload.data)) as RuleEnvironmentResDto;
+        } else {
+          data = (yield projectService.addEnvironment(payload.data)) as RuleEnvironmentResDto;
+        }
+        yield put({
+          type: 'setEnvironment',
+          payload: {
+            index: payload.index,
+            data: data
+          },
+        });
+        if (callback && typeof callback === 'function') {
+          callback();
         }
       }
       catch {

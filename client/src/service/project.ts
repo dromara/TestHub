@@ -1,4 +1,4 @@
-import { ExecutionXmlReqDto, RuleDocumentReqDto, RuleProjectResDto, RuleProjectSimpleResDto, RuleResDto, RuleTreeReqDto } from '@/typings';
+import { ExecutionXmlReqDto, RuleDocumentReqDto, RuleEnvironmentResDto, RuleProjectResDto, RuleProjectSimpleResDto, RuleResDto, RuleTreeReqDto } from '@/typings';
 import createRequest from './base';
 import { ExecutionResult } from '@/typings/server/execution';
 
@@ -36,8 +36,23 @@ const executionXml = createRequest<ExecutionXmlReqDto, ExecutionResult>('/api/pr
 const saveRuleTree = createRequest<RuleTreeReqDto, RuleResDto>('/api/project/saveRuleTree', {
   method: 'post',
 });
+/** 删除环境 */
+const delEnvironment = createRequest<{ code: string, projectCode: string }, boolean>('/api/project/delEnvironment', {
+  method: 'post',
+});
+/** 保存环境 */
+const addEnvironment = createRequest<RuleEnvironmentResDto, RuleEnvironmentResDto>('/api/project/addEnvironment/', {
+  method: 'post',
+});
+/** 更新环境 */
+const updateEnvironment = createRequest<RuleEnvironmentResDto, RuleEnvironmentResDto>('/api/project/updateEnvironment/', {
+  method: 'post',
+});
 
 export default {
+  addEnvironment,
+  updateEnvironment,
+  delEnvironment,
   saveRuleDocumentXml,
   getProjectSimpleList,
   getProject,

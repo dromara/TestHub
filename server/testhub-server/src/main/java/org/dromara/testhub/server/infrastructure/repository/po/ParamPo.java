@@ -32,6 +32,9 @@ public class ParamPo extends BasePo<ParamPo> implements Serializable {
     // 编码
     private String code;
 
+    // 编码
+    private String name;
+
     // 表达式数据
     private String data;
 

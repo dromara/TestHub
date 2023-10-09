@@ -2,11 +2,11 @@ import React, { } from 'react';
 
 import i18n from '@/i18n';
 import { ExecuteResult, ExecutionResult, FlowResult } from '@/typings/server/execution';
-import Sleep from './sleep';
-import Sql from './sql';
-import CheckObj from './checkObj';
-import Check from './check';
-import Http from './http';
+import Sleep from './item/sleep/result';
+import Sql from './item/sql/result';
+import CheckObj from './item/checkObj/result';
+import Check from './item/check/result';
+import Http from './item/http/result';
 interface IProps {
     className?: string;
     size: number,
@@ -17,7 +17,7 @@ interface IProps {
 
 
 
-function Plugins(props: IProps) {
+function Result(props: IProps) {
     const { executeResult } = props;
     if (executeResult.actionType.toUpperCase() == 'SLEEP') {
         return <Sleep size={props.size} flowResult={props.flowResult} executeResult={props.executeResult} executionResult={props.executionResult} />
@@ -37,4 +37,4 @@ function Plugins(props: IProps) {
     return <>{"请处理" + executeResult.actionType.toUpperCase()}</>;
 };
 
-export default Plugins;
+export default Result;

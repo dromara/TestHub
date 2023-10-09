@@ -47,6 +47,7 @@ public class RuleConvertor {
 
     public static RuleParamResDto paramModel2Res(Param param) {
         RuleParamResDto ruleParamResDto = new RuleParamResDto();
+        ruleParamResDto.setId(param.getId());
         ruleParamResDto.setCode(param.getCode());
         ruleParamResDto.setName(param.getName());
         ruleParamResDto.setComplex(param.getComplex());
@@ -54,6 +55,13 @@ public class RuleConvertor {
         ruleParamResDto.setDataType(param.getDataType());
         ruleParamResDto.setData(param.getData());
         return ruleParamResDto;
+    }
+    public static List<RuleParamResDto> paramModel2ResList(List<Param> params) {
+        List<RuleParamResDto> resDto = new ArrayList<>();
+        for(Param param:params){
+            resDto.add(paramModel2Res(param));
+        }
+        return resDto;
     }
 
     private static RulePropertyResDto metaPropertyModel2Res(MetaProperty metaProperty) {
@@ -87,6 +95,7 @@ public class RuleConvertor {
 
     private static RuleResDto ruleModel2Res(Rule model, boolean paramsFlag, boolean metaClassFlag, boolean actionFlag, boolean flowFlag) {
         RuleResDto resDto = new RuleResDto();
+        resDto.setId(model.getId());
         resDto.setCode(model.getCode());
         resDto.setName(model.getName());
         resDto.setModel(model.getModel());

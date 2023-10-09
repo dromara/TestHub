@@ -19,16 +19,17 @@ interface INavItem {
   openBrowser?: boolean;
 }
 const LNKConfig: INavItem[] = [
+
   {
     title: i18n("layouts.nav.case"),
     icon: '\ue6b6',
     path: '/case'
+  }, {
+    title: "组件库",
+    icon: '\ue60c',
+    path: '/assembly'
   },
-  // {
-  //   title: "组件库",
-  //   icon: '\ue60c',
-  //   path: '/'
-  // },
+
   // {
   //   title: "百宝箱",
   //   icon: '\ue65c',

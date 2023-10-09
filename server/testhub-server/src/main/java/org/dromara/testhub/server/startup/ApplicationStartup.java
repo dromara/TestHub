@@ -1,10 +1,9 @@
 package org.dromara.testhub.server.startup;
 
 import cn.hutool.core.collection.CollectionUtil;
-import org.dromara.testhub.server.domain.dto.res.rule.RuleEnvironmentResDto;
-import org.dromara.testhub.server.domain.dto.res.rule.RuleParamResDto;
-import org.dromara.testhub.server.domain.dto.res.rule.RuleProjectResDto;
-import org.dromara.testhub.server.domain.dto.res.rule.RuleResDto;
+import com.goddess.nsrule.core.executer.mode.base.action.Action;
+import org.dromara.testhub.sdk.model.rule.TestHubAction;
+import org.dromara.testhub.server.domain.dto.res.rule.*;
 import org.dromara.testhub.server.infrastructure.repository.po.EnvironmentPo;
 import org.dromara.testhub.server.infrastructure.repository.po.RulePo;
 import org.dromara.testhub.server.infrastructure.repository.po.TreeInfoPo;
@@ -99,20 +98,22 @@ public class ApplicationStartup implements ApplicationListener<ContextRefreshedE
                     RuleParamResDto ruleParamResDto = RuleConvertor.paramModel2Res(param);
                     paramResDtos.add(ruleParamResDto);
                 }
+                environment.setId(environmentPo.getId());
                 environment.setCode(environmentPo.getCode());
                 environment.setName(environmentPo.getName());
+                environment.setRemark(environmentPo.getRemark());
                 environment.setParams(paramResDtos);
                 environments.add(environment);
             }
             projectResDto.setEnvironments(environments);
 
             //项目级行为
-//            List<RuleActionResDto> actionResDtos = new ArrayList<>();
-//            for (Action action : ruleProject.getActions()) {
-//                RuleActionResDto actionResDto = RuleConvertor.ruleActionModel2Res((TestHubAction) action);
-//                actionResDtos.add(actionResDto);
-//            }
-//            projectResDto.setActions(actionResDtos);
+            List<RuleActionResDto> actionResDtos = new ArrayList<>();
+            for (Action action : ruleProject.getActions()) {
+                RuleActionResDto actionResDto = RuleConvertor.ruleActionModel2Res((TestHubAction) action);
+                actionResDtos.add(actionResDto);
+            }
+            projectResDto.setActions(actionResDtos);
             CacheManager.putProject(projectResDto);
         }
     }

@@ -7,6 +7,7 @@
         <result property="ownerType" column="owner_type" />
         <result property="ownerId" column="owner_id" />
         <result property="code" column="code" />
+        <result property="name" column="name" />
         <result property="data" column="data" />
         <result property="dataType" column="data_type" />
         <result property="complex" column="complex" />
@@ -25,5 +26,9 @@
         <foreach item="id" collection="ids" open="(" separator="," close=")">
             #{id}
         </foreach>
+    </delete>
+    <delete id="physicsDeleteByOwner">
+        DELETE FROM base_param
+        WHERE owner_id = #{ownerId}
     </delete>
 </mapper>

@@ -3,7 +3,7 @@ import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } 
 import { Alert, Card, Collapse, Descriptions, Row, Tag, Tooltip } from 'antd';
 import { ExecuteResult, ExecutionResult, FlowResult, RunStateItem } from '@/typings/server/execution';
 import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
-import DiffObj from '../../DiffObj';
+import DiffObj from '../../../../DiffObj';
 import i18n from '@/i18n';
 
 const { Panel } = Collapse;

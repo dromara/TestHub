@@ -2,8 +2,10 @@ package org.dromara.testhub.server.core.rule;
 
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.collection.CollectionUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.dromara.testhub.common.exception.TestHubException;
+import org.dromara.testhub.server.domain.convert.DbInfoConvert;
 import org.dromara.testhub.server.domain.convert.DbRuleConvert;
 import com.goddess.nsrule.core.executer.context.RuleProject;
 import com.goddess.nsrule.core.executer.meta.MetaClass;
@@ -16,6 +18,9 @@ import org.dromara.testhub.common.util.IdGenerator;
 import org.dromara.testhub.sdk.model.rule.TestHubAction;
 import org.dromara.testhub.sdk.model.rule.TestHubExecute;
 import com.google.common.collect.Lists;
+import org.dromara.testhub.server.domain.dto.req.rule.RuleActionReqDto;
+import org.dromara.testhub.server.domain.dto.req.rule.RuleEnvironmentReqDto;
+import org.dromara.testhub.server.domain.dto.res.rule.RuleActionResDto;
 import org.dromara.testhub.server.infrastructure.repository.dao.*;
 import org.dromara.testhub.server.infrastructure.repository.po.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +35,8 @@ public class DbRuleManager {
     private int MAX_SIZE = 256;
     @Autowired
     private DbRuleConvert dbRuleConvert;
+    @Autowired
+    private DbInfoConvert dbInfoConvert;
     @Autowired
     private IdGenerator idGenerator;
     @Autowired
@@ -59,6 +66,11 @@ public class DbRuleManager {
     @Autowired
     private UserMapper userMapper;
 
+    /**
+     * 设置ID
+     *
+     * @param rule
+     */
     public void setIdRuleInfo(RuleFlow rule) {
         //规则参数
         rule.getParams().forEach(param -> {
@@ -99,6 +111,11 @@ public class DbRuleManager {
         });
     }
 
+    /**
+     * 删除旧版本的信息
+     *
+     * @param rule
+     */
     private void delete(RuleFlow rule) {
         //删除 非规则之外的一切
         List<Long> paramIds = rule.getParams().stream().map(Param::getId).collect(Collectors.toList());
@@ -155,22 +172,37 @@ public class DbRuleManager {
         }
     }
 
-    public void updateRuleTreeId(RulePo rulePo){
+    /**
+     * 更新规则基础信息
+     *
+     * @param rulePo
+     */
+    public void updateRuleTreeId(RulePo rulePo) {
         ruleMapper.updateById(rulePo);
     }
 
-    public RulePo saveRule(RuleProject ruleProject, RuleFlow oldRule, RuleFlow rule, String fileContent,long treeId) {
+    /**
+     * 保存规则
+     *
+     * @param ruleProject
+     * @param oldRule
+     * @param rule
+     * @param fileContent
+     * @param treeId
+     * @return
+     */
+    public RulePo saveRule(RuleProject ruleProject, RuleFlow oldRule, RuleFlow rule, String fileContent, long treeId) {
         RulePo rulePo = dbRuleConvert.ruleModel2Po(rule);
 
         //删旧的 说明是新增
-        if(oldRule!=null){
+        if (oldRule != null) {
             RulePo dbRulePo = ruleMapper.selectById(rulePo.getId());
-            if(dbRulePo.getCreateUserId()!=Long.parseLong(StpUtil.getLoginId().toString())){
+            if (dbRulePo.getCreateUserId() != Long.parseLong(StpUtil.getLoginId().toString())) {
                 UserPo userPo = userMapper.selectById(dbRulePo.getCreateUserId());
-                if(userPo==null){
+                if (userPo == null) {
                     throw new TestHubException("只能修改个人新增的用例");
-                }else {
-                    throw new TestHubException("只能修改个人新增的用例，请联系："+userPo.getUserName());
+                } else {
+                    throw new TestHubException("只能修改个人新增的用例，请联系：" + userPo.getUserName());
                 }
             }
             delete(oldRule);
@@ -268,24 +300,76 @@ public class DbRuleManager {
 
             flowPos.add(flowPo);
         }
-        if(oldRule!=null){
+        if (oldRule != null) {
             ruleMapper.updateById(rulePo);
-        }else {
+        } else {
             ruleMapper.insert(rulePo);
         }
 
-        paramPos.forEach(data->{paramMapper.insert(data);});
-        metaEnumPos.forEach(data->{metaEnumMapper.insert(data);});
-        metaClassPos.forEach(data->{metaClassMapper.insert(data);});
-        metaPropertyPos.forEach(data->{metaPropertyMapper.insert(data);});
-        actionPos.forEach(data->{actionMapper.insert(data);});
-        mappingPos.forEach(data->{mappingMapper.insert(data);});
-        flowPos.forEach(data->{flowMapper.insert(data);});
-        executePos.forEach(data->{executeMapper.insert(data);});
-        injectPos.forEach(data->{injectMapper.insert(data);});
+        paramPos.forEach(data -> {
+            paramMapper.insert(data);
+        });
+        metaEnumPos.forEach(data -> {
+            metaEnumMapper.insert(data);
+        });
+        metaClassPos.forEach(data -> {
+            metaClassMapper.insert(data);
+        });
+        metaPropertyPos.forEach(data -> {
+            metaPropertyMapper.insert(data);
+        });
+        actionPos.forEach(data -> {
+            actionMapper.insert(data);
+        });
+        mappingPos.forEach(data -> {
+            mappingMapper.insert(data);
+        });
+        flowPos.forEach(data -> {
+            flowMapper.insert(data);
+        });
+        executePos.forEach(data -> {
+            executeMapper.insert(data);
+        });
+        injectPos.forEach(data -> {
+            injectMapper.insert(data);
+        });
 
         return rulePo;
 
+    }
+
+    public RuleActionResDto saveAction(Long id, RuleActionReqDto reqDto,boolean updateFlag){
+
+        return null;
+    }
+    public void delEnvironment(Long id){
+        //这里逻辑删除
+        environmentMapper.deleteById(id);
+        paramMapper.delete(new LambdaQueryWrapper<ParamPo>().eq(ParamPo::getOwnerId,id));
+    }
+
+    public List<ParamPo> saveEnvironment(Long id,RuleProject ruleProject,RuleEnvironmentReqDto environmentReqDto,boolean updateFlag) {
+        EnvironmentPo environmentPo = new EnvironmentPo();
+        environmentPo.setId(id);
+        environmentPo.setCode(environmentReqDto.getCode());
+        environmentPo.setName(environmentReqDto.getName());
+        environmentPo.setProjectId(ruleProject.getId());
+        environmentPo.setRemark(environmentReqDto.getRemark());
+        List<ParamPo> params = dbInfoConvert.paramsReq2Po(environmentReqDto.getParams());
+        params.forEach(o->{o.setOwnerId(environmentPo.getId());o.setOwnerType(Constant.OwnerType.ENVIRONMENT);});
+
+        if(updateFlag){
+            //更新
+            environmentMapper.updateById(environmentPo);
+            paramMapper.physicsDeleteByOwner(id);
+        }else {
+            //新增
+            environmentMapper.insert(environmentPo);
+        }
+        params.forEach(data -> {
+            paramMapper.insert(data);
+        });
+        return params;
     }
 
     //获取项目列表

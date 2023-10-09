@@ -5,7 +5,7 @@ import MonacoEditor from 'react-monaco-editor/lib/editor';
 import { useTheme } from '@/utils/hooks';
 import { CardTabListType } from 'antd/lib/card';
 import i18n from '@/i18n';
-import ExpLog from '../../expLog';
+import ExpLog from '../../../../expLog';
 import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
 import TextEllipsis from '@/components/TextEllipsis';
 

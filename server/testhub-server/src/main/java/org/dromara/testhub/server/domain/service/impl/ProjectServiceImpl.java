@@ -1,15 +1,18 @@
 package org.dromara.testhub.server.domain.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.lang.Assert;
 import com.alibaba.fastjson.JSONObject;
+import com.goddess.nsrule.core.executer.context.RuleProject;
+import org.dromara.testhub.server.domain.convert.DbRuleConvert;
+import org.dromara.testhub.server.domain.dto.req.rule.RuleEnvironmentReqDto;
+import org.dromara.testhub.server.domain.dto.res.ExecuteResult.*;
+import org.dromara.testhub.server.domain.dto.res.rule.*;
 import org.dromara.testhub.server.infrastructure.repository.po.RulePo;
 import com.goddess.nsrule.core.executer.context.Context;
 import com.goddess.nsrule.core.executer.context.RuleConfig;
 import com.goddess.nsrule.core.executer.mode.Rule;
-import com.goddess.nsrule.core.executer.mode.base.action.Action;
-import com.goddess.nsrule.core.executer.mode.base.action.Execute;
-import com.goddess.nsrule.core.executer.mode.base.action.Param;
-import com.goddess.nsrule.core.executer.mode.base.action.RunState;
+import com.goddess.nsrule.core.executer.mode.base.action.*;
 import com.goddess.nsrule.core.parser.RuleParser;
 import com.goddess.nsrule.flow.model.Flow;
 import com.goddess.nsrule.flow.model.FlowContext;
@@ -29,13 +32,7 @@ import org.dromara.testhub.server.core.rule.DbRuleManager;
 import org.dromara.testhub.server.core.util.CacheUtil;
 import org.dromara.testhub.server.domain.convert.RuleConvertor;
 import org.dromara.testhub.server.domain.dto.req.other.RuleTreeReqDto;
-import org.dromara.testhub.server.domain.dto.req.rule.ExecutionXmlReqDto;
-import org.dromara.testhub.server.domain.dto.req.rule.RuleDocumentReqDto;
-import org.dromara.testhub.server.domain.dto.res.ExecuteResult.ExecutionResult;
-import org.dromara.testhub.server.domain.dto.res.ExecuteResult.FlowResult;
-import org.dromara.testhub.server.domain.dto.res.rule.RuleProjectResDto;
-import org.dromara.testhub.server.domain.dto.res.rule.RuleProjectSimpleResDto;
-import org.dromara.testhub.server.domain.dto.res.rule.RuleResDto;
+import org.dromara.testhub.server.domain.dto.req.rule.*;
 import org.dromara.testhub.server.domain.service.ProjectService;
 import org.dromara.testhub.server.core.rule.CacheManager;
 import lombok.extern.slf4j.Slf4j;
@@ -47,32 +44,107 @@ import org.dom4j.QName;
 import org.dom4j.tree.AbstractNode;
 import org.dom4j.tree.DefaultText;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionSynchronization;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Slf4j
 @Component
 public class ProjectServiceImpl implements ProjectService {
+    private static final List<String> SKIPS = Arrays.asList("script", "bound");
+
     @Autowired
     private DbManager dbManager;
     @Autowired
-    private RuleConfig config;
-    @Autowired
     private DbRuleManager dbRuleManager;
-    private static List<String> skips = Arrays.asList(new String[]{"script", "bound"});
+
     @Autowired
     private RuleConfig ruleConfig;
     @Autowired
     private IdGenerator idGenerator;
+
     @Resource(name = "ruleEventExecutor")
     private ThreadPoolTaskExecutor ruleEventExecutor;
+
+    @Autowired
+    private DbRuleConvert dbRuleConvert;
+
+
+    @Override
+    @Transactional
+    public synchronized RuleEnvironmentResDto saveEnvironment(RuleEnvironmentReqDto environmentReqDto,boolean updateFlag) {
+        RuleProject ruleProject = ruleConfig.getProject(environmentReqDto.getProjectCode());
+        Assert.notNull(ruleProject);
+        List<RuleEnvironmentResDto> envs = CacheManager.getProject(environmentReqDto.getProjectCode()).getEnvironments();
+        OptionalInt index = IntStream.range(0, envs.size())
+                .filter(i -> environmentReqDto.getCode().equals(envs.get(i).getCode()))
+                .findFirst();
+
+        if(updateFlag){
+            //更新
+            if (index.isEmpty()) {
+                throw new TestHubException("环境编码不存在");
+            }
+        }else {
+            //新增
+            if (index.isPresent()) {
+                throw new TestHubException("环境编码已经存在");
+            }
+        }
+
+        RuleEnvironmentResDto environmentResDto = new RuleEnvironmentResDto();
+        environmentResDto.setId(updateFlag?envs.get(index.getAsInt()).getId():idGenerator.snowflakeId());
+
+        List<Param> params = dbRuleConvert.paramPos2models(dbRuleManager.saveEnvironment(environmentResDto.getId(),
+                ruleProject,environmentReqDto,updateFlag));
+        environmentResDto.setName(environmentReqDto.getName());
+        environmentResDto.setCode(environmentReqDto.getCode());
+        environmentResDto.setParams(RuleConvertor.paramModel2ResList(params));
+        environmentResDto.setRemark(environmentReqDto.getRemark());
+
+        TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
+            @Override
+            public void afterCommit() {
+                ruleProject.putGlobalParams(environmentReqDto.getCode(),params);
+                if(updateFlag){
+                    //更新
+                    envs.remove(index.getAsInt());
+                }
+                CacheManager.getProject(environmentReqDto.getProjectCode()).getEnvironments().add(environmentResDto);
+            }
+        });
+
+        return environmentResDto;
+    }
+
+    @Override
+    @Transactional
+    public void delEnvironment(RuleDelEnvironmentReqDto environmentReqDto) {
+        RuleProject ruleProject = ruleConfig.getProject(environmentReqDto.getProjectCode());
+        Assert.notNull(ruleProject);
+        List<RuleEnvironmentResDto> envs = CacheManager.getProject(environmentReqDto.getProjectCode()).getEnvironments();
+        OptionalInt index = IntStream.range(0, envs.size())
+                .filter(i -> environmentReqDto.getCode().equals(envs.get(i).getCode()))
+                .findFirst();
+        if (index.isEmpty()) {
+            throw new TestHubException("环境编码不存在");
+        }
+        dbRuleManager.delEnvironment(envs.get(index.getAsInt()).getId());
+        TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
+            @Override
+            public void afterCommit() {
+                envs.remove(index.getAsInt());
+            }
+        });
+    }
 
     @Override
     public RuleProjectResDto getProject(String projectCode) {
@@ -131,8 +203,7 @@ public class ProjectServiceImpl implements ProjectService {
             List<String> skipFlows = all.stream().filter(element -> !executionXmlReqDto.getFlows().contains(element)).collect(Collectors.toList());
             flowContext.setSkipFlows(skipFlows);
         }
-        ExecutionResult executionResult = execution(ruleFlow, executionXmlReqDto.getParams(), flowContext);
-        return executionResult;
+        return execution(ruleFlow, executionXmlReqDto.getParams(), flowContext);
     }
 
     @Override
@@ -148,7 +219,7 @@ public class ProjectServiceImpl implements ProjectService {
         CacheManager.putRule(ruleResDto);
         CacheManager.putProjectRule(ruleResDto);
         ruleConfig.updateRule(oldRule);
-        CacheManager.reBuildTreeNode(dbManager, config, oldRulePo.getProjectCode());
+        CacheManager.reBuildTreeNode(dbManager, ruleConfig, oldRulePo.getProjectCode());
         return ruleResDto;
     }
 
@@ -180,7 +251,7 @@ public class ProjectServiceImpl implements ProjectService {
         if (root == null) {
             return;
         }
-        List<Object> items = root.content();
+        List items = root.content();
 
         for (int i = items.size() - 1; i >= 0; i--) {
             Object item = items.get(i);
@@ -191,7 +262,7 @@ public class ProjectServiceImpl implements ProjectService {
                 if (text.length() < 1) {
                     QName qName = node.getParent().getQName();
                     String name = qName.getName();
-                    if (!skips.contains(name.toLowerCase())) {
+                    if (!SKIPS.contains(name.toLowerCase())) {
                         root.remove((DefaultText) item);
                     }
 
@@ -246,7 +317,7 @@ public class ProjectServiceImpl implements ProjectService {
         CacheManager.putRule(ruleResDto);
         CacheManager.putProjectRule(ruleResDto);
         ruleConfig.updateRule(rule);
-        CacheManager.reBuildTreeNode(dbManager, config, rulePo.getProjectCode());
+        CacheManager.reBuildTreeNode(dbManager, ruleConfig, rulePo.getProjectCode());
         return ruleResDto;
     }
 
