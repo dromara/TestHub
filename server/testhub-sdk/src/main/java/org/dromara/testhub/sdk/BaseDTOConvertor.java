@@ -5,5 +5,6 @@ import org.dromara.testhub.sdk.model.rule.TestHubExecute;
 
 public interface BaseDTOConvertor {
     Object model2Res(TestHubExecute execute);
+
     Object model2Res(TestHubAction action);
 }

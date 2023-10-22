@@ -2,9 +2,12 @@ package org.dromara.testhub.server.core.rule;
 
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.collection.CollectionUtil;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.dromara.testhub.common.exception.TestHubException;
+import org.dromara.testhub.sdk.Plugin;
+import org.dromara.testhub.sdk.PluginFactory;
 import org.dromara.testhub.server.domain.convert.DbInfoConvert;
 import org.dromara.testhub.server.domain.convert.DbRuleConvert;
 import com.goddess.nsrule.core.executer.context.RuleProject;
@@ -18,6 +21,7 @@ import org.dromara.testhub.common.util.IdGenerator;
 import org.dromara.testhub.sdk.model.rule.TestHubAction;
 import org.dromara.testhub.sdk.model.rule.TestHubExecute;
 import com.google.common.collect.Lists;
+import org.dromara.testhub.server.domain.convert.RuleConvertor;
 import org.dromara.testhub.server.domain.dto.req.rule.RuleActionReqDto;
 import org.dromara.testhub.server.domain.dto.req.rule.RuleEnvironmentReqDto;
 import org.dromara.testhub.server.domain.dto.res.rule.RuleActionResDto;
@@ -338,9 +342,50 @@ public class DbRuleManager {
 
     }
 
-    public RuleActionResDto saveAction(Long id, RuleActionReqDto reqDto,boolean updateFlag){
+    public RuleActionResDto saveAction(RuleProject ruleProject,Long id, RuleActionReqDto reqDto,boolean updateFlag){
+        //系统级不允许修改
+        ActionPo actionPo = null;
+        if(updateFlag){
+            //系统级不允许修改
+            actionPo = actionMapper.selectById(id);
+            if(Constant.OwnerType.SYSTEM.equals(actionPo.getOwnerType())){
+                throw new TestHubException("系统级行为不允许修改");
+            }
+        }else {
+            actionPo = new ActionPo();
+        }
+        actionPo.setId(id);
+        actionPo.setCode(reqDto.getCode());
+        actionPo.setName(reqDto.getName());
+        actionPo.setComplex(reqDto.getComplex());
+        actionPo.setDataType(reqDto.getDataType());
+        actionPo.setType(reqDto.getType());
+        actionPo.setOwnerId(ruleProject.getId());
+        actionPo.setOwnerType(Constant.OwnerType.PROJECT);
+        if(reqDto.getExtraInto()!=null){
+            actionPo.setExtendInfo(JSONObject.toJSONString(reqDto.getExtraInto()));
+        }else {
+            actionPo.setExtendInfo(null);
+        }
 
-        return null;
+        List<ParamPo> params = dbInfoConvert.paramsReq2Po(reqDto.getParams());
+        params.forEach(o->{o.setOwnerId(id);o.setOwnerType(Constant.OwnerType.ACTION);});
+
+        if(updateFlag){
+            //更新
+            actionMapper.updateById(actionPo);
+            paramMapper.physicsDeleteByOwner(id);
+        }else {
+            //新增
+            actionMapper.insert(actionPo);
+        }
+        params.forEach(data -> {
+            paramMapper.insert(data);
+        });
+        TestHubAction action = dbRuleConvert.actionPo2model(actionPo);
+//        action.setMappings(dbRuleConvert.mappingPos2models(mappingMap.get(actionPo.getId())));
+        action.setParams(dbRuleConvert.paramPos2models(params));
+        return RuleConvertor.ruleActionModel2Res(action);
     }
     public void delEnvironment(Long id){
         //这里逻辑删除

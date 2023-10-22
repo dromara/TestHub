@@ -14,7 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 
 
 public class HttpJsonActionParser implements BaseJsonActionParser {
-    private static String HTTP_MODEL = "httpModel";
+    public static String HTTP_MODEL = "httpModel";
     private static BoundParser<String, FreeMarker> boundParser = new BoundParserFreeMarker();
 
     @Override

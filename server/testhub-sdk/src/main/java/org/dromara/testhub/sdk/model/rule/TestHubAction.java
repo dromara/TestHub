@@ -16,6 +16,7 @@ public class TestHubAction extends Action {
 
     public TestHubAction(Action action) {
         super();
+        super.setId(action.getId());
         super.setCode(action.getCode());
         super.setName(action.getName());
         super.setRemark(action.getRemark());

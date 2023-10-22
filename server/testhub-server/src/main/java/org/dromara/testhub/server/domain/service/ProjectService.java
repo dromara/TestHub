@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 public interface ProjectService {
+
+    RuleActionResDto saveAction(RuleActionReqDto actionReqDto, boolean updateFlag);
     RuleEnvironmentResDto saveEnvironment(RuleEnvironmentReqDto environmentReqDto,boolean updateFlag);
     void delEnvironment(RuleDelEnvironmentReqDto environmentReqDto);
 

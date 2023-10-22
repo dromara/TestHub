@@ -171,6 +171,7 @@ public class RuleConvertor {
 
     public static RuleActionResDto ruleActionModel2Res(TestHubAction model) {
         RuleActionResDto resDto = new RuleActionResDto();
+        resDto.setId(model.getId());
         resDto.setCode(model.getCode());
         resDto.setName(model.getName());
         resDto.setType(model.getType());

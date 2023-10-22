@@ -66,6 +66,11 @@ public class HttpPlugin implements Plugin {
     }
 
     @Override
+    public BaseDTOConvertor getDTOConvertor() {
+        return new HttpDTOConvertor();
+    }
+
+    @Override
     public BaseXMLExecuteParser getXMLExecuteParser() {
         return new HttpXMLExecuteParser();
     }

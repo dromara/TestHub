@@ -9,6 +9,7 @@ import com.goddess.nsrule.core.executer.mode.base.Result;
 import com.goddess.nsrule.core.executer.mode.base.action.RunState;
 import com.goddess.nsrule.core.executer.operation.Operation;
 import org.dromara.testhub.constant.model.TestHubActionConst;
+import org.dromara.testhub.sdk.BaseDTOConvertor;
 import org.dromara.testhub.sdk.BaseJsonActionParser;
 import org.dromara.testhub.sdk.BaseXMLActionParser;
 import org.dromara.testhub.sdk.Plugin;
@@ -36,7 +37,10 @@ public class ConstPlugin implements Plugin {
     public BaseJsonActionParser getJsonActionParser(){
         return new ConstJsonActionParser();
     }
-
+    @Override
+    public BaseDTOConvertor getDTOConvertor() {
+        return new ConstDTOConvertor();
+    }
     @Override
     public void execute(Context context, TestHubAction action, TestHubExecute execute, JSONObject paramDatas, RunState.Item runState) {
         TestHubActionConst actionConst = (TestHubActionConst)action;

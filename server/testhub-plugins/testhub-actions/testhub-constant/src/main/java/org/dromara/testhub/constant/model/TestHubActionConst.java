@@ -12,6 +12,7 @@ public class TestHubActionConst extends TestHubAction {
 
     public TestHubActionConst(TestHubAction action){
         super();
+        super.setId(action.getId());
         super.setCode(action.getCode());
         super.setName(action.getName());
         super.setRemark(action.getRemark());

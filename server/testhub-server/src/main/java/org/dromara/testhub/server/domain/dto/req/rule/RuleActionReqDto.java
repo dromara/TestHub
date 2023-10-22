@@ -52,6 +52,7 @@ public class RuleActionReqDto {
     private List<RuleMappingResDto> mappings;
 
 
-
+    @ApiModelProperty(value = "扩展信息")
+    private Object extraInto;
 
 }

@@ -80,6 +80,43 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     @Transactional
+    public synchronized RuleActionResDto saveAction(RuleActionReqDto actionReqDto, boolean updateFlag) {
+        RuleProject ruleProject = ruleConfig.getProject(actionReqDto.getProjectCode());
+        Assert.notNull(ruleProject);
+        List<RuleActionResDto> actions = CacheManager.getProject(actionReqDto.getProjectCode()).getActions();
+        OptionalInt index = IntStream.range(0, actions.size())
+                .filter(i -> actionReqDto.getCode().equals(actions.get(i).getCode()))
+                .findFirst();
+        if(updateFlag){
+            //更新
+            if (index.isEmpty()) {
+                throw new TestHubException("行为编码不存在");
+            }
+        }else {
+            //新增
+            if (index.isPresent()) {
+                throw new TestHubException("行为编码已经存在");
+            }
+        }
+        RuleActionResDto actionResDto = dbRuleManager.saveAction(ruleProject,updateFlag?actions.get(index.getAsInt()).getId():idGenerator.snowflakeId(),
+                actionReqDto,updateFlag);
+
+        TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
+            @Override
+            public void afterCommit() {
+                if(updateFlag){
+                    //更新
+                    actions.remove(index.getAsInt());
+                }
+                CacheManager.getProject(actionReqDto.getProjectCode()).getActions().add(0,actionResDto);
+            }
+        });
+
+        return actionResDto;
+    }
+
+    @Override
+    @Transactional
     public synchronized RuleEnvironmentResDto saveEnvironment(RuleEnvironmentReqDto environmentReqDto,boolean updateFlag) {
         RuleProject ruleProject = ruleConfig.getProject(environmentReqDto.getProjectCode());
         Assert.notNull(ruleProject);
@@ -199,7 +236,7 @@ public class ProjectServiceImpl implements ProjectService {
         RuleFlow ruleFlow = (RuleFlow) rule;
         FlowContext flowContext = new FlowContext(ruleConfig.getProject(ruleFlow.getProject()), ruleFlow, executionXmlReqDto.getEnvCode(), ruleEventExecutor);
         if (CollectionUtil.isNotEmpty(executionXmlReqDto.getFlows())) {
-            List<String> all = ruleFlow.getFlows().stream().map(Flow::getCode).collect(Collectors.toList());
+            List<String> all = ruleFlow.getFlows().stream().map(Flow::getCode).toList();
             List<String> skipFlows = all.stream().filter(element -> !executionXmlReqDto.getFlows().contains(element)).collect(Collectors.toList());
             flowContext.setSkipFlows(skipFlows);
         }
