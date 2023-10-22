@@ -22,22 +22,7 @@ public abstract class Operation {
 
     public boolean execute(String dataTypeCode, Integer coverComplex, Object cover,
                                     Integer thresholdComplex, Object threshold){
-        switch (dataTypeCode) {
-            case Constant.DataType.NUMBER:
-                return String.format(" %s %s %s ", cover, convertOp(getOperationCode()), threshold);
-            case Constant.DataType.BOLL:
-                return String.format(" %s %s %s ", cover, convertOp(getOperationCode()), threshold);
-            case Constant.DataType.STRING:
-                return String.format(" %s %s '%s' ", cover, convertOp(getOperationCode()), threshold);
-            case Constant.DataType.TIME_YMD:
-                return String.format(" %s %s '%s' ", cover, convertOp(getOperationCode()), getTimeYdm(threshold));
-            case Constant.DataType.TIME_HMS:
-                return String.format(" %s %s '%s' ", cover, convertOp(getOperationCode()), getTimeHms(threshold));
-            case Constant.DataType.TIME_YMDHMS:
-                return String.format(" %s %s '%s' ", cover, convertOp(getOperationCode()), getTimeYdmhms(threshold));
-            default:
-                throw new RuleException(getOperationCode() + "不支持数据类型: " + dataTypeCode);
-        }
+        throw new RuleException(getOperationCode() + "不支持数据类型: " + dataTypeCode);
     }
 
 
