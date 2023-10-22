@@ -9,6 +9,8 @@ import Check from './item/check/entry';
 import Http from './item/http/entry';
 import { RuleActionResDto } from '@/typings';
 import Params from '../assembly/params';
+import { Descriptions } from 'antd';
+import Const from './item/const/entry';
 interface IProps {
     data: RuleActionResDto;
 }
@@ -84,7 +86,11 @@ const Entry = forwardRef((props: IProps, ref) => {
     } else if (data.type.toUpperCase() == 'SQL' ||
         data.type.toUpperCase() == 'SQL_CALL') {
         return <>
+            {/* <Descriptions column={1} layout="vertical">
+                <Descriptions.Item label="型参"> */}
             <Params params={data?.params ? data.params : []} ref={paramsRef} />
+            {/* </Descriptions.Item>
+            </Descriptions> */}
             <Sql data={data} ref={itemRef} />
         </>
     } else if (data.type.toUpperCase() == 'CHECK_OBJ') {
@@ -95,6 +101,11 @@ const Entry = forwardRef((props: IProps, ref) => {
         return <>
             <Params params={data?.params ? data.params : []} ref={paramsRef} />
             <Http data={data} ref={itemRef} />
+        </>
+    } else if (data.type.toUpperCase() == 'CONST') {
+        return <>
+            <Params params={data?.params ? data.params : []} ref={paramsRef} />
+            <Const data={data} ref={itemRef} />
         </>
     }
     return <>{"请处理" + data.type.toUpperCase()}</>;

@@ -1,4 +1,4 @@
-import { ExecutionXmlReqDto, RuleDocumentReqDto, RuleEnvironmentResDto, RuleProjectResDto, RuleProjectSimpleResDto, RuleResDto, RuleTreeReqDto } from '@/typings';
+import { ExecutionXmlReqDto, RuleActionResDto, RuleDocumentReqDto, RuleEnvironmentResDto, RuleProjectResDto, RuleProjectSimpleResDto, RuleResDto, RuleTreeReqDto } from '@/typings';
 import createRequest from './base';
 import { ExecutionResult } from '@/typings/server/execution';
 
@@ -41,15 +41,26 @@ const delEnvironment = createRequest<{ code: string, projectCode: string }, bool
   method: 'post',
 });
 /** 保存环境 */
-const addEnvironment = createRequest<RuleEnvironmentResDto, RuleEnvironmentResDto>('/api/project/addEnvironment/', {
+const addEnvironment = createRequest<RuleEnvironmentResDto, RuleEnvironmentResDto>('/api/project/addEnvironment', {
   method: 'post',
 });
 /** 更新环境 */
-const updateEnvironment = createRequest<RuleEnvironmentResDto, RuleEnvironmentResDto>('/api/project/updateEnvironment/', {
+const updateEnvironment = createRequest<RuleEnvironmentResDto, RuleEnvironmentResDto>('/api/project/updateEnvironment', {
+  method: 'post',
+});
+
+/** 保存行为 */
+const addAction = createRequest<RuleActionResDto, RuleActionResDto>('/api/project/addAction', {
+  method: 'post',
+});
+/** 更新行为 */
+const updateAction = createRequest<RuleActionResDto, RuleActionResDto>('/api/project/updateAction', {
   method: 'post',
 });
 
 export default {
+  addAction,
+  updateAction,
   addEnvironment,
   updateEnvironment,
   delEnvironment,

@@ -1,4 +1,4 @@
-import checkEnUs from "../item/check/i18n/check-en-us";
+import checkEnUs from "../../../Setting/i18n/check-en-us";
 import checkObjEnUs from "../item/checkObj/i18n/checkObj-en-us";
 import httpEnUs from "../item/http/i18n/http-en-us";
 import sleepEnUs from "../item/sleep/i18n/sleep-en-us";

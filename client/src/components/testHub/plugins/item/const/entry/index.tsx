@@ -1,20 +1,14 @@
 import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
 
 import { RuleActionResDto } from '@/typings';
-import MonacoEditor from 'react-monaco-editor';
 import { useTheme } from '@/utils/hooks';
 import { Descriptions } from 'antd';
-import i18n from '@/i18n';
+import MonacoEditor from 'react-monaco-editor';
 interface IProps {
     data: RuleActionResDto;
 }
 
-const Sql = forwardRef((props: IProps, ref) => {
-    const themeColor = useTheme();
-    const [theme, setTheme] = useState(themeColor == 'dark' ? 'BlackTheme' : 'default');
-    useEffect(() => {
-        setTheme(themeColor == 'dark' ? 'BlackTheme' : 'default');
-    }, [themeColor]);
+const Const = forwardRef((props: IProps, ref) => {
     const [data, setData] = useState(props.data.extraInto ? props.data : { ...props.data, extraInto: { bound: "" } });
     useImperativeHandle(ref, () => ({
         getData: async () => {
@@ -25,17 +19,23 @@ const Sql = forwardRef((props: IProps, ref) => {
             return { flag: true, data: { bound: data.extraInto.bound } };
         },
     }));
+
+    const themeColor = useTheme();
+    const [theme, setTheme] = useState(themeColor == 'dark' ? 'BlackTheme' : 'default');
+    useEffect(() => {
+        setTheme(themeColor == 'dark' ? 'BlackTheme' : 'default');
+    }, [themeColor]);
     return <>
         <Descriptions column={1} layout="vertical">
             <Descriptions.Item
                 label={
                     <label>
-                        <span style={{ color: '#f00' }}>* </span>SQL脚本
+                        <span style={{ color: '#f00' }}>* </span>文本
                     </label>
                 }
             >
                 <MonacoEditor
-                    language="sql"
+                    language="freemarker2"
                     height={200}
                     value={data.extraInto.bound}
                     theme={theme}
@@ -63,8 +63,6 @@ const Sql = forwardRef((props: IProps, ref) => {
                 /> </Descriptions.Item>
         </Descriptions>
     </>;
-
 });
 
-
-export default Sql;
+export default Const;

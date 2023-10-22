@@ -1,4 +1,5 @@
 import { RuleParamResDto } from '@/typings';
+import { CheckOutlined, CloseOutlined, MinusOutlined } from '@ant-design/icons';
 import { EditableFormInstance, ProCard, ProColumns, ProFormField } from '@ant-design/pro-components';
 import { EditableProTable } from '@ant-design/pro-components';
 import { Switch } from 'antd';
@@ -8,14 +9,17 @@ export type Props = {
 };
 
 const Params = forwardRef((props: Props, ref) => {
+
     const editorFormRef = useRef<EditableFormInstance<RuleParamResDto>>();
     const [datas, setDatas] = useState<RuleParamResDto[]>(props.params);
+    const [editableKeys, setEditableRowKeys] = useState<React.Key[]>([]);
     useEffect(() => {
         setDatas(props.params);
     }, [props.params]);
 
     useImperativeHandle(ref, () => ({
         getData: async () => {
+            await editorFormRef.current?.validateFieldsReturnFormatValue?.();
             return { flag: true, data: datas };
         },
     }));
@@ -38,7 +42,7 @@ const Params = forwardRef((props: Props, ref) => {
 
     }
 
-    const [editableKeys, setEditableRowKeys] = useState<React.Key[]>([]);
+
 
     const columns: ProColumns<RuleParamResDto>[] = [
         {
@@ -49,7 +53,7 @@ const Params = forwardRef((props: Props, ref) => {
                 return {
                     rules: [
                         { required: true, message: '此项为必填项' },
-                        { pattern: /^[a-zA-Z]\w{0,20}$/, message: '必须以字母开头' },
+                        { pattern: /^[a-zA-Z][a-zA-Z0-9_-]{0,20}$/, message: '必须以字母开头' },
                         {
                             validator: async (_, value, row) => {
                                 const codes: string[] = [];
@@ -73,7 +77,7 @@ const Params = forwardRef((props: Props, ref) => {
         }, {
             title: '描述',
             dataIndex: 'name',
-            width: '15%',
+            width: '20%',
         },
         {
             title: '数据类型',
@@ -82,7 +86,7 @@ const Params = forwardRef((props: Props, ref) => {
             valueType: 'select',
             valueEnum: {
                 STRING: { text: '字符串', status: 'STRING' },
-                BUNBER: { text: '数字', status: 'BUNBER' },
+                NUNBER: { text: '数字', status: 'NUNBER' },
                 BOLL: { text: '布尔值', status: 'BOLL' },
                 MAP: { text: '键值对', status: 'MAP' },
                 TIME_YMD: { text: '年月日', status: 'TIME_YMD' },
@@ -122,7 +126,7 @@ const Params = forwardRef((props: Props, ref) => {
         {
             title: '操作',
             valueType: 'option',
-            width: '15%',
+            width: '10%',
             render: (text, record, _, action) => [
                 <a
                     key="editable"
@@ -156,22 +160,17 @@ const Params = forwardRef((props: Props, ref) => {
                         dataType: "STRING"
                     }),
                 }}
-                loading={false}
                 columns={columns}
-                request={async () => ({
-                    data: datas,
-                    total: datas.length,
-                    success: true,
-                })}
                 value={datas}
-                // onChange={setDatas}
+                onChange={setDatas}
                 editable={{
                     type: 'multiple',
                     editableKeys,
-                    onSave: async (rowKey, data, row) => {
-                        const newDatas = [...datas];
-                        newDatas[row.index] = data;
-                        setDatas(newDatas);
+                    actionRender: (row, config, defaultDoms) => {
+                        return [defaultDoms.save, defaultDoms.delete];
+                    },
+                    onValuesChange: (record, recordList) => {
+                        setDatas(recordList);
                     },
                     onChange: setEditableRowKeys,
                 }}

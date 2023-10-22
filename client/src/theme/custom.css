@@ -4579,7 +4579,7 @@ a.custom-btn-sm {
   margin: 0;
   padding: 0;
   list-style: none;
-  background: var(--color-bg-100) ;
+  /* background: var(--color-bg-100) ; */
   border-top: 1px solid var(--color-bg-6);
 }
 .custom-card-actions::before {
@@ -25142,6 +25142,9 @@ tr.custom-table-expanded-row .custom-descriptions-view table {
   flex: none;
   width: 100%;
   outline: none;
+}
+.custom-tabs-tabpane-hidden{
+  display: none; 
 }
 .custom-tag {
   box-sizing: border-box;

@@ -4,7 +4,7 @@ const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 const chainWebpack = (config: any, { webpack }: any) => {
   config.plugin('monaco-editor').use(MonacoWebpackPlugin, [
     {
-      languages: ['typescript', 'javascript', 'shell', 'yaml', 'java', 'mysql', 'pgsql', 'sql', 'xml', 'html', 'json', 'text'],
+      languages: ['typescript', 'javascript', 'shell', 'yaml', 'java', 'mysql', 'pgsql', 'sql', 'xml', 'html', 'json', 'freemarker2', 'text'],
     },
   ]);
 };

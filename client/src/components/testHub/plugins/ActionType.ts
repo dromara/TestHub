@@ -48,6 +48,42 @@ export const AllTypes = [
         label: '校验',
     },
 ]
+/**
+ * 可以创建action的 类型
+ */
+export const EntryTypes = [
+    {
+        value: 'SLEEP',
+        label: '休眠',
+    },
+    {
+        value: 'SQL',
+        label: 'SQL语句',
+    },
+    {
+        value: 'SQL_CALL',
+        label: '存储过程',
+    }, {
+        value: 'SQL_BEGIN',
+        label: '开启事务',
+    },
+    {
+        value: 'SQL_COMMIT',
+        label: '提交事务',
+    },
+    {
+        value: 'HTTP',
+        label: 'HTTP请求',
+    },
+    {
+        value: 'CONST',
+        label: '固定常量',
+    },
+    {
+        value: 'CONVERT',
+        label: '数据转换',
+    }
+]
 
 export const AllTypeMap = {
     SLEEP: '休眠',

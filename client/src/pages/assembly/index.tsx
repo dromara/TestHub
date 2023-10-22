@@ -19,7 +19,8 @@ interface IProps {
   assemblyPage: IAssemblyPageState;
   dispatch: any;
 }
-type ActiveKeys = 'paramPool' | 'actionPool' | 'metaEnumsPool' | 'metaClassesPool';
+type ActiveKeys = 'paramPool' | 'actionPool';
+// type ActiveKeys = 'paramPool' | 'actionPool' | 'metaEnumsPool' | 'metaClassesPool';
 
 const { Item } = Menu;
 
@@ -48,14 +49,14 @@ function Assembly(props: IProps) {
   const menuMap: Record<string, React.ReactNode> = {
     paramPool: '环境设置',
     actionPool: '行为设置',
-    metaEnumsPool: '枚举设置',
-    metaClassesPool: '元对象设置',
+    // metaEnumsPool: '枚举设置',
+    // metaClassesPool: '元对象设置',
   };
   const iconMap: Record<string, React.ReactNode> = {
     paramPool: '\ue642',
     actionPool: '\ue68c',
-    metaEnumsPool: '\uee66',
-    metaClassesPool: '\ue60f',
+    // metaEnumsPool: '\uee66',
+    // metaClassesPool: '\ue60f',
   };
 
   const [initConfig, setInitConfig] = useState<SettingsState>({
@@ -79,8 +80,8 @@ function Assembly(props: IProps) {
     switch (selectKey) {
       case 'paramPool':
         return <ParamPool appPage={appPage} assemblyPage={assemblyPage} dispatch={dispatch} />;
-      // case 'actionPool':
-      //   return <ActionPool appPage={appPage} assemblyPage={assemblyPage} dispatch={dispatch} />;
+      case 'actionPool':
+        return <ActionPool appPage={appPage} assemblyPage={assemblyPage} dispatch={dispatch} />;
       default:
         return null;
     }

@@ -1,9 +1,10 @@
-import { AllTypes } from '@/components/testHub/plugins/ActionType';
+import { AllTypes, EntryTypes } from '@/components/testHub/plugins/ActionType';
 import Entry, { getActionComplex, getActionDataType } from '@/components/testHub/plugins/Entry';
 import { RuleActionResDto } from '@/typings';
 import {
     ProForm,
     ProFormDigit,
+    ProFormInstance,
     ProFormSelect,
     ProFormText,
 } from '@ant-design/pro-components';
@@ -50,12 +51,19 @@ const Action = forwardRef((props: Props, ref) => {
         return res;
     };
     const actionRef = useRef();
-    const [form] = Form.useForm();
+    const formRef = useRef<ProFormInstance>();
     const [data, setData] = useState<RuleActionResDto>(props.data);
     useImperativeHandle(ref, () => ({
         getData: async () => {
+            const vals = await formRef.current?.validateFieldsReturnFormatValue?.();
             if (actionRef.current != undefined) {
-                return await actionRef.current.getData();
+                const reData = await actionRef.current.getData();
+                reData.data.code = vals.code;
+                reData.data.name = vals.name;
+                reData.data.type = vals.type;
+                reData.data.complex = vals.complex;
+                reData.data.dataType = vals.dataType;
+                return reData;
             } else {
                 return { flag: true, data: {} };
             }
@@ -63,12 +71,13 @@ const Action = forwardRef((props: Props, ref) => {
     }));
     return (
         <>
-            <ProForm form={form} submitter={false}>
+            <ProForm formRef={formRef} submitter={false}>
                 <Row>
                     <Col span={11}><ProFormText
                         label="编码"
                         tooltip="编码重复会覆盖需要参考覆盖策略"
                         name="code"
+                        disabled={data.id != undefined}
                         labelCol={{ span: 4 }}
                         wrapperCol={{ span: 19, offset: 1 }}
                         rules={[
@@ -112,6 +121,7 @@ const Action = forwardRef((props: Props, ref) => {
                             labelCol={{ span: 6 }}
                             wrapperCol={{ span: 16, offset: 2 }}
                             label="类型"
+                            disabled={data.id != undefined}
                             fieldProps={{
                                 onChange: (e) => {
                                     const newDatas = data;

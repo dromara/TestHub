@@ -242,7 +242,7 @@ export interface RuleActionResDto {
     /** 返回值数据类型 */
     dataType: string;
     /** 扩展信息 */
-    extraInto?: Record<string, any>;
+    extraInto: Record<string, any>;
     /** 行为描述 */
     id?: number;
     /** 映射列表 */

@@ -1,4 +1,4 @@
-import { RuleProjectResDto, RuleProjectSimpleResDto, RuleResDto, TreeNodeResDto, ConsoleStatus, IConsoleIndo, RuleEnvironmentResDto } from '@/typings';
+import { RuleProjectResDto, RuleProjectSimpleResDto, RuleResDto, TreeNodeResDto, ConsoleStatus, IConsoleIndo, RuleEnvironmentResDto, RuleActionResDto } from '@/typings';
 import projectService, { } from '@/service/project';
 import treeService, { } from '@/service/tree';
 import systemService, { } from '@/service/system';
@@ -37,6 +37,7 @@ export interface IAppPageType {
     setExecutionResult: Reducer<any>;//设置运行结果
     remoreEnvironment: Reducer<any>;//设置环境信息
     setEnvironment: Reducer<any>;//设置环境信息
+    setAction: Reducer<any>;//设置环境信息
   };
   effects: {
     getProjects: Effect;//获取项目列表
@@ -51,6 +52,7 @@ export interface IAppPageType {
     saveRuleTree: Effect;//调整规则类目
     delEnvironment: Effect;//删除环境
     saveEnvironment: Effect;//保存环境
+    saveAction: Effect;//保存行为
   };
 }
 
@@ -177,7 +179,15 @@ const AppPageModel: IAppPageType = {
       }
       console.log(newCurProject)
       return { ...state, curProject: newCurProject };
-    }
+    },
+    setAction(state, { payload }) {
+      const newCurProject = state.curProject;
+      if (payload.index > -1) {
+        newCurProject.actions.splice(payload.index, 1);
+      }
+      newCurProject.actions.push(payload.data);
+      return { ...state, curProject: newCurProject };
+    },
   },
   effects: {
     *getProjects({ payload, callback }, { put, call }) {
@@ -349,6 +359,28 @@ const AppPageModel: IAppPageType = {
         }
         yield put({
           type: 'setEnvironment',
+          payload: {
+            index: payload.index,
+            data: data
+          },
+        });
+        if (callback && typeof callback === 'function') {
+          callback();
+        }
+      }
+      catch {
+      }
+    },
+    *saveAction({ payload, callback }, { put, select }) {
+      try {
+        var data = null;
+        if (payload.index > -1) {
+          data = (yield projectService.updateAction(payload.data)) as RuleActionResDto;
+        } else {
+          data = (yield projectService.addAction(payload.data)) as RuleActionResDto;
+        }
+        yield put({
+          type: 'setAction',
           payload: {
             index: payload.index,
             data: data

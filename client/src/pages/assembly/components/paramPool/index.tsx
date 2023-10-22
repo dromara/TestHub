@@ -37,7 +37,37 @@ export default (props: IProps) => {
                     cardList2.push(
                         <Card
                             key={Math.random() * 10000000000000000}
-                            style={{ width: "100%", height: 150, marginTop: 10 }}
+                            className={styles.dcard}
+                            style={{ width: "100%", height: 150 }}
+                            actions={[
+                                <EditOutlined
+                                    key="edit"
+                                    onClick={() => {
+                                        setIndex(index);
+                                        setEnvOpen(true);
+                                    }}
+                                />,
+                                <DeleteOutlined
+                                    key="del"
+                                    onClick={() => {
+                                        setIndex(index);
+                                        setDelOpen(true);
+                                    }}
+                                />,
+                            ]}
+                        >
+                            <Meta
+                                title={item.code + "-" + item.name}
+                                description={
+                                    <div className={styles.ellipsis}>{item.remark}</div>
+                                }
+                            />
+                        </Card>
+                    ); cardList2.push(
+                        <Card
+                            key={Math.random() * 10000000000000000}
+                            className={styles.dcard}
+                            style={{ width: "100%", height: 150 }}
                             actions={[
                                 <EditOutlined
                                     key="edit"
@@ -78,7 +108,7 @@ export default (props: IProps) => {
         <>
             <div className={styles.card_container}>
                 {cardList.length > 0 ? cardList : getMenu()}
-                <Button type="dashed" block style={{ width: "100%", height: 150, marginTop: 10 }} onClick={() => { setIndex(-1); setEnvOpen(true); }} >
+                <Button type="dashed" block style={{ width: "100%", height: 150 }} onClick={() => { setIndex(-1); setEnvOpen(true); }} >
                     <PlusOutlined style={{ fontSize: '22px' }} />
                 </Button>
             </div>

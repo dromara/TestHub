@@ -1,14 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Button, Card, Modal, Tag } from 'antd';
+import { EditOutlined, PlusOutlined, } from '@ant-design/icons';
+import { Badge, Button, Card, List, Modal, Tag } from 'antd';
 import { IAppPageState, IAssemblyPageState } from 'umi';
 import styles from './index.less';
 import i18n from '@/i18n';
+import './index.less';
 
-import { DeleteOutlined, EditOutlined, PlusOutlined, } from '@ant-design/icons';
 import Action from './action';
-import Icon from '@/components/testHub/plugins/Icon';
+import ActionIcon from '@/components/testHub/plugins/Icon';
 
-const { Meta } = Card;
 
 interface IProps {
     appPage: IAppPageState;
@@ -17,9 +17,8 @@ interface IProps {
 }
 
 export default (props: IProps) => {
-    const envRef = useRef();
-    const [envOpen, setEnvOpen] = useState(false);
-    const [delOpen, setDelOpen] = useState(false);
+    const actionRef = useRef();
+    const [actionOpen, setActionOpen] = useState(false);
     const { appPage, assemblyPage, dispatch } = props;
     const [index, setIndex] = useState<number>(-1);
 
@@ -36,30 +35,26 @@ export default (props: IProps) => {
                             item.remark && item.remark.toUpperCase().includes(assemblyPage.searchKey.toUpperCase())))
                 ) {
                     cardList2.push(
-                        <Card
-                            key={Math.random() * 10000000000000000}
-                            style={{ marginTop: 10 }}
-                            actions={[
-                                <EditOutlined
-                                    key="edit"
-                                    onClick={() => {
+                        <div>
+                            {/* <Badge.Ribbon text="Hippies"> */}
+                            <div className="dcardsec">
+                                <ActionIcon actionType={item.type} className="tag-right-top" />
+                                <div className="main">
+                                    <div className="head">{item.code}</div>
+                                    <div className="body">
+                                        {item.name}
+                                    </div>
+                                </div>
+                                <div className="icon">
+                                    <EditOutlined onClick={() => {
                                         setIndex(index);
-                                        setEnvOpen(true);
-                                    }}
-                                />,
-                                <DeleteOutlined
-                                    key="del"
-                                    onClick={() => {
-                                        setIndex(index);
-                                        setDelOpen(true);
-                                    }}
-                                />,
-                            ]}
-                            title={item.code}
-                            extra={<Icon actionType={item.type}></Icon>}
-                        >
-                            <div className={styles.ellipsis}>{item.name}</div>
-                        </Card >
+                                        setActionOpen(true);
+                                    }} />
+                                </div>
+                            </div>
+                            {/* </Badge.Ribbon> */}
+                        </div>
+
                     );
                 }
             }
@@ -76,65 +71,38 @@ export default (props: IProps) => {
         <>
             <div className={styles.card_container}>
                 {cardList.length > 0 ? cardList : getMenu()}
-                <Button type="dashed" block style={{ width: "100%", height: 180, marginTop: 10 }} onClick={() => { setIndex(-1); setEnvOpen(true); }} >
+                <Button type="dashed" block style={{ width: "100%", height: 80 }} onClick={() => { setIndex(-1); setActionOpen(true); }} >
                     <PlusOutlined style={{ fontSize: '22px' }} />
                 </Button>
             </div>
             <Modal
                 title={"配置行为"}
-                width={750}
-                open={envOpen}
+                width={820}
+                open={actionOpen}
                 destroyOnClose
                 onOk={async () => {
-                    if (envRef.current != undefined) {
-                        const res = await envRef.current.getData();
+                    if (actionRef.current != undefined) {
+                        const res = await actionRef.current.getData();
+                        const action = res.data;
+                        action.projectCode = appPage.curProject.code;
                         if (res.flag) {
-
+                            dispatch({
+                                type: 'appPage/saveAction',
+                                payload: {
+                                    index: index,
+                                    data: res.data
+                                },
+                                callback: () => { setActionOpen(false) }
+                            })
                         }
-                        console.log(res)
                     }
                 }}
-                onCancel={() => { setEnvOpen(false) }}
+                onCancel={() => { setActionOpen(false) }}
                 maskClosable={true}
                 okText={i18n('case.button.ok')}
                 cancelText={i18n('case.button.cancel')}
             >
-                <Action data={(index > -1 && envOpen) ? JSON.parse(JSON.stringify(appPage.curProject?.actions[index])) : { type: "SQL", dataType: "MAP", extraInto: {} }} ref={envRef}></Action>
-            </Modal >
-            <Modal
-                title="是否确定删除行为"
-                width={360}
-                open={delOpen}
-                maskClosable={true}
-                onCancel={() => { setDelOpen(false) }}
-                footer={[
-                    <Button
-                        key="cancel"
-                        type="default"
-                        onClick={() => { setDelOpen(false) }}
-                    >
-                        {i18n('case.button.cancel')}
-                    </Button>,
-                    <Button
-                        key="confirm"
-                        danger
-                        onClick={async () => {
-                            dispatch({
-                                type: 'appPage/delEnvironment',
-                                payload: {
-                                    index: index,
-                                    projectCode: appPage.curProject.code,
-                                    code: appPage.curProject?.environments[index].code
-                                },
-                                callback: (flag: boolean) => { setIndex(-1); setDelOpen(false); console.log(appPage.curProject) }
-                            })
-                        }}
-                    >
-                        {i18n('case.button.ok')}
-                    </Button>,
-                ]}
-            >
-
+                <Action data={(index > -1 && actionOpen) ? JSON.parse(JSON.stringify(appPage.curProject?.actions[index])) : { type: "HTTP", dataType: "MAP", extraInto: {} }} ref={actionRef}></Action>
             </Modal >
         </>
     );
