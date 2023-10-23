@@ -1,13 +1,16 @@
 package com.goddess.nsrule.core.executer.context;
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.JSONPath;
 import com.goddess.nsrule.core.eventbus.AsyncEventBus;
 import com.goddess.nsrule.core.eventbus.EventBus;
 import com.goddess.nsrule.core.eventbus.EventMessage;
 import com.goddess.nsrule.core.eventbus.EventType;
+import com.goddess.nsrule.core.executer.mode.base.action.Param;
 import com.goddess.nsrule.core.executer.mode.base.action.RunState;
 import com.goddess.nsrule.core.executer.mode.Rule;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
 import java.util.concurrent.Executor;
@@ -50,16 +53,17 @@ public abstract class Context<T> {
 
     public Context(RuleProject project, Rule rule, String envCode, Executor executor) {
         this.uuid = UUID.randomUUID().toString();
-        this.globalParams = new JSONObject();
-//        for (Param param : ruleConfig.getDefGlobalParams()) {
-//            this.globalParams.put(param.getCode(), param.getData());
-//        }
-//        if (paramGroup != null && ruleConfig.getParams(paramGroup) != null) {
-//            for (Param param : ruleConfig.getParams(paramGroup)) {
-//                this.globalParams.put(param.getCode(), param.getData());
-//            }
-//        }
-//        this.ruleConfig = ruleConfig;
+        if(StringUtils.isEmpty(envCode)){
+            this.globalParams = new JSONObject();
+        }else {
+           List<Param> params = project.getGlobalParamMap().get(envCode);
+           if(CollectionUtil.isEmpty(params)){
+               this.globalParams = new JSONObject();
+           }else {
+               //这里说明环境编码存在
+               this.globalParams = Param.buildParams(params);
+           }
+        }
         this.project = project;
         this.rule = rule;
         eventBus = new AsyncEventBus(executor == null ? baseExecutor : executor);
@@ -72,10 +76,6 @@ public abstract class Context<T> {
     public void post(EventType event, Object data) {
         eventBus.post(event, new EventMessage(this, data));
     }
-
-//    public RuleConfig getRuleConfig() {
-//        return ruleConfig;
-//    }
 
     public T getResult() {
         return result;

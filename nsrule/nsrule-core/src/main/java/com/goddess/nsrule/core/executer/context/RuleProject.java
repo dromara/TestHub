@@ -123,6 +123,9 @@ public class RuleProject {
             this.actionMap.put(action.getCode(), action);
         }
     }
+    public void addAction(Action action) {
+        this.actionMap.put(action.getCode(),action);
+    }
 
     public List<Action> getActions() {
         return this.actionMap.values().stream().collect(Collectors.toList());

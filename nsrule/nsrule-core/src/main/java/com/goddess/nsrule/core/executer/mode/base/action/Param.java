@@ -42,7 +42,7 @@ public class Param extends BaseDataPo {
             return;
         }
         List<String> names = new ArrayList<>();
-        Map<String, String> nameMap = params.stream().collect(Collectors.toMap(Param::getCode,param -> StrUtil.isEmpty(param.getName()) ? param.getCode() : param.getName()));
+        Map<String, String> nameMap = params.stream().collect(Collectors.toMap(Param::getCode, param -> StrUtil.isEmpty(param.getName()) ? param.getCode() : param.getName()));
         //筛选出所有需要必须传入的的进行非空校验
         for (Param param : params.stream().filter(o -> o.isNecessary()).collect(Collectors.toList())) {
             Object value = data.get(param.getCode());
@@ -59,46 +59,67 @@ public class Param extends BaseDataPo {
         return buildParams(Context, params, new JSONObject());
     }
 
-    public static JSONObject buildParams(Context Context, List<Param> params, JSONObject data) {
+    public static JSONObject buildParams(List<Param> params) {
+        JSONObject json = new JSONObject();
+        if (ArrayUtil.isEmpty(params)) {
+            return json;
+        }
+        //只填充固定值
+        for (Param param : params) {
+            if (param.getDataFormulaNode() != null && DataNode.class.equals(param.getDataFormulaNode().getClass())) {
+                json.put(param.getCode(), getData(param, param.getDataFormulaNode().apply(null).getContent()));
+            }
+        }
+        return json;
+    }
+
+    public static JSONObject buildParams(Context context, List<Param> params, JSONObject data) {
         JSONObject json = new JSONObject();
         if (ArrayUtil.isEmpty(params)) {
             return json;
         }
         //第一优先使用 传入进来的
         for (Param param : params) {
-            if(data !=null && data.containsKey(param.getCode())){
-                json.put(param.getCode(),data.get(param.getCode()));
+            if (data != null && data.containsKey(param.getCode())) {
+                json.put(param.getCode(), data.get(param.getCode()));
             }
         }
 
         //优先填充 输入值然后填充DataNode固定值
         for (Param param : params) {
-            if(!json.containsKey(param.getCode())){
+            if (!json.containsKey(param.getCode())) {
                 if (data != null && data.get(param.getCode()) != null) {
-                    json.put(param.getCode(), getData(param,data.get(param.getCode())));
+                    json.put(param.getCode(), getData(param, data.get(param.getCode())));
                 } else if (param.getDataFormulaNode() != null && DataNode.class.equals(param.getDataFormulaNode().getClass())) {
-                    json.put(param.getCode(), getData(param,param.getDataFormulaNode().apply(Context).getContent()));
+                    json.put(param.getCode(), getData(param, param.getDataFormulaNode().apply(context).getContent()));
                 }
             }
         }
         //最后填充 输入值然后非DataNode 的值
         for (Param param : params) {
-            if(!json.containsKey(param.getCode())) {
+            if (!json.containsKey(param.getCode())) {
                 if (param.getDataFormulaNode() != null && !DataNode.class.equals(param.getDataFormulaNode().getClass())) {
-                    json.put(param.getCode(), getData(param, param.getDataFormulaNode().apply(Context).getContent()));
+                    json.put(param.getCode(), getData(param, param.getDataFormulaNode().apply(context).getContent()));
                 }
             }
         }
         return json;
     }
-    private static Object getData(Param param ,Object data){
-        switch (param.getDataType()){
-            case Constant.DataType.NUMBER:return data==null?BigDecimal.ZERO:new BigDecimal(data.toString());
-            case Constant.DataType.STRING:return data==null?"":data.toString();
-            case Constant.DataType.BOLL:return data==null?false:Boolean.parseBoolean(data.toString());
-            case Constant.DataType.TIME_YMD:return data==null?null:data.toString();
-            case Constant.DataType.TIME_HMS:return data==null?null:data.toString();
-            case Constant.DataType.TIME_YMDHMS:return data==null?null:data.toString();
+
+    private static Object getData(Param param, Object data) {
+        switch (param.getDataType()) {
+            case Constant.DataType.NUMBER:
+                return data == null ? BigDecimal.ZERO : new BigDecimal(data.toString());
+            case Constant.DataType.STRING:
+                return data == null ? "" : data.toString();
+            case Constant.DataType.BOLL:
+                return data == null ? false : Boolean.parseBoolean(data.toString());
+            case Constant.DataType.TIME_YMD:
+                return data == null ? null : data.toString();
+            case Constant.DataType.TIME_HMS:
+                return data == null ? null : data.toString();
+            case Constant.DataType.TIME_YMDHMS:
+                return data == null ? null : data.toString();
         }
         return data;
     }
