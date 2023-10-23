@@ -92,7 +92,7 @@ export default (props: IProps) => {
                                     index: index,
                                     data: res.data
                                 },
-                                callback: () => { setActionOpen(false) }
+                                callback: () => { setCardList(getMenu()); setActionOpen(false) }
                             })
                         }
                     }

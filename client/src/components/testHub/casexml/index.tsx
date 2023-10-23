@@ -520,9 +520,9 @@ const initCaseXml = () => {
                 return {
                   suggestions: [
                     {
-                      label: 'row',
-                      insertText: ['row'].join('\n'),
-                      detail: 'row',
+                      label: 'raw',
+                      insertText: ['raw'].join('\n'),
+                      detail: 'raw',
                     },
                     {
                       label: 'x-www-form-urlencoded',
@@ -1302,7 +1302,7 @@ const initCaseXml = () => {
                       'none',
                       'form-data',
                       'x-www-form-urlencoded',
-                      'row',
+                      'raw',
                     ].join('\n\n'),
                   }],
               };
@@ -1310,7 +1310,7 @@ const initCaseXml = () => {
               return {
                 contents: [
                   { value: '**请求数据类型**' },
-                  { value: '仅仅在type为row时生效' },
+                  { value: '仅仅在type为raw时生效' },
                   { value: '**可选值**' },
                   {
                     value: [

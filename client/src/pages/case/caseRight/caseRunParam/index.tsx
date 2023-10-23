@@ -43,7 +43,14 @@ const getFlows = (flows: RuleFlowResDto[] | undefined) => {
 }
 
 const CaseRunParam = forwardRef((props: IProps, ref) => {
-    const [executionXmlInfo, setExecutionXmlInfo] = useState<ExecutionXmlReqDto>(props.executionXmlInfo || { project: props.project.code, params: new Map(), flows: [] });
+    const [executionXmlInfo, setExecutionXmlInfo] = useState<ExecutionXmlReqDto>(props.executionXmlInfo ||
+        {
+            ruleCode: props.rule.code,
+            projectCode: props.project.code,
+            params: new Map(),
+            flows: [],
+            envCode: (props.project.environments && props.project.environments.length > 0) ? props.project.environments[0].code : undefined
+        } as ExecutionXmlReqDto);
     const [current, setCurrent] = useState(0);
     const formMapRef = useRef<
         React.MutableRefObject<ProFormInstance<any> | undefined>[]
@@ -169,6 +176,19 @@ const CaseRunParam = forwardRef((props: IProps, ref) => {
                                     labelCol={{ span: 4 }} // 设置 label 标签占据整个宽度
                                     wrapperCol={{ span: 20 }} // 设置文本框占据整个宽度
                                     options={getEnvs(props.project.environments)}
+                                    fieldProps={{
+                                        defaultValue: getEnvs(props.project.environments)[0],
+                                        onChange: (value) => {
+                                            const newExecutionXmlInfo = executionXmlInfo;
+                                            if (undefined == value) {
+                                                newExecutionXmlInfo.envCode = undefined;
+                                            } else {
+                                                newExecutionXmlInfo.envCode = value as string;
+                                            }
+                                            console.log(newExecutionXmlInfo);
+                                            setExecutionXmlInfo(newExecutionXmlInfo);
+                                        }
+                                    }}
                                 />
                             </StepsForm.StepForm>
                         }

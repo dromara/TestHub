@@ -16897,7 +16897,7 @@ textarea.custom-mentions {
 }
 .custom-menu-item:active,
 .custom-menu-submenu-title:active {
-  background: var(--custom-primary-1);
+  /* background: var(--custom-primary-1); */
 }
 .custom-menu-submenu .custom-menu-sub {
   cursor: initial;

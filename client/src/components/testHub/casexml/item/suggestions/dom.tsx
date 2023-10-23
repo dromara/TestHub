@@ -278,7 +278,7 @@ export const dom_suggestions = [
       '\t<headers>',
       '\t\t<param code="Content-Type" dataType="STRING" data="application/json;charset=utf-8"/>',
       '\t</headers>',
-      '\t<body type="row" language="json">',
+      '\t<body type="raw" language="json">',
       '\t\t<content>',
       '\t\t</content>',
       '\t</body>',

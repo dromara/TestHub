@@ -26,7 +26,7 @@ const LNKConfig: INavItem[] = [
     path: '/case'
   }, {
     title: i18n("layouts.nav.assembly"),
-    icon: '\ue60c',
+    icon: '\ue60f',
     path: '/assembly'
   },
   // {
