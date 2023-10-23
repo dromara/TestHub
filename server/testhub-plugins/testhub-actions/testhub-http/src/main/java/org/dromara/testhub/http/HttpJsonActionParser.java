@@ -25,7 +25,7 @@ public class HttpJsonActionParser implements BaseJsonActionParser {
             return actionHttp;
         }
         actionHttp.setHttpModel(JSONObject.parseObject(extendInfo, HttpModel.class));
-        if (Body.ROW.equalsIgnoreCase(actionHttp.getHttpModel().getBody().getType())) {
+        if (Body.RAW.equalsIgnoreCase(actionHttp.getHttpModel().getBody().getType())) {
             Bound bound = boundParser.parser(actionHttp.getHttpModel().getBody().getContent());
             actionHttp.getHttpModel().getBody().setBound(bound);
         }

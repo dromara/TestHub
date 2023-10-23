@@ -287,7 +287,7 @@ public class HttpPlugin implements Plugin {
         if (Body.NONE.equalsIgnoreCase(body.getType()) || StringUtils.isNotEmpty(headers.getString("Content-Type"))) {
             return headers;
         }
-        if (Body.ROW.equalsIgnoreCase(body.getType())) {
+        if (Body.RAW.equalsIgnoreCase(body.getType())) {
             if (Body.JSON.equalsIgnoreCase(body.getLanguage())) {
                 headers.put("Content-Type", MediaType.APPLICATION_JSON_VALUE);
             } else if (Body.XML.equalsIgnoreCase(body.getLanguage())) {
@@ -309,7 +309,7 @@ public class HttpPlugin implements Plugin {
      */
     private Object getBody(Context context, HttpModel httpModel, JSONObject data, TestHubActionHttp action) throws Exception {
         Body body = httpModel.getBody();
-        if (Body.ROW.equalsIgnoreCase(body.getType())) {
+        if (Body.RAW.equalsIgnoreCase(body.getType())) {
             String content = getContent(context, data, body, action);
             if (Body.JSON.equalsIgnoreCase(body.getLanguage())) {
                 try {
@@ -377,7 +377,7 @@ public class HttpPlugin implements Plugin {
     }
 
     public int getTimeout(HttpModel httpModel) {
-        return httpModel.getTimeout() != -1 ? httpModel.getTimeout() : 60;
+        return httpModel.getTimeout()>0 ? httpModel.getTimeout() : 60;
     }
 
 }

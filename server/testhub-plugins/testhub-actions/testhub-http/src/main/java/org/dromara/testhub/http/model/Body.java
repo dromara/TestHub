@@ -13,11 +13,11 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Body {
-    public static String ROW="row";
+    public static String RAW="raw";
     public static String NONE="none";
     public static String FROM_DATA="form-data";
     public static String X_WWW_FORM_URENCODED="x-www-form-urlencoded";
-    public static List<String> TYPES = Arrays.asList(new String[]{ROW,NONE,FROM_DATA,X_WWW_FORM_URENCODED});
+    public static List<String> TYPES = Arrays.asList(new String[]{RAW,NONE,FROM_DATA,X_WWW_FORM_URENCODED});
 
     public static String JSON="json";
     public static String XML="xml";

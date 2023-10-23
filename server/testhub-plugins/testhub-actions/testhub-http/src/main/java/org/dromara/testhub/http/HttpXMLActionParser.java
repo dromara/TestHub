@@ -58,7 +58,7 @@ public class HttpXMLActionParser implements BaseXMLActionParser {
             body.setDatas(XMLRuleConfigBuilder.parseParams(element));
         } else if (Body.X_WWW_FORM_URENCODED.equalsIgnoreCase(body.getType())) {
             body.setDatas(XMLRuleConfigBuilder.parseParams(element));
-        } else if (Body.ROW.equalsIgnoreCase(body.getType())) {
+        } else if (Body.RAW.equalsIgnoreCase(body.getType())) {
             body.setLanguage(StringUtils.isEmpty(element.attributeValue("language"))?"json":element.attributeValue("language"));
             Element bound = element.element("bound");
             StringBuilder template = new StringBuilder();
