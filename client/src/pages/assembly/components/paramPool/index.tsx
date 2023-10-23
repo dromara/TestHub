@@ -63,36 +63,7 @@ export default (props: IProps) => {
                                 }
                             />
                         </Card>
-                    ); cardList2.push(
-                        <Card
-                            key={Math.random() * 10000000000000000}
-                            className={styles.dcard}
-                            style={{ width: "100%", height: 150 }}
-                            actions={[
-                                <EditOutlined
-                                    key="edit"
-                                    onClick={() => {
-                                        setIndex(index);
-                                        setEnvOpen(true);
-                                    }}
-                                />,
-                                <DeleteOutlined
-                                    key="del"
-                                    onClick={() => {
-                                        setIndex(index);
-                                        setDelOpen(true);
-                                    }}
-                                />,
-                            ]}
-                        >
-                            <Meta
-                                title={item.code + "-" + item.name}
-                                description={
-                                    <div className={styles.ellipsis}>{item.remark}</div>
-                                }
-                            />
-                        </Card>
-                    );
+                    )
                 }
             }
         }
@@ -164,7 +135,7 @@ export default (props: IProps) => {
                                     projectCode: appPage.curProject.code,
                                     code: appPage.curProject?.environments[index].code
                                 },
-                                callback: (flag: boolean) => { setIndex(-1); setDelOpen(false); console.log(appPage.curProject) }
+                                callback: (flag: boolean) => { setCardList(getMenu()); setIndex(-1); setDelOpen(false); }
                             })
                         }}
                     >

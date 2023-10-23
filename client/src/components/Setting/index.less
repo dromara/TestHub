@@ -14,6 +14,7 @@
     align-items: center;
     margin: 0px 7px;
   }
+
   li {
     margin-bottom: 6px;
     width: 64px;
@@ -24,14 +25,17 @@
     background-repeat: no-repeat;
     cursor: pointer;
   }
+
   .current {
     border: 1px solid var(--custom-primary-color-active);
   }
+
   filter: brightness(var(--filter-brightness));
 }
 
 .setText {
   color: var(--custom-primary-color);
+
   &:hover {
     text-decoration: underline;
   }
@@ -40,6 +44,7 @@
 .title {
   font-size: 14px;
   margin-bottom: 10px;
+
   i {
     margin-left: 10px;
     color: var(--custom-primary-color);
@@ -53,6 +58,7 @@
 .primaryColorList {
   display: flex;
   margin-bottom: 20px;
+
   li {
     margin-right: 15px;
     display: inline-flex;
@@ -63,12 +69,14 @@
     border: 2px solid transparent;
     border-radius: 50%;
     cursor: pointer;
+
     i {
       color: #fff;
       font-size: 18px;
     }
   }
 }
+
 .modalBox {
   display: flex;
   margin: -20px;
@@ -79,6 +87,7 @@
   width: 200px;
   background-color: var(--color-bg-200);
   padding: 20px;
+
   .menusTitle {
     font-size: 16px;
     padding-bottom: 10px;
@@ -92,11 +101,13 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
+
     i {
       font-size: 16px;
       margin-right: 10px;
     }
   }
+
   .activeMenu {
     background-color: var(--color-bg-6);
   }
@@ -106,6 +117,7 @@
   min-height: 400px;
   padding: 20px;
   flex: 1;
+
   .menuContentTitle {
     font-size: 16px;
     padding-bottom: 20px;
@@ -118,32 +130,7 @@
   margin-top: 20px;
 }
 
-.aboutUs {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  .brief {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    .appName {
-      font-size: 20px;
-    }
-    .env,
-    .version {
-      margin: 4px 0px;
-      color: var(--color-text-45);
-    }
-    .log {
-      margin-top: 4px;
-      color: var(--custom-primary-color);
-      cursor: pointer;
-      &:hover {
-        text-decoration: underline;
-      }
-    }
-  }
-}
+
 
 .brandLogo {
   margin-bottom: 15px;
@@ -158,32 +145,35 @@
   margin-right: 20px;
 }
 
-.updateHint{
+.updateHint {
   display: flex;
   justify-content: space-between;
 }
 
-.later{
+.later {
   cursor: pointer;
 
 }
 
-.go{
+.go {
   cursor: pointer;
   margin-left: 20px;
   color: var(--custom-primary-color);
-  &:hover{
+
+  &:hover {
     text-decoration: underline;
   }
 }
 
-:global{
-  .ant-notification-notice{
+:global {
+  .ant-notification-notice {
     background-color: var(--color-bg-300);
     border-radius: 10px;
     color: var(--color-text);
   }
-  .ant-notification-notice-message,.ant-notification-notice-close{
+
+  .ant-notification-notice-message,
+  .ant-notification-notice-close {
     color: var(--color-text);
   }
 }

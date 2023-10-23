@@ -3,6 +3,7 @@ export default {
 
     'setting.nav.basic': '基础设置',
     'setting.nav.proxy': '服务设置',
+    'setting.nav.user': '用户信息',
     'setting.nav.aboutUs': '关于我们',
 
 
@@ -25,9 +26,12 @@ export default {
     'setting.msg.port': '1024-40000之间的端口号',
     'setting.button.apply': '应用',
 
+    'setting.button.loginOut': '退出登陆',
+
 
     'setting.text.currentEnv': '当前环境',
     'setting.text.currentVersion': '当前版本',
     'setting.text.viewingUpdateLogs': '查看当前应用',
+    'setting.text.manual': '使用手册',
 
 }

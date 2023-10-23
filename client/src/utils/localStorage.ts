@@ -33,7 +33,6 @@ export function setSatoken(satoken: string) {
 }
 export function getUserInfo(): IUserInfo {
   const userInfo = localStorage.getItem('userInfo');
-
   if (userInfo) {
     return JSON.parse(userInfo);
   }

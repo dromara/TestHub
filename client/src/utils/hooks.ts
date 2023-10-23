@@ -1,5 +1,5 @@
+import { addColorSchemeListener } from '@/components/Setting/components/basic';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { addColorSchemeListener } from '@/components/Setting';
 
 export function useDebounce<A extends any[]>(
   callback: (...args: A) => void,

@@ -3,6 +3,7 @@ export default {
 
     'setting.nav.basic': 'Basic',
     'setting.nav.proxy': 'Server',
+    'setting.nav.user': 'User',
     'setting.nav.aboutUs': 'About Us',
 
     'setting.text.background': 'Background',
@@ -24,7 +25,10 @@ export default {
     'setting.msg.port': 'Port number between 1024 and 40000',
     'setting.button.apply': 'Apply',
 
+    'setting.button.loginOut': 'Login Out',
+
     'setting.text.currentEnv': 'Environment',
     'setting.text.currentVersion': 'Version',
     'setting.text.viewingUpdateLogs': 'Viewing Update Logs',
+    'setting.text.manual': 'User Manual',
 };

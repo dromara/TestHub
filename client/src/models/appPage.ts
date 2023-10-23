@@ -177,7 +177,6 @@ const AppPageModel: IAppPageType = {
       if (payload.index > -1) {
         newCurProject.environments.splice(payload.index, 1);
       }
-      console.log(newCurProject)
       return { ...state, curProject: newCurProject };
     },
     setAction(state, { payload }) {
