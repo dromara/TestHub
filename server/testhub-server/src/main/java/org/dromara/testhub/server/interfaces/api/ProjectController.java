@@ -52,14 +52,12 @@ public class ProjectController {
         return ResultResponse.ok(projectService.getProject(projectCode));
     }
 
-    @SaCheckRole("admin")
     @ApiOperation(value = "添加行为", tags = {"项目"}, nickname = "addAction")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "操作是否成功,000000:成功，否则失败")})
     @PostMapping(value = "/addAction", produces = {"application/json"})
     public ResultResponse<RuleActionResDto> addAction(@Valid @RequestBody RuleActionReqDto actionReqDto) {
         return ResultResponse.ok(projectService.saveAction(actionReqDto,false));
     }
-    @SaCheckRole("admin")
     @ApiOperation(value = "添加行为", tags = {"项目"}, nickname = "updateAction")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "操作是否成功,000000:成功，否则失败")})
     @PostMapping(value = "/updateAction", produces = {"application/json"})

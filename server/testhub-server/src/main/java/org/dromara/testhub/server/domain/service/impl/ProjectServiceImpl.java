@@ -98,8 +98,10 @@ public class ProjectServiceImpl implements ProjectService {
                 throw new TestHubException("行为编码已经存在");
             }
         }
-        RuleActionResDto actionResDto = dbRuleManager.saveAction(ruleProject,updateFlag?actions.get(index.getAsInt()).getId():idGenerator.snowflakeId(),
+        TestHubAction model = dbRuleManager.saveAction(ruleProject,updateFlag?actions.get(index.getAsInt()).getId():idGenerator.snowflakeId(),
                 actionReqDto,updateFlag);
+
+        RuleActionResDto actionResDto = RuleConvertor.ruleActionModel2Res(model);
 
         TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
             @Override
@@ -109,6 +111,7 @@ public class ProjectServiceImpl implements ProjectService {
                     actions.remove(index.getAsInt());
                 }
                 CacheManager.getProject(actionReqDto.getProjectCode()).getActions().add(0,actionResDto);
+                ruleConfig.getProject(actionReqDto.getProjectCode()).addAction(model);
             }
         });
 
@@ -155,6 +158,7 @@ public class ProjectServiceImpl implements ProjectService {
                     //更新
                     envs.remove(index.getAsInt());
                 }
+                ruleConfig.getProject(environmentReqDto.getProjectCode()).putGlobalParams(environmentResDto.getCode(),params);
                 CacheManager.getProject(environmentReqDto.getProjectCode()).getEnvironments().add(environmentResDto);
             }
         });

@@ -201,7 +201,8 @@ public class DbRuleManager {
         //删旧的 说明是新增
         if (oldRule != null) {
             RulePo dbRulePo = ruleMapper.selectById(rulePo.getId());
-            if (dbRulePo.getCreateUserId() != Long.parseLong(StpUtil.getLoginId().toString())) {
+            Long createUserId = Long.parseLong(StpUtil.getLoginId().toString());
+            if (!StpUtil.hasRole("admin") && !createUserId.equals(dbRulePo.getCreateUserId())) {
                 UserPo userPo = userMapper.selectById(dbRulePo.getCreateUserId());
                 if (userPo == null) {
                     throw new TestHubException("只能修改个人新增的用例");
@@ -342,16 +343,27 @@ public class DbRuleManager {
 
     }
 
-    public RuleActionResDto saveAction(RuleProject ruleProject,Long id, RuleActionReqDto reqDto,boolean updateFlag){
+    public TestHubAction saveAction(RuleProject ruleProject, Long id, RuleActionReqDto reqDto, boolean updateFlag) {
         //系统级不允许修改
         ActionPo actionPo = null;
-        if(updateFlag){
+        if (updateFlag) {
             //系统级不允许修改
             actionPo = actionMapper.selectById(id);
-            if(Constant.OwnerType.SYSTEM.equals(actionPo.getOwnerType())){
+            if (Constant.OwnerType.SYSTEM.equals(actionPo.getOwnerType())) {
                 throw new TestHubException("系统级行为不允许修改");
             }
-        }else {
+            Long createUserId = Long.parseLong(StpUtil.getLoginId().toString());
+
+            //非管理员 非本人 项目级别 不允许修改
+            if (!StpUtil.hasRole("admin") && !createUserId.equals(actionPo.getCreateUserId())) {
+                UserPo userPo = userMapper.selectById(createUserId);
+                if (userPo == null) {
+                    throw new TestHubException("项目级行为只能被管理员或者创建人修改");
+                } else {
+                    throw new TestHubException("项目级行为只能被管理员或者创建人修改，请联系：" + userPo.getUserName());
+                }
+            }
+        } else {
             actionPo = new ActionPo();
         }
         actionPo.setId(id);
@@ -362,20 +374,23 @@ public class DbRuleManager {
         actionPo.setType(reqDto.getType());
         actionPo.setOwnerId(ruleProject.getId());
         actionPo.setOwnerType(Constant.OwnerType.PROJECT);
-        if(reqDto.getExtraInto()!=null){
+        if (reqDto.getExtraInto() != null) {
             actionPo.setExtendInfo(JSONObject.toJSONString(reqDto.getExtraInto()));
-        }else {
+        } else {
             actionPo.setExtendInfo(null);
         }
 
         List<ParamPo> params = dbInfoConvert.paramsReq2Po(reqDto.getParams());
-        params.forEach(o->{o.setOwnerId(id);o.setOwnerType(Constant.OwnerType.ACTION);});
+        params.forEach(o -> {
+            o.setOwnerId(id);
+            o.setOwnerType(Constant.OwnerType.ACTION);
+        });
 
-        if(updateFlag){
+        if (updateFlag) {
             //更新
             actionMapper.updateById(actionPo);
             paramMapper.physicsDeleteByOwner(id);
-        }else {
+        } else {
             //新增
             actionMapper.insert(actionPo);
         }
@@ -385,15 +400,16 @@ public class DbRuleManager {
         TestHubAction action = dbRuleConvert.actionPo2model(actionPo);
 //        action.setMappings(dbRuleConvert.mappingPos2models(mappingMap.get(actionPo.getId())));
         action.setParams(dbRuleConvert.paramPos2models(params));
-        return RuleConvertor.ruleActionModel2Res(action);
-    }
-    public void delEnvironment(Long id){
-        //这里逻辑删除
-        environmentMapper.deleteById(id);
-        paramMapper.delete(new LambdaQueryWrapper<ParamPo>().eq(ParamPo::getOwnerId,id));
+        return action;
     }
 
-    public List<ParamPo> saveEnvironment(Long id,RuleProject ruleProject,RuleEnvironmentReqDto environmentReqDto,boolean updateFlag) {
+    public void delEnvironment(Long id) {
+        //这里逻辑删除
+        environmentMapper.deleteById(id);
+        paramMapper.delete(new LambdaQueryWrapper<ParamPo>().eq(ParamPo::getOwnerId, id));
+    }
+
+    public List<ParamPo> saveEnvironment(Long id, RuleProject ruleProject, RuleEnvironmentReqDto environmentReqDto, boolean updateFlag) {
         EnvironmentPo environmentPo = new EnvironmentPo();
         environmentPo.setId(id);
         environmentPo.setCode(environmentReqDto.getCode());
@@ -401,13 +417,16 @@ public class DbRuleManager {
         environmentPo.setProjectId(ruleProject.getId());
         environmentPo.setRemark(environmentReqDto.getRemark());
         List<ParamPo> params = dbInfoConvert.paramsReq2Po(environmentReqDto.getParams());
-        params.forEach(o->{o.setOwnerId(environmentPo.getId());o.setOwnerType(Constant.OwnerType.ENVIRONMENT);});
+        params.forEach(o -> {
+            o.setOwnerId(environmentPo.getId());
+            o.setOwnerType(Constant.OwnerType.ENVIRONMENT);
+        });
 
-        if(updateFlag){
+        if (updateFlag) {
             //更新
             environmentMapper.updateById(environmentPo);
             paramMapper.physicsDeleteByOwner(id);
-        }else {
+        } else {
             //新增
             environmentMapper.insert(environmentPo);
         }
