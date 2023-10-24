@@ -4,6 +4,9 @@ import org.dromara.testhub.sdk.model.rule.TestHubAction;
 
 public class TestHubActionHttp extends TestHubAction {
     private HttpModel httpModel;
+    public TestHubActionHttp(){
+
+    }
     public TestHubActionHttp(TestHubAction action){
         super();
         super.setId(action.getId());

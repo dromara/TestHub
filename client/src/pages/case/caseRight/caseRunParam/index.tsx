@@ -45,7 +45,7 @@ const getFlows = (flows: RuleFlowResDto[] | undefined) => {
 const CaseRunParam = forwardRef((props: IProps, ref) => {
     const [executionXmlInfo, setExecutionXmlInfo] = useState<ExecutionXmlReqDto>(props.executionXmlInfo ||
         {
-            ruleCode: props.rule.code,
+            ruleCode: props.rule.code == undefined ? "" : props.rule.code,
             projectCode: props.project.code,
             params: new Map(),
             flows: [],

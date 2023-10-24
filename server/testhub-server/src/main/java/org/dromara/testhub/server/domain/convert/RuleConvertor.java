@@ -200,7 +200,8 @@ public class RuleConvertor {
         resDto.setMappings(mappingResDtos);
 
         Plugin plugin = PluginFactory.getHandler(model.getType());
-        resDto.setExtraInto(plugin.getDTOConvertor().model2Res(model));
+        resDto.setExtraInto(plugin.getJsonActionParser().model2json(model));
+//        resDto.setExtraInto(plugin.getDTOConvertor().model2Res(model));
 
         return resDto;
     }

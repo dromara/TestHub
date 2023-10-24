@@ -6,7 +6,7 @@ declare namespace HTTP {
         /** 内容 */
         content?: string;
         /** 表单数据 */
-        formDatas?: RuleParamResDto[];
+        datas?: RuleParamResDto[];
         /** id */
         id?: number;
         language: string;

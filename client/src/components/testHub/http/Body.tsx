@@ -59,7 +59,7 @@ const Body = forwardRef((props: Props, ref) => {
           if (!res.flag) {
             return { flag: false, data: {} };
           }
-          newData.formDatas = res.data;
+          newData.datas = res.data;
         }
       }
       return { flag: true, data: newData };
@@ -106,7 +106,7 @@ const Body = forwardRef((props: Props, ref) => {
         <Col style={{ height: 237, lineHeight: 15 }}>没有正文</Col>
       </Row>
       <ProCard split="vertical" hidden={data.type != 'form-data'}>
-        <Params params={data.formDatas == undefined ? [] : data.formDatas} ref={paramsRef} />
+        <Params params={data.datas == undefined ? [] : data.datas} ref={paramsRef} />
       </ProCard>
       <ProCard
         split="vertical"

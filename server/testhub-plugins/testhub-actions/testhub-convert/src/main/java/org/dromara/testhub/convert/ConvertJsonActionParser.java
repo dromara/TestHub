@@ -31,7 +31,7 @@ public class ConvertJsonActionParser implements BaseJsonActionParser {
     public JSONObject model2json(TestHubAction action) {
         TestHubActionConvert actionConvert = ( TestHubActionConvert)action;
         JSONObject element = new JSONObject();
-        element.put(CONVERTS, JSON.parseArray(JSONObject.toJSONString( actionConvert.getConverts())));
+        element.put(CONVERTS, actionConvert.getConverts());
         return element;
     }
 

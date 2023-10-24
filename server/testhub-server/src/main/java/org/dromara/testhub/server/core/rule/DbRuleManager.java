@@ -385,7 +385,12 @@ public class DbRuleManager {
             o.setOwnerId(id);
             o.setOwnerType(Constant.OwnerType.ACTION);
         });
-
+        TestHubAction action = dbRuleConvert.actionPo2model(actionPo);
+        //这里再次把规整好的的数据放到数据库
+        if (actionPo.getExtendInfo() != null) {
+            Plugin plugin = PluginFactory.getHandler(actionPo.getType());
+            actionPo.setExtendInfo(plugin.getJsonActionParser().model2json(action).toJSONString());
+        }
         if (updateFlag) {
             //更新
             actionMapper.updateById(actionPo);
@@ -397,7 +402,7 @@ public class DbRuleManager {
         params.forEach(data -> {
             paramMapper.insert(data);
         });
-        TestHubAction action = dbRuleConvert.actionPo2model(actionPo);
+
 //        action.setMappings(dbRuleConvert.mappingPos2models(mappingMap.get(actionPo.getId())));
         action.setParams(dbRuleConvert.paramPos2models(params));
         return action;

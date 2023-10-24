@@ -44,7 +44,9 @@ const Http = forwardRef((props: IProps, ref) => {
                 const reData = res.data;
                 reData.url = vals.url;
                 reData.method = vals.method;
+                console.log({ httpModel: reData })
                 return { flag: true, data: { httpModel: reData } };
+                // return { flag: false, data: { httpModel: reData } };
             }
             return { flag: false, data: data };
         },
