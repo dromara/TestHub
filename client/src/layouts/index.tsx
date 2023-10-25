@@ -28,12 +28,29 @@ const LNKConfig: INavItem[] = [
     title: i18n("layouts.nav.assembly"),
     icon: '\ue60f',
     path: '/assembly'
-  },
-  // {
+  }
+  // , {
   //   title: "百宝箱",
-  //   icon: '\ue65c',
+  //   icon: '\ue678',
   //   path: '/tools'
+  // }, {
+  //   title: "批处理",
+  //   icon: '\ue611',
+  //   path: '/http'
+  // }, {
+  //   title: "协作",
+  //   icon: '\ue870',
+  //   path: '/test'
   // },
+  //-批处理  
+  //  ｜批次管理
+  //  ｜执行结果
+  //-协作  
+  //  ｜项目管理
+  //  ｜用户管理
+  //-百宝箱  
+  //  ｜批次管理
+  //  ｜执行结果
   // {
   //   title: "HTTP",
   //   icon: '\ue60a',
