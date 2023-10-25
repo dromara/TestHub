@@ -17,6 +17,7 @@ const RequestView = forwardRef((props: Props, ref) => {
   const [activeKey, setActiveKey] = useState('Body');
   const [request, setRequest] = useState<HTTP.HttpRequestResDto>(props.data);
   const onChange = (key: string) => {
+    //todo 切换的时候保存一下数据
     setActiveKey(key);
   };
   useImperativeHandle(ref, () => ({
