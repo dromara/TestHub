@@ -19,6 +19,7 @@ TestHub 提供直观易用界面，直观设计测试流程。简单拖放和连
 [gitee](https://gitee.com/dromara/TestHub) [github](https://github.com/dromara/TestHub)
 
 ## 工程目录
+<div align="center">
 
 | 目录   | 说明                           |
 | ------ | ------------------------------ |
@@ -30,13 +31,14 @@ TestHub 提供直观易用界面，直观设计测试流程。简单拖放和连
 | static | markdown 文件资源              |
 | demo   | TestHub 的演示 Demo            |
 
+</div>
+
 <div align="center">
     <img src="https://gitee.com/dromara/TestHub/raw/main/static/img/概览.jpg" alt="Image" width="100%" >
 </div>
 
 
 ## 演示视频
-
 
 https://www.bilibili.com/video/BV1X94y1v7ak/?spm_id_from=333.337.search-card.all.click&vd_source=adbd50ab0dcce0aafbb00e7a8acb9211
 
@@ -46,11 +48,7 @@ https://www.bilibili.com/video/BV1X94y1v7ak/?spm_id_from=333.337.search-card.all
 
 地址： http://nsrule.com:11018
 
-<span style="color:red;"><b>测试用例为 DEMO_XXX 的为内置的 用例 请大家不要修改</b></span>
-
-需要测试的话将原有的测试用例 xml 复制后，新增一个你自己的
-
-数据库的链接地址你可以再 DEMO_SQL：查询类 SQL 中找到
+<span style="color:red;"><b>需要测试的话将原有的测试用例 xml 复制后，新增一个你自己的</b></span>
 
 演示环境有问题 请微信：
 
@@ -86,11 +84,17 @@ docker-compose up -d
 
 执行成功后会启动以下服务
 
+<div align="center">
+
 | 服务名   | 服务说明          | 宿主机端口             | 容器 IP     | 容器端口               | 备注                    |
 | -------- | ----------------- | ---------------------- | ----------- | ---------------------- | ----------------------- |
 | testhub  | TestHub 项目      | 11018 前端；12003 后端 | 192.168.0.3 | 11018 前端；12003 后端 |                         |
 | server   | 被测试的 web 项目 | 12004                  | 192.168.0.4 | 12004 http 接口        |                         |
 | postgres | 被测试的数据库    | 12005                  | 192.168.0.5 | 5432                   | 用户名密码均为 postgres |
+
+</div>
+
+
 
 前端接口地址 http://127.0.0.1:11018/
 
@@ -152,11 +156,16 @@ git clone https://gitee.com/dromara/TestHub.git
 
 ## 迭代方向
 
+
+<div align="center">
+
 | 功能           | 支持 |
 | -------------- | ---- |
 | 执行计划管理   |      |
 |                |      |
 | 前端拖拉拽配置 |      |
+
+</div>
 
 ## 软件界面
 <div align="center">
@@ -177,10 +186,6 @@ git clone https://gitee.com/dromara/TestHub.git
 
 <div align="center">
     <img src="https://gitee.com/dromara/TestHub/raw/main/static/img/check.png" alt="Image" width="100%" >
-</div>
-
-<div align="center">
-    <img src="https://gitee.com/dromara/TestHub/raw/main/static/img/const.png" alt="Image" width="100%" >
 </div>
 
 <div align="center">
