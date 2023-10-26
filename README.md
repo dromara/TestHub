@@ -44,9 +44,8 @@ https://www.bilibili.com/video/BV1X94y1v7ak/?spm_id_from=333.337.search-card.all
 
 ## 演示地址
 
-目前演示项目
-
-地址： http://nsrule.com:11018
+演示项目地址： http://testhub.nsrule.com:11018
+账户：admin 密码 123456
 
 <span style="color:red;"><b>需要测试的话将原有的测试用例 xml 复制后，新增一个你自己的</b></span>
 

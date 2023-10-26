@@ -15,7 +15,7 @@ actions:
     type: primary
 
   - text: 演示环境
-    link: http://nsrule.com:11018
+    link: http://testhub.nsrule.com:11018
 highlights:
   - header: 插件驱动测试
     # description: 我们实现了很多扩展了，为你添加了成吨功能。
