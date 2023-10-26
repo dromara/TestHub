@@ -1,6 +1,6 @@
 server:
   #服务端口
-  port: 12003
+  port: 12009
   servlet:
     context-path: /
 

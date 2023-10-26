@@ -1,9 +1,9 @@
 <h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">TestHub</h1>
 <h4 align="center" style="margin: 30px 0 30px; font-weight: bold;">流程编排，插件驱动，测试无限可能</h4>
 <p align="center">
-<a href="https://gitee.com/failedgoddess/test-hub/stargazers"><img src="https://gitee.com/failedgoddess/test-hub/badge/star.svg?theme=gvp"></a>
-<a href="https://gitee.com/failedgoddess/test-hub/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-Apache--2.0-green"></a>
-<a href="https://gitee.com/failedgoddess/test-hub"><img src="https://img.shields.io/badge/version-v1.0.0-blue"></a>
+<a href="https://gitee.com/dromara/TestHub/stargazers"><img src="https://gitee.com/dromara/TestHub/badge/star.svg?theme=gvp"></a>
+<a href="https://gitee.com/dromara/TestHub/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-Apache--2.0-green"></a>
+<a href="https://gitee.com/dromara/TestHub"><img src="https://img.shields.io/badge/version-v1.0.0-blue"></a>
 </p>
 
 ## 介绍
@@ -16,7 +16,7 @@ TestHub 提供直观易用界面，直观设计测试流程。简单拖放和连
 
 选择 TestHub 自动化测试工具，流程编排驱动测试流程。优化测试流程，释放更多时间和资源创新品质。加入 TestHub，引领自动化测试未来！
 
-[gitee](https://gitee.com/failedgoddess/TestHub)
+[gitee](https://gitee.com/dromara/TestHub) [github](https://github.com/dromara/TestHub)
 
 ## 工程目录
 
@@ -30,17 +30,15 @@ TestHub 提供直观易用界面，直观设计测试流程。简单拖放和连
 | static | markdown 文件资源              |
 | demo   | TestHub 的演示 Demo            |
 
+<div align="center">
+    <img src="https://gitee.com/dromara/TestHub/raw/main/static/img/概览.jpg" alt="Image" width="100%" >
+</div>
+
+
 ## 演示视频
 
-<iframe 
-src="https://www.bilibili.com/video/BV1X94y1v7ak/?spm_id_from=333.337.search-card.all.click&vd_source=adbd50ab0dcce0aafbb00e7a8acb9211" 
-scrolling="no" 
-border="0" 
-frameborder="no" 
-framespacing="0" 
-allowfullscreen="true" 
-width="100%"> 
-</iframe>
+
+https://www.bilibili.com/video/BV1X94y1v7ak/?spm_id_from=333.337.search-card.all.click&vd_source=adbd50ab0dcce0aafbb00e7a8acb9211
 
 ## 演示地址
 
@@ -57,21 +55,21 @@ width="100%">
 演示环境有问题 请微信：
 
 <div align="center">
-    <img src="https://gitee.com/failedgoddess/TestHub/raw/master/static/contact.jpeg" alt="Image" width="300" >
+    <img src="https://gitee.com/dromara/TestHub/raw/main/static/contact.jpeg" alt="Image" width="300" >
 </div>
 
 ## 部署
 
 ### 安装包下载
 
-https://www.aliyundrive.com/s/dBwttCEetbG
+https://url84.ctfile.com/d/49656084-58580094-6ad8ce?p=3738 (访问密码: 3738)
 
 ### docker 部署 演示 demo
 
 获取项目源码
 
 ```
-git clone https://gitee.com/failedgoddess/TestHub.git
+git clone https://gitee.com/dromara/TestHub.git
 ```
 
 切换到 演示 demo 的 docker compose 配置中
@@ -103,13 +101,13 @@ docker-compose up -d
 获取 TestHub 镜像
 
 ```
-docker pull vinc02131/testhub:1.0.0
+docker pull vinc02131/testhub:1.0.2
 ```
 
 运行
 
 ```
-docker run -d -p 12003:12003 -p 11018:11018 vinc02131/testhub:1.0.0
+docker run -d -p 12003:12003 -p 11018:11018 vinc02131/testhub:1.0.2
 ```
 
 前端接口地址 http://127.0.0.1:11018/
@@ -121,7 +119,7 @@ docker run -d -p 12003:12003 -p 11018:11018 vinc02131/testhub:1.0.0
 获取项目源码
 
 ```
-git clone https://gitee.com/failedgoddess/TestHub.git
+git clone https://gitee.com/dromara/TestHub.git
 ```
 
 **启动后台服务**
@@ -156,34 +154,44 @@ git clone https://gitee.com/failedgoddess/TestHub.git
 
 | 功能           | 支持 |
 | -------------- | ---- |
-| 支持多项目     |      |
-| 用户权限       |      |
-| 行为库         |      |
-| H2 数据库      |      |
 | 执行计划管理   |      |
 |                |      |
 | 前端拖拉拽配置 |      |
-| HTTP 工具      |      |
 
-## 软件架构
+## 软件界面
+<div align="center">
+    <img src="https://gitee.com/dromara/TestHub/raw/main/static/img/环境级参数.jpg" alt="Image" width="100%" >
+</div>
 
-软件架构说明
+<div align="center">
+    <img src="https://gitee.com/dromara/TestHub/raw/main/static/img/全局行为.jpg" alt="Image" width="100%" >
+</div>
 
-## 安装教程
+<div align="center">
+    <img src="https://gitee.com/dromara/TestHub/raw/main/static/img/check_loop.png" alt="Image" width="100%" >
+</div>
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+<div align="center">
+    <img src="https://gitee.com/dromara/TestHub/raw/main/static/img/check_obj.png" alt="Image" width="100%" >
+</div>
 
-## 使用说明
+<div align="center">
+    <img src="https://gitee.com/dromara/TestHub/raw/main/static/img/check.png" alt="Image" width="100%" >
+</div>
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+<div align="center">
+    <img src="https://gitee.com/dromara/TestHub/raw/main/static/img/const.png" alt="Image" width="100%" >
+</div>
 
-#### 参与贡献
+<div align="center">
+    <img src="https://gitee.com/dromara/TestHub/raw/main/static/img/convert.png" alt="Image" width="100%" >
+</div>
 
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
+<div align="center">
+    <img src="https://gitee.com/dromara/TestHub/raw/main/static/img/http.png" alt="Image" width="100%" >
+</div>
+
+<div align="center">
+    <img src="https://gitee.com/dromara/TestHub/raw/main/static/img/sql.png" alt="Image" width="100%" >
+</div>
+
