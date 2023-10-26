@@ -1,6 +1,6 @@
 {
   "name": "TestHub",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "一款面向开发人员 由流程编排、插件驱动 的自动化测试工具",
   "main": "main.js",
   "scripts": {
