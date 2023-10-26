@@ -29,10 +29,10 @@ category:
 
 | 请求体                | 支持 |
 | --------------------- | ---- |
-| row-json              | ✅   |
-| row-xml               | ✅   |
-| row-text              | ✅   |
-| row-html              |      |
+| ra w-json              | ✅   |
+| raw-xml               | ✅   |
+| raw-text              | ✅   |
+| raw-html              |      |
 | none                  | ✅   |
 | x-www-form-urlencoded | ✅   |
 | form-data             |      |
@@ -53,7 +53,7 @@ category:
                 <headers>
                     <param code="Content-Type" dataType="STRING" data="application/json;charset=utf-8"/>
                 </headers>
-                <body type="row" language="json">
+                <body type="raw" language="json">
                     <bound>
                         {
                         "acctId": "960307",
@@ -66,7 +66,7 @@ category:
         </action>
         <action code="orderXml" name="下单" type="HTTP" dataType="map">
             <httpModel url="http://192.168.0.4:12004/getOrdersXml" method="post">
-                <body type="row" language="xml">
+                <body type="raw" language="xml">
                     <bound> <![CDATA[<acctId>960703</acctId>
                         <orderPrice>1.8</orderPrice>
                         <orderQty>100</orderQty>
@@ -76,7 +76,7 @@ category:
         </action>
         <action code="orderText" name="下单" type="HTTP" dataType="map">
             <httpModel url="http://192.168.0.4:12004/getOrdersText" method="post">
-                <body type="row" language="text">
+                <body type="raw" language="text">
                     <bound>
                        vinc
                     </bound>
@@ -116,11 +116,11 @@ category:
     </actions>
     <flows>
         <flow code="RU001G1">
-              <execute code="stp10" name="请求 post row json" actionCode="order">
+              <execute code="stp10" name="请求 post raw json" actionCode="order">
                 <expression expressionType="relation" operationCode="eq" dataType="STRING" cover="${data.code}" threshold="200"/>
             </execute>
-            <execute code="stp11" name="请求 post row xml" actionCode="orderXml"/>
-            <execute code="stp12" name="请求 post row text" actionCode="orderText"/>
+            <execute code="stp11" name="请求 post raw xml" actionCode="orderXml"/>
+            <execute code="stp12" name="请求 post raw text" actionCode="orderText"/>
             <execute code="stp21" name="请求 post x-www-form-urlencoded" actionCode="orderForm"/>
             <!-- <execute code="stp22" name="请求 post form-data" actionCode="orderForm"/> -->
             <execute code="stp31" name="请求 get none" actionCode="getOrders"/>

@@ -7,22 +7,40 @@ category:
   - 使用指南
 ---
 
-## 目录
+🤔 为什么会有全局配置，全局配置又是什么❓
+在测试用例在执行过程中的，会用到参数、行为等组件，针对这些组件的覆盖策略TestHub内置了六种级别：系统级、项目级、环境级、用例（规则级）、流程级、行为级。
+全局配置，特指：系统、项目、环境 三个级别，均在[组件库的使用 ](/logDesc/1_0_2.md#组件库的使用)中设置
+```java copy
+//见类定义
+org.dromara.testhub.server.core.rule.Constant.OwnerType
+```
+1、系统级 整个系统都生效
+2、项目级 项目中生效，一个系统中支持配置多个项目
+3、环境级 一个项目下支持配置多个环境
+4、用例级 一个项目下支持配置多个测试用例
+5、流程级 一个用例中配置配置多个流程
+
+
+
 
 ## 参数声明
+支持 ：环境级、用例（规则级）、行为级
 
-### 系统级
+<div style="display: flex; justify-content: center; align-items: center;">
+    <img class="heardImg" src="/images/global/参数覆盖规则.jpg" width="30%">
+</div>
 
-<!-- 例如在在测试过程中我们经常需要在开发环境测试、然后再到发布测试环境测试，两者采用同样的测试用例只不过 两次运作的appserver地址不同 -->
+### 环境级
+🤔 为什么要有环境级的参数声明？
 
-<!-- !!! bug "🤔 系统级参数声明属于超级进阶功能，熟练使用前慎用" -->
-<!-- 使用说明前请认真学习<a href="/4如何使用-高级#参数上下文取值规则">参数上下文取值规则</a> -->
+例如在测试过程中我们经常需要在开发环境测试、然后再到发布测试环境测试，两者采用同样的测试用例只不过 两次被测试的服务地址不同那我们就可以使用环境级别的参数声明
+![](/images/logDesc/1_0_2/环境级参数.jpg)
+![](/images/logDesc/1_0_2/选择环境.jpg)
 
 ### 用例级
-
 🤔 为什么要有用例级的参数声明？
-我们用例编写好之后会经常用到 本次运行测试开发环境、下次运行测试发布测试环境，每次指定被测试的环境不同但是其他内容是相同的，那我们就可以采用用例级参数声明来解决这个问题
 
+例如执行一个测试用例，我们每次执行可能采用不同的初始值
 我们已经在基础 DEMO 中用到了
 
 例如 [CHECK-断言校验 ](/ability/check.md) 中我们在用例子的 < rule >根标签下直接声明了变量 a、变量 b、变量 c
@@ -38,10 +56,6 @@ category:
 
 </rule>
 ```
-
-在测试用例再执行的前你可以指定参数的具体值，
-
-以变量 a 为例 necessary 配置为 true 的时候， 执行前相应的参数就必须填写。
 
 ### 行为级
 
@@ -92,9 +106,9 @@ category:
 </rule>
 ```
 
-### 执行到行为的传参
+### 参数传递
 
-学习完行为级参数声明观察 在不同数据库执行相同的 sql 语句我们需要声明两个行为，这是勉强可以接受的，但是面对一下场景就实在难以接受了：
+执行到行为的传参学习完行为级参数声明观察 在不同数据库执行相同的 sql 语句我们需要声明两个行为，这是勉强可以接受的，但是面对一下场景就实在难以接受了：
 例如在[如何测试下单接口 ](/ability/#如何测试下单接口) 我们需要第二步需要下单、第四步要根据 下单的单号进行查询数据库里的订单信息
 
 在 loadOrder 行为中 声明编码 orderCode
@@ -120,48 +134,89 @@ category:
 </execute>
 ```
 
-## 全局配置
+## 行为声明
+支持 ：系统级、项目级、用例级
+<div class="centerDiv">
+    <img class="heardImg" src="/demo/antiocn.png"  width="60%">
+</div>
 
-全局配置文件指的是 rule-config.xml，在你安装目录下如图路径你可以找打他
-!!! warning "全局配置被修改后，你的测试用例文件分享给其他同学的时候要注意 要将全局配置行为给他"
+<div class="centerDiv">
+    <img class="heardImg" src="/images/global/行为覆盖规则.jpg" width="30%">
+</div>
 
-<!-- ![avatar](./imgs/demo/全局配置.png) -->
 
-<a name="全局行为"></a>
+### 用例级
 
-### 全局行为
-
-理论上我们每步 execute 执行的 actionCode 的编码都是要在用例文件 rule->actions 中声明的 但是[SQL_Begin-开启事务 ](/ability/sql.md#sql-begin-开启事务)中的 begin 为什么不需要声明呢？
-
-```xml
-<execute code="stp5" name="开启事务" actionCode="begin"/>
+在用例文件 rule->actions 中声明的 就是用例级行为
+例如loadMysql查询资金账号、loadOracle查询资金账号
+```xml copy
+<?xml version="1.0" encoding="UTF-8"?>
+<rule code = "DEMO_SQL2" name = "行为级参数声明" model="flow">
+    <actions>
+        <action code ="loadMysql" name = "查询资金账号" type = "SQL" dataType="MAP">
+            <params>
+                <param code="url" name = "数据库地址" dataType="STRING" complex="0" data="jdbc:mysql://127.0.0.1:3306/spring-boot-demo"/>
+                <param code="driver" name = "驱动" dataType="STRING" complex="0" data="com.mysql.cj.jdbc.Driver"/>
+                <param code="username" name = "用户" dataType="STRING" complex="0" data="root"/>
+                <param code="password" name = "密码" dataType="STRING" complex="0" data="root"/>
+            </params>
+            <bound>
+                select * from account where acctid = '${acctid}' and exchid = '${exchid}'
+            </bound>
+        </action>
+         <action code ="loadOracle" name = "查询资金账号" type = "SQL" dataType="MAP">
+            <params>
+                <param code="url" name = "数据库地址" dataType="STRING" complex="0" data="jdbc:oracle:thin:@172.20.0.7:1521/ctsdb"/>
+                <param code="driver" name = "驱动" dataType="STRING" complex="0" data="oracle.jdbc.driver.OracleDriver"/>
+                <param code="username" name = "用户" dataType="STRING" complex="0" data="********"/>
+                <param code="password" name = "密码" dataType="STRING" complex="0" data="********"/>
+            </params>
+            <bound>
+                select * from account where acctid = '${acctid}' and exchid = '${exchid}'
+            </bound>
+        </action>
+    </actions>
+</rule>
 ```
 
-这是因为我们在你安装目录下的 rule-config.xml 已经为您配置了，如果您也有需要制作全局的 action 你可以可以在该文件中声明，那么你在任何一个测试用例中都可以用到了
+### 系统级
 
-<a name="行为覆盖规则"></a>
+🤔理论上我们每步 execute 执行的 actionCode 的编码都是要在用例文件 rule->actions 中声明的 但是[sleep 暂停休息 ](/ability/sleep.md#sleep)中的 sleep 为什么不需要声明呢？
+这是因为我们为您已经为您配置了系统级行为sleep 
+目前系统级行为只能通过系统管理员在数据库中以脚本的方式添加
 
-行为覆盖规则
-
-例如我们在 rule-config.xml 全局配置中声明了一个行为 action 在某一个用例中也声明了一个相同编码的 action 在执行该用例的时候用到该 action 使用用例中的实现。
-
-<img class="heardImg" src="/demo/antiocn.png">
-
-<!-- ### 全局元对象
-
-### 系统级参数声明
-
-覆盖规则参考
-
-## 参数上下文
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<rule code="DEMO_Sleep" name="sleep休息X秒" model="flow">
+    <flows>
+        <flow code="RU001G1" name="sleep休息1秒">
+            <execute code="stp6" name="休息1秒" actionCode="sleep" sleepTime="1000"/>
+        </flow>
+    </flows>
+</rule>
 
 
-### 取值规则
+```
+默认系统级行为
+<div class="centerDiv">
 
-<a name="Bound动态字符串"></a>
+| 编码                | 名称 |
+| --------------------- | ---- |
+| sleep              | 休眠   |
+| check               | 校验   |
+| checkObj              | 校验对象   |
 
-## Bound 动态字符串
+</div>
 
-<a name="异常规则"></a>
+### 项目级
+如果您也有需要配置项目级别全局的 action 你可以创建[组件库的使用 ](/logDesc/1_0_2.md#组件库的使用)，那么你在当前项目中任何一个测试用例中都可以用到了
 
-## 行为异常规则 -->
+内置的默认项目配置了默认级行为
+<div class="centerDiv">
+
+| 编码                | 名称 |
+| --------------------- | ---- |
+| begin              | 事务开启   |
+| commit               | 事务提交   |
+
+</div>

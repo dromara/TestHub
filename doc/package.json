@@ -1,6 +1,6 @@
 {
   "name": "testhub_doc",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "流程编排，插件驱动，测试无限可能",
   "license": "Apache License 2.0",
   "type": "module",
