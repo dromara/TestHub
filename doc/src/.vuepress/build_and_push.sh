@@ -9,6 +9,11 @@ read -p "TAG 标签号: " DOCKER_IMAGE_TAG
 DOCKER_IMAGE_NAME="testhub_doc"
 DOCKER_USERNAME="vinc02131"
 DOCKERHUB_REPO="vinc02131"
+cd ../..
+pwd
+yarn docs:build
+cd ./src/.vuepress
+pwd
 
 # 构建镜像
 docker build -t $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG .
