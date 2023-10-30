@@ -15,7 +15,7 @@ import java.util.List;
 
 @Api(tags = {"系统"})
 @RestController
-@RequestMapping("/api/system")
+@RequestMapping("/system")
 @Slf4j
 public class SystemController {
     @Autowired

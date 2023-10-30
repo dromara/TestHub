@@ -15,7 +15,7 @@ import java.util.List;
 @Slf4j
 @Api(tags = {"类目树"})
 @RestController
-@RequestMapping("/api/tree")
+@RequestMapping("/tree")
 public class TreeController {
     @Autowired
     private TreeService treeService;
