@@ -1,4 +1,4 @@
-package org.dromara.testhub.http;
+package org.dromara.testhub.http.actions;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -8,10 +8,10 @@ import com.goddess.nsrule.core.executer.mode.base.action.Param;
 import com.goddess.nsrule.core.executer.mode.base.action.RunState;
 import com.goddess.nsrule.core.executer.mode.ruleLine.JavaActuator;
 import org.dromara.testhub.common.exception.TestHubException;
-import org.dromara.testhub.http.model.Body;
-import org.dromara.testhub.http.model.HttpModel;
-import org.dromara.testhub.http.model.TestHubActionHttp;
-import org.dromara.testhub.http.model.TestHubExecuteHttp;
+import org.dromara.testhub.http.actions.model.Body;
+import org.dromara.testhub.http.actions.model.HttpModel;
+import org.dromara.testhub.http.actions.model.TestHubActionHttp;
+import org.dromara.testhub.http.actions.model.TestHubExecuteHttp;
 import org.dromara.testhub.sdk.*;
 import org.dromara.testhub.sdk.model.rule.TestHubAction;
 import org.dromara.testhub.sdk.model.rule.TestHubExecute;

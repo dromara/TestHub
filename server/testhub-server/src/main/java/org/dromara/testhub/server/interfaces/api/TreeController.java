@@ -1,7 +1,7 @@
 package org.dromara.testhub.server.interfaces.api;
 
 import org.dromara.testhub.server.domain.dto.req.other.TreeInfoReqDto;
-import org.dromara.testhub.server.domain.dto.res.other.TreeNodeResDto;
+import org.dromara.testhub.sdk.dto.res.TreeNodeResDto;
 import org.dromara.testhub.server.domain.service.TreeService;
 import org.dromara.testhub.framework.web.ResultResponse;
 import io.swagger.annotations.*;
@@ -15,7 +15,7 @@ import java.util.List;
 @Slf4j
 @Api(tags = {"类目树"})
 @RestController
-@RequestMapping("/api/tree")
+@RequestMapping("/tree")
 public class TreeController {
     @Autowired
     private TreeService treeService;

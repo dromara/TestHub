@@ -10,7 +10,7 @@ spring:
     #数据库驱动
     driver-class-name: org.postgresql.Driver
     #数据库链接
-    url: jdbc:postgresql://localhost:5433/test_hub?currentSchema=public
+    url: jdbc:postgresql://localhost:5433/test_hub3?currentSchema=public
     #数据库账号
     username: postgres
     #数据库密码

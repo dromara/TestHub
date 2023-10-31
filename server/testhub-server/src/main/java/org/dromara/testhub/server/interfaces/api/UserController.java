@@ -20,7 +20,7 @@ import javax.validation.Valid;
 @Slf4j
 @Api(tags = {"用户"})
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/user")
 public class UserController {
 
     @Autowired

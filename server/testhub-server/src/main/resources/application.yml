@@ -1,8 +1,8 @@
 server:
   #服务端口
-  port: 12009
+  port: 12003
   servlet:
-    context-path: /
+    context-path: /api
 
 
 
@@ -19,8 +19,8 @@ spring:
       max-request-size: 500MB # 一个次请求中上传文件的总容量的限制
   profiles:
     #指明使用的数据库
-    active: h2
-#    active: pgsql
+#    active: h2
+    active: pgsql
     #导入其他yml文件
     include: testhub,actuator,mybatisplus
 logging:

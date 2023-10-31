@@ -1,13 +1,13 @@
-package org.dromara.testhub.http;
+package org.dromara.testhub.http.actions;
 
 import com.goddess.nsrule.core.constant.RuleException;
 import com.goddess.nsrule.core.executer.mode.base.bound.FreeMarker;
 import com.goddess.nsrule.core.parser.BoundParser;
 import com.goddess.nsrule.core.parser.BoundParserFreeMarker;
 import com.goddess.nsrule.parserXml.XMLRuleConfigBuilder;
-import org.dromara.testhub.http.model.Body;
-import org.dromara.testhub.http.model.HttpModel;
-import org.dromara.testhub.http.model.TestHubActionHttp;
+import org.dromara.testhub.http.actions.model.Body;
+import org.dromara.testhub.http.actions.model.HttpModel;
+import org.dromara.testhub.http.actions.model.TestHubActionHttp;
 import org.dromara.testhub.sdk.BaseXMLActionParser;
 import org.dromara.testhub.sdk.model.rule.TestHubAction;
 import org.apache.commons.lang3.StringUtils;

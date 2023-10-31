@@ -21,7 +21,7 @@ import java.util.Map;
 @Slf4j
 @Api(tags = {"项目"})
 @RestController
-@RequestMapping("/api/project")
+@RequestMapping("/project")
 public class ProjectController {
     @Autowired
     private ProjectService projectService;

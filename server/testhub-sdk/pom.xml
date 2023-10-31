@@ -23,6 +23,11 @@
             <artifactId>testhub-common</artifactId>
             <version>${revision}</version>
         </dependency>
+        <dependency>
+            <groupId>org.dromara</groupId>
+            <artifactId>testhub-framework</artifactId>
+            <version>${revision}</version>
+        </dependency>
     </dependencies>
 
 </project>

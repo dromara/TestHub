@@ -10,8 +10,11 @@ mybatis-plus:
     #逻辑存在
     logic-not-delete-value: false
     #xml配置
-  mapper-locations: classpath:/mapper/*Mapper.xml
+#  mapper-locations: classpath*:/mapper/*Mapper.xml
+  mapper-locations: classpath*:/mapper/**/*.xml
   #实体配置
-  type-aliases-package: com.goddess.testhub.*.infrastructure.repository.po
+  type-aliases-package: org.dromara.testhub.*.*.repository.po
+
+
 
 
