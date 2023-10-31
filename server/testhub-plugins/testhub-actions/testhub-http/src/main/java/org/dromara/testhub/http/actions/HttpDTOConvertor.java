@@ -1,8 +1,8 @@
-package org.dromara.testhub.http;
+package org.dromara.testhub.http.actions;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.fastjson.JSONObject;
-import org.dromara.testhub.http.model.TestHubActionHttp;
+import org.dromara.testhub.http.actions.model.TestHubActionHttp;
 import org.dromara.testhub.sdk.BaseDTOConvertor;
 import org.dromara.testhub.sdk.model.rule.TestHubAction;
 import org.dromara.testhub.sdk.model.rule.TestHubExecute;

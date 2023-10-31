@@ -1,4 +1,4 @@
-package org.dromara.testhub.server.domain.dto.res.other;
+package org.dromara.testhub.sdk.dto.res;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

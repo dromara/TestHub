@@ -1,4 +1,4 @@
-package org.dromara.testhub.http;
+package org.dromara.testhub.http.actions;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.fastjson.JSONObject;
@@ -6,11 +6,9 @@ import com.goddess.nsrule.core.executer.mode.base.bound.Bound;
 import com.goddess.nsrule.core.executer.mode.base.bound.FreeMarker;
 import com.goddess.nsrule.core.parser.BoundParser;
 import com.goddess.nsrule.core.parser.BoundParserFreeMarker;
-import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.SerializationUtils;
-import org.dromara.testhub.http.model.Body;
-import org.dromara.testhub.http.model.HttpModel;
-import org.dromara.testhub.http.model.TestHubActionHttp;
+import org.dromara.testhub.http.actions.model.Body;
+import org.dromara.testhub.http.actions.model.HttpModel;
+import org.dromara.testhub.http.actions.model.TestHubActionHttp;
 import org.dromara.testhub.sdk.BaseJsonActionParser;
 import org.dromara.testhub.sdk.model.rule.TestHubAction;
 import org.apache.commons.lang3.StringUtils;

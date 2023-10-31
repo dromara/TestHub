@@ -15,7 +15,7 @@ import org.dromara.testhub.server.core.rule.DbManager;
 import org.dromara.testhub.server.core.rule.DbRuleManager;
 import org.dromara.testhub.server.core.util.TreeUtil;
 import org.dromara.testhub.server.domain.convert.RuleConvertor;
-import org.dromara.testhub.server.domain.dto.res.other.TreeNodeResDto;
+import org.dromara.testhub.sdk.dto.res.TreeNodeResDto;
 import org.dromara.testhub.server.core.rule.CacheManager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

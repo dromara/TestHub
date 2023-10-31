@@ -1,7 +1,7 @@
 package org.dromara.testhub.server.domain.service;
 
 import org.dromara.testhub.server.domain.dto.req.other.TreeInfoReqDto;
-import org.dromara.testhub.server.domain.dto.res.other.TreeNodeResDto;
+import org.dromara.testhub.sdk.dto.res.TreeNodeResDto;
 
 import java.util.List;
 

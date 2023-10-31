@@ -33,16 +33,18 @@ import java.util.List;
  */
 @Configuration
 public class Swagger3Config {
-    @Value("${goddess.swagger.title:TestHub服务}")
+    @Value("${testhub.title:TestHub服务}")
     private String title;
-    @Value("${goddess.swagger.description:流程编排，插件驱动，测试无限可能}")
+    @Value("${testhub.description:流程编排，插件驱动，测试无限可能}")
     private String description;
-    @Value("${goddess.swagger.contact.name:失败女神}")
+    @Value("${testhub.contact.name:失败女神}")
     private String contactName;
-    @Value("${goddess.swagger.contact.url:https://gitee.com/failedgoddess/TestHub}")
+    @Value("${testhub.contact.url:https://gitee.com/dromara/TestHub}")
     private String contactUrl;
-    @Value("${goddess.swagger.contact.email:18733123202@163.com}")
+    @Value("${testhub.contact.email:18733123202@163.com}")
     private String contactEmail;
+    @Value("${testhub.version:1.0.0}")
+    private String version;
 
     @Bean
     public Docket createRestApi() {
@@ -61,7 +63,7 @@ public class Swagger3Config {
                 .title(title)
                 .description(description)
                 .contact(new Contact(contactName, contactUrl, contactEmail))
-                .version("1.0")
+                .version(version)
                 .build();
 
     }

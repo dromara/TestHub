@@ -1,4 +1,4 @@
-package org.dromara.testhub.http.model;
+package org.dromara.testhub.http.actions.model;
 
 import org.dromara.testhub.sdk.model.rule.TestHubAction;
 

@@ -1,9 +1,9 @@
-package org.dromara.testhub.http;
+package org.dromara.testhub.http.actions;
 
 
 import com.goddess.nsrule.core.executer.mode.ruleLine.Expression;
 import com.goddess.nsrule.parserXml.XMLRuleParser;
-import org.dromara.testhub.http.model.TestHubExecuteHttp;
+import org.dromara.testhub.http.actions.model.TestHubExecuteHttp;
 import org.dromara.testhub.sdk.BaseXMLExecuteParser;
 import org.dromara.testhub.sdk.model.rule.TestHubAction;
 import org.dromara.testhub.sdk.model.rule.TestHubExecute;

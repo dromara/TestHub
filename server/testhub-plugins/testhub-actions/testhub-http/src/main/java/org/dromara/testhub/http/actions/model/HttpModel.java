@@ -1,4 +1,4 @@
-package org.dromara.testhub.http.model;
+package org.dromara.testhub.http.actions.model;
 
 import com.goddess.nsrule.core.executer.mode.base.action.Param;
 import lombok.Data;
