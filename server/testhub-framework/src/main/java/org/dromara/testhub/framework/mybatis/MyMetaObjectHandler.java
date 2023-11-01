@@ -3,7 +3,7 @@ package org.dromara.testhub.framework.mybatis;
 
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
-import org.dromara.testhub.common.util.IdGenerator;
+import org.dromara.testhub.framework.util.IdGenerator;
 import org.apache.ibatis.reflection.MetaObject;
 import org.dromara.testhub.framework.interceptor.ExtraParamUtil;
 import org.springframework.beans.factory.annotation.Autowired;

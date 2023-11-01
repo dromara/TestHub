@@ -13,7 +13,7 @@ mybatis-plus:
 #  mapper-locations: classpath*:/mapper/*Mapper.xml
   mapper-locations: classpath*:/mapper/**/*.xml
   #实体配置
-  type-aliases-package: org.dromara.testhub.*.*.repository.po
+#  type-aliases-package: org.dromara.testhub.**.repository.po
 
 
 

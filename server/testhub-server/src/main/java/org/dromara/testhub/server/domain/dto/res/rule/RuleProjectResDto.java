@@ -1,6 +1,6 @@
 package org.dromara.testhub.server.domain.dto.res.rule;
 
-import org.dromara.testhub.sdk.dto.res.TreeNodeResDto;
+import org.dromara.testhub.sdk.action.dto.res.TreeNodeResDto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;

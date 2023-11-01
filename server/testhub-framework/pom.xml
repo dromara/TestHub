@@ -9,7 +9,7 @@
         <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-
+    <groupId>org.dromara.testhub</groupId>
     <artifactId>testhub-framework</artifactId>
 
     <properties>
@@ -23,10 +23,6 @@
             <artifactId>transmittable-thread-local</artifactId>
             <version>2.14.2</version>
         </dependency>
-        <dependency>
-            <groupId>org.dromara</groupId>
-            <artifactId>testhub-common</artifactId>
-            <version>${revision}</version>
-        </dependency>
     </dependencies>
+
 </project>

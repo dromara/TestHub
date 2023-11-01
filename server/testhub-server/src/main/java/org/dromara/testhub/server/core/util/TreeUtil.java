@@ -1,7 +1,7 @@
 package org.dromara.testhub.server.core.util;
 
 import cn.hutool.core.collection.CollectionUtil;
-import org.dromara.testhub.sdk.dto.res.TreeNodeResDto;
+import org.dromara.testhub.sdk.action.dto.res.TreeNodeResDto;
 import org.dromara.testhub.server.infrastructure.repository.po.TreeInfoPo;
 
 import java.util.ArrayList;

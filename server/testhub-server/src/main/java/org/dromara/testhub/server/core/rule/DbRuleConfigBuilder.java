@@ -18,9 +18,9 @@ import com.goddess.nsrule.flow.model.Flow;
 import com.goddess.nsrule.flow.model.RuleFlow;
 import com.goddess.nsrule.parserXml.XmlActionDefaultParser;
 import com.goddess.nsrule.parserXml.XmlExecuteDefaultParser;
-import org.dromara.testhub.sdk.model.rule.TestHubAction;
-import org.dromara.testhub.sdk.parser.TestHubActionParser;
-import org.dromara.testhub.sdk.parser.TestHubExecuteParser;
+import org.dromara.testhub.sdk.action.model.rule.TestHubAction;
+import org.dromara.testhub.sdk.action.parser.TestHubActionParser;
+import org.dromara.testhub.sdk.action.parser.TestHubExecuteParser;
 import org.dromara.testhub.server.infrastructure.repository.po.*;
 
 import java.util.ArrayList;

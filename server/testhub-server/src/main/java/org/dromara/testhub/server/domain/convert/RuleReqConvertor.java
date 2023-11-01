@@ -7,8 +7,8 @@ import org.dromara.testhub.server.domain.dto.req.rule.RuleInjectReqDto;
 import com.goddess.nsrule.core.executer.mode.base.action.Action;
 import com.goddess.nsrule.core.executer.mode.base.action.Execute;
 import com.goddess.nsrule.core.executer.mode.base.action.Inject;
-import org.dromara.testhub.sdk.model.rule.TestHubAction;
-import org.dromara.testhub.sdk.model.rule.TestHubExecute;
+import org.dromara.testhub.sdk.action.model.rule.TestHubAction;
+import org.dromara.testhub.sdk.action.model.rule.TestHubExecute;
 
 import java.util.ArrayList;
 import java.util.List;

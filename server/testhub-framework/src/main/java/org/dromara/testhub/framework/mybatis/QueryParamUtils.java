@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import org.dromara.testhub.common.exception.AppException;
+import org.dromara.testhub.framework.exception.AppException;
 import com.google.common.base.CaseFormat;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang3.StringUtils;

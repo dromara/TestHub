@@ -5,7 +5,7 @@ import cn.hutool.core.collection.CollectionUtil;
 //import com.goddess.testhub.application.dto.res.rule.RuleActionResDto;
 import org.dromara.testhub.server.core.util.TreeUtil;
 import org.dromara.testhub.server.domain.dto.res.ExecuteResult.ExecutionResult;
-import org.dromara.testhub.sdk.dto.res.TreeNodeResDto;
+import org.dromara.testhub.sdk.action.dto.res.TreeNodeResDto;
 import org.dromara.testhub.server.domain.dto.res.rule.RuleProjectResDto;
 import org.dromara.testhub.server.domain.dto.res.rule.RuleProjectSimpleResDto;
 import org.dromara.testhub.server.domain.dto.res.rule.RuleResDto;

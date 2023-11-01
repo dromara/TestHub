@@ -1,6 +1,6 @@
 package org.dromara.testhub.server.domain.dto.res.ExecuteResult;
 
-import org.dromara.testhub.sdk.dto.ExecuteResult;
+import org.dromara.testhub.sdk.action.dto.ExecuteResult;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 

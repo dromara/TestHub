@@ -10,11 +10,17 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
+    <groupId>org.dromara.testhub</groupId>
     <artifactId>testhub-plugins</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>testhub-actions</module>
-        <module>testhub-methods</module>
+        <module>plugins-check</module>
+        <module>plugins-sleep</module>
+        <module>plugins-compare</module>
+        <module>plugins-sql</module>
+        <module>plugins-constant</module>
+        <module>plugins-convert</module>
+        <module>plugins-http</module>
     </modules>
 
     <properties>
@@ -24,12 +30,7 @@
     </properties>
     <dependencies>
         <dependency>
-            <groupId>org.dromara</groupId>
-            <artifactId>testhub-common</artifactId>
-            <version>${revision}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.dromara</groupId>
+            <groupId>org.dromara.testhub</groupId>
             <artifactId>testhub-sdk</artifactId>
             <version>${revision}</version>
         </dependency>

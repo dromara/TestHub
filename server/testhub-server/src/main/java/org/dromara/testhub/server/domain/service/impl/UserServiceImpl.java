@@ -5,7 +5,7 @@ import cn.dev33.satoken.stp.SaLoginModel;
 import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import lombok.extern.slf4j.Slf4j;
-import org.dromara.testhub.common.exception.TestHubException;
+import org.dromara.testhub.framework.exception.TestHubException;
 import org.dromara.testhub.server.domain.dto.req.other.LoginReqDto;
 import org.dromara.testhub.server.domain.dto.res.other.LoginResDto;
 import org.dromara.testhub.server.domain.service.UserService;

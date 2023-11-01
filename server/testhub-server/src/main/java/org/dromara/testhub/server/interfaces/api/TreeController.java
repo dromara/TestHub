@@ -1,7 +1,7 @@
 package org.dromara.testhub.server.interfaces.api;
 
 import org.dromara.testhub.server.domain.dto.req.other.TreeInfoReqDto;
-import org.dromara.testhub.sdk.dto.res.TreeNodeResDto;
+import org.dromara.testhub.sdk.action.dto.res.TreeNodeResDto;
 import org.dromara.testhub.server.domain.service.TreeService;
 import org.dromara.testhub.framework.web.ResultResponse;
 import io.swagger.annotations.*;

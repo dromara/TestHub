@@ -2,7 +2,7 @@ package org.dromara.testhub.server.startup;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.goddess.nsrule.core.executer.mode.base.action.Action;
-import org.dromara.testhub.sdk.model.rule.TestHubAction;
+import org.dromara.testhub.sdk.action.model.rule.TestHubAction;
 import org.dromara.testhub.server.domain.dto.res.rule.*;
 import org.dromara.testhub.server.infrastructure.repository.po.EnvironmentPo;
 import org.dromara.testhub.server.infrastructure.repository.po.RulePo;
@@ -15,7 +15,7 @@ import org.dromara.testhub.server.core.rule.DbManager;
 import org.dromara.testhub.server.core.rule.DbRuleManager;
 import org.dromara.testhub.server.core.util.TreeUtil;
 import org.dromara.testhub.server.domain.convert.RuleConvertor;
-import org.dromara.testhub.sdk.dto.res.TreeNodeResDto;
+import org.dromara.testhub.sdk.action.dto.res.TreeNodeResDto;
 import org.dromara.testhub.server.core.rule.CacheManager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

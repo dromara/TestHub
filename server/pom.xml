@@ -7,18 +7,20 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.7.7</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath/>
     </parent>
+
     <groupId>org.dromara</groupId>
     <artifactId>testhub</artifactId>
     <version>${revision}</version>
     <packaging>pom</packaging>
+
     <modules>
-        <module>testhub-common</module>
-        <module>testhub-sdk</module>
-        <module>testhub-framework</module>
-        <module>testhub-plugins</module>
+        <module>testhub-nsrule</module>
         <module>testhub-server</module>
+        <module>testhub-framework</module>
+        <module>testhub-sdk</module>
+        <module>testhub-plugins</module>
     </modules>
 
     <properties>
@@ -195,12 +197,13 @@
             <artifactId>commons-lang3</artifactId>
             <version>${commons-lang3.version}</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>jaxen</groupId>-->
-<!--            <artifactId>jaxen</artifactId>-->
-<!--            <version>2.0.0</version>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>jaxen</groupId>-->
+        <!--            <artifactId>jaxen</artifactId>-->
+        <!--            <version>2.0.0</version>-->
+        <!--        </dependency>-->
     </dependencies>
+
     <build>
         <plugins>
             <!-- Maven 编译插件，提供给 MapStruct 使用 -->

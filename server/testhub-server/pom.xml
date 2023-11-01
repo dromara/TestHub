@@ -10,6 +10,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
+    <groupId>org.dromara.testhub</groupId>
     <artifactId>testhub-server</artifactId>
 
     <properties>
@@ -18,63 +19,74 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencies>
+
         <dependency>
-            <groupId>org.dromara</groupId>
-            <artifactId>testhub-common</artifactId>
-            <version>${revision}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.dromara</groupId>
+            <groupId>org.dromara.testhub</groupId>
             <artifactId>testhub-framework</artifactId>
             <version>${revision}</version>
         </dependency>
+
         <dependency>
-            <groupId>org.dromara</groupId>
+            <groupId>org.dromara.testhub</groupId>
             <artifactId>testhub-sdk</artifactId>
             <version>${revision}</version>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>org.dromara</groupId>-->
-<!--            <artifactId>testhub-methods</artifactId>-->
-<!--            <version>${revision}</version>-->
-<!--        </dependency>-->
 
         <dependency>
-            <groupId>org.dromara</groupId>
-            <artifactId>testhub-check</artifactId>
+            <groupId>org.dromara.testhub.plugins</groupId>
+            <artifactId>plugins-check</artifactId>
             <version>${revision}</version>
         </dependency>
         <dependency>
-            <groupId>org.dromara</groupId>
-            <artifactId>testhub-compare</artifactId>
+            <groupId>org.dromara.testhub.plugins</groupId>
+            <artifactId>plugins-sleep</artifactId>
             <version>${revision}</version>
         </dependency>
+
         <dependency>
-            <groupId>org.dromara</groupId>
-            <artifactId>testhub-sql</artifactId>
+            <groupId>org.dromara.testhub.plugins</groupId>
+            <artifactId>plugins-compare</artifactId>
             <version>${revision}</version>
         </dependency>
+
         <dependency>
-            <groupId>org.dromara</groupId>
-            <artifactId>testhub-constant</artifactId>
+            <groupId>org.dromara.testhub.plugins</groupId>
+            <artifactId>plugins-sql</artifactId>
             <version>${revision}</version>
         </dependency>
+
         <dependency>
-            <groupId>org.dromara</groupId>
-            <artifactId>testhub-convert</artifactId>
+            <groupId>org.dromara.testhub.plugins</groupId>
+            <artifactId>plugins-constant</artifactId>
             <version>${revision}</version>
         </dependency>
+
         <dependency>
-            <groupId>org.dromara</groupId>
-            <artifactId>testhub-http</artifactId>
+            <groupId>org.dromara.testhub.plugins</groupId>
+            <artifactId>plugins-convert</artifactId>
             <version>${revision}</version>
         </dependency>
+
         <dependency>
-            <groupId>org.dromara</groupId>
-            <artifactId>testhub-sleep</artifactId>
+            <groupId>org.dromara.testhub.plugins</groupId>
+            <artifactId>plugins-constant</artifactId>
             <version>${revision}</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.dromara.testhub.plugins</groupId>
+            <artifactId>plugins-convert</artifactId>
+            <version>${revision}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.dromara.testhub.plugins</groupId>
+            <artifactId>plugins-http</artifactId>
+            <version>${revision}</version>
+        </dependency>
+
+
     </dependencies>
     <build>
         <plugins>

@@ -2,7 +2,7 @@ package org.dromara.testhub.server.domain.convert;
 
 import org.dromara.testhub.server.infrastructure.repository.po.TreeInfoPo;
 import org.dromara.testhub.server.domain.dto.req.other.TreeInfoReqDto;
-import org.dromara.testhub.sdk.dto.res.TreeNodeResDto;
+import org.dromara.testhub.sdk.action.dto.res.TreeNodeResDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

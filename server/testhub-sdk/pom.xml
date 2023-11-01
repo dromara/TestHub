@@ -10,6 +10,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
+    <groupId>org.dromara.testhub</groupId>
     <artifactId>testhub-sdk</artifactId>
 
     <properties>
@@ -19,12 +20,7 @@
     </properties>
     <dependencies>
         <dependency>
-            <groupId>org.dromara</groupId>
-            <artifactId>testhub-common</artifactId>
-            <version>${revision}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.dromara</groupId>
+            <groupId>org.dromara.testhub</groupId>
             <artifactId>testhub-framework</artifactId>
             <version>${revision}</version>
         </dependency>
