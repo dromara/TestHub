@@ -15,7 +15,6 @@ import org.dromara.testhub.nsrule.model.RuleFlow;
 import org.dromara.testhub.nsrule.core.executer.mode.ruleLine.Expression;
 import org.dromara.testhub.nsrule.core.parser.RuleParser;
 import org.dromara.testhub.nsrule.core.util.DataCheckUtil;
-import com.goddess.nsrule.graph.model.*;
 import org.apache.commons.lang3.StringUtils;
 import org.dom4j.Document;
 import org.dom4j.Element;

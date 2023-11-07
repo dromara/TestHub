@@ -19,6 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.dromara.testhub.server.infrastructure.repository.po.UserPo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -45,6 +46,7 @@ public class TreeServiceImpl implements TreeService {
     }
 
     @Override
+    @Transactional
     public TreeNodeResDto save(TreeInfoReqDto treeInfoReqDto) {
         String projectCode = treeInfoReqDto.getTreeType().substring(0,treeInfoReqDto.getTreeType().lastIndexOf("_"));
         if(CacheManager.getProject(projectCode)==null){
@@ -68,6 +70,7 @@ public class TreeServiceImpl implements TreeService {
     }
 
     @Override
+    @Transactional
     public TreeNodeResDto update(Long id, TreeInfoReqDto treeInfoReqDto) {
         TreeInfoPo oldTreeInfoPo = treeInfoMapper.selectById(id);
         if(oldTreeInfoPo==null){

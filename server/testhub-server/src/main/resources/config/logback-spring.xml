@@ -70,4 +70,7 @@
     <logger name="com.goddess.testhub.*.infrastructure.repository.dao.*" level="DEBUG" additivity="false">
         <appender-ref ref="console" />
     </logger>
+    <logger name="org.dromara.testhub.plugins.*.server.repository.dao.*" level="DEBUG" additivity="false">
+        <appender-ref ref="console" />
+    </logger>
 </configuration>

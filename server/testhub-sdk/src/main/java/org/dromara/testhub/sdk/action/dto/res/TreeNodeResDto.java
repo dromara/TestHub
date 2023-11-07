@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -16,6 +17,7 @@ public class TreeNodeResDto {
     private static final long serialVersionUID = 1L;
     @ApiModelProperty(value = "key")
     private String key;
+
     @ApiModelProperty(value = "父编码")
     private String parentKey;
 
@@ -32,6 +34,6 @@ public class TreeNodeResDto {
     private Object data;
 
     @ApiModelProperty(value = "子节点列表")
-    private List<TreeNodeResDto> children;
+    private List<TreeNodeResDto> children = new ArrayList<>();
 
 }

@@ -2,7 +2,6 @@ package org.dromara.testhub.nsrule.parserXml;
 
 import com.alibaba.fastjson.JSONObject;
 import org.dromara.testhub.nsrule.core.executer.context.Context;
-import com.goddess.nsrule.core.executer.mode.base.action.*;
 import org.dromara.testhub.nsrule.core.executer.mode.base.action.*;
 import org.dromara.testhub.nsrule.core.parser.ActionParser;
 import org.dromara.testhub.nsrule.core.util.DataCheckUtil;

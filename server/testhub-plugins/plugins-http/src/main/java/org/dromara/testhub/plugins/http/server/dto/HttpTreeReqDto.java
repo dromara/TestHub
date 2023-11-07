@@ -24,7 +24,6 @@ public class HttpTreeReqDto {
     private Long parentId;
 
     @ApiModelProperty(value = "项目编码")
-    @NotNull
     private String projectCode;
 
     @ApiModelProperty(value = "名称")

@@ -1,5 +1,6 @@
 package org.dromara.testhub.plugins.http.actions;
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -22,12 +23,16 @@ import org.jsoup.nodes.Entities;
 import org.jsoup.parser.Parser;
 import org.springframework.http.MediaType;
 
-import java.net.ConnectException;
 import java.net.URI;
 import java.net.http.*;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class HttpPlugin implements Plugin {
     public static JSONObject NONE_INFO = new JSONObject();
@@ -148,36 +153,69 @@ public class HttpPlugin implements Plugin {
         result.put("data", NONE_INFO);
         result.put("headers", NONE_INFO);
 
+        AtomicReference<Throwable> unknownErr = new AtomicReference<>();
+
+        CompletableFuture<HttpResponse<String>> responseFuture = httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString());
         try {
-
-            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-
-            result.put("headers", response.headers().map().entrySet().stream().collect(HashMap::new, (map, entry) -> map.put(entry.getKey(), String.join(";", entry.getValue())), HashMap::putAll));
-            runState.addRunParams("statusCode", response.statusCode());
-            runState.addRunParams("statusName", getStatusCodeDescription(response.statusCode()));
-
-            if (response.statusCode() == 200) {
-                Map<String, Object> reMap = getResBody(response, httpModel);
-                result.put("data", reMap.get("data"));
-                runState.addRunParams("reType", reMap.get("type"));
-            } else {
-                runState.getResult().setBizError(true);
+            responseFuture.whenComplete((response, exception) -> {
+                if (exception != null) {
+                    runState.getResult().setBizError(true);
+                    if (exception instanceof ExecutionException) {
+                        Throwable cause = exception.getCause();
+                        if (cause instanceof java.net.ConnectException) {
+                            runState.addRunParams("statusCode", "ConnectException");
+                            runState.addRunParams("statusName", "连接异常");
+                        } else if (cause instanceof java.net.http.HttpConnectTimeoutException) {
+                            runState.addRunParams("statusCode", "ConnectTimeoutException");
+                            runState.addRunParams("statusName", "链接超时" + getTimeout(httpModel) + "秒");
+                        } else if (cause instanceof java.net.http.HttpTimeoutException) {
+                            runState.addRunParams("statusCode", "TimeoutException");
+                            runState.addRunParams("statusName", "返回超时" + getTimeout(httpModel) + "秒");
+                        } else {
+                            unknownErr.set(cause);
+                        }
+                    } else {
+                        unknownErr.set(exception);
+                    }
+                } else {
+                    //成功
+                    execResult(response, result, runState, httpModel, context, executeHttp);
+                }
+            });
+            HttpResponse<String> response = responseFuture.get(getTimeout(httpModel), TimeUnit.SECONDS);
+            if (response == null && unknownErr.get() == null) {
+                throw new Exception(unknownErr.get());
             }
-            runState.addRunParams("result", result);
-        } catch (ConnectException e) {
-            runState.getResult().setBizError(true);
 
-            runState.addRunParams("statusCode", "ConnectException");
-            runState.addRunParams("statusName", "连接异常");
-        } catch (HttpConnectTimeoutException e) {
-            runState.getResult().setBizError(true);
-            runState.addRunParams("statusCode", "ConnectTimeoutException");
-            runState.addRunParams("statusName", "链接超时" + getTimeout(httpModel) + "秒");
-        } catch (HttpTimeoutException e) {
-            runState.getResult().setBizError(true);
+        } catch (TimeoutException e) {
             runState.addRunParams("statusCode", "TimeoutException");
             runState.addRunParams("statusName", "返回超时" + getTimeout(httpModel) + "秒");
+            // 在超时时，你可以选择取消异步操作
+            responseFuture.cancel(true);
+        } catch (ExecutionException | InterruptedException e) {
+            throw e;
         }
+
+
+//                HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+//                execResult(response,result,runState,httpModel);
+
+
+    }
+
+    private void execResult(HttpResponse<String> response, JSONObject result, RunState.Item runState, HttpModel httpModel, Context context, TestHubExecuteHttp executeHttp) {
+        result.put("headers", response.headers().map().entrySet().stream().collect(HashMap::new, (map, entry) -> map.put(entry.getKey(), String.join(";", entry.getValue())), HashMap::putAll));
+        runState.addRunParams("statusCode", response.statusCode());
+        runState.addRunParams("statusName", getStatusCodeDescription(response.statusCode()));
+
+        if (response.statusCode() == 200) {
+            Map<String, Object> reMap = getResBody(response, httpModel);
+            result.put("data", reMap.get("data"));
+            runState.addRunParams("reType", reMap.get("type"));
+        } else {
+            runState.getResult().setBizError(true);
+        }
+        runState.addRunParams("result", result);
 
         if (executeHttp.getExpression() != null) {
             JavaActuator.Log log = new JavaActuator.Log();
@@ -197,7 +235,9 @@ public class HttpPlugin implements Plugin {
     private Map<String, Object> getResBody(HttpResponse<String> response, HttpModel httpModel) {
         Map<String, Object> reMap = new HashMap<>();
         List<String> types = response.headers().map().get("Content-Type");
-
+        if (CollectionUtil.isEmpty(types)) {
+            types = List.of(MediaType.APPLICATION_JSON_VALUE);
+        }
         List<String> splitTypes = new ArrayList<>();
         for (String type : types) {
             String[] parts = type.split(";");
@@ -377,7 +417,7 @@ public class HttpPlugin implements Plugin {
     }
 
     public int getTimeout(HttpModel httpModel) {
-        return httpModel.getTimeout()>0 ? httpModel.getTimeout() : 60;
+        return httpModel.getTimeout() > 0 ? httpModel.getTimeout() : 60;
     }
 
 }
