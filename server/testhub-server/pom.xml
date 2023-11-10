@@ -86,6 +86,12 @@
             <version>${revision}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java</artifactId>
+            <version>3.17.3</version>
+        </dependency>
+
 
     </dependencies>
     <build>

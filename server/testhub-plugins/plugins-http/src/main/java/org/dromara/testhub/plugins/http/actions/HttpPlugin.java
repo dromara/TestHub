@@ -8,6 +8,7 @@ import com.goddess.nsrule.core.executer.context.Context;
 import com.goddess.nsrule.core.executer.mode.base.action.Param;
 import com.goddess.nsrule.core.executer.mode.base.action.RunState;
 import com.goddess.nsrule.core.executer.mode.ruleLine.JavaActuator;
+import lombok.extern.slf4j.Slf4j;
 import org.dromara.testhub.framework.exception.TestHubException;
 import org.dromara.testhub.plugins.http.actions.model.Body;
 import org.dromara.testhub.plugins.http.actions.model.HttpModel;
@@ -23,7 +24,9 @@ import org.jsoup.nodes.Entities;
 import org.jsoup.parser.Parser;
 import org.springframework.http.MediaType;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.net.URLEncoder;
 import java.net.http.*;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
@@ -34,6 +37,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicReference;
 
+@Slf4j
 public class HttpPlugin implements Plugin {
     public static JSONObject NONE_INFO = new JSONObject();
 
@@ -177,16 +181,13 @@ public class HttpPlugin implements Plugin {
                     } else {
                         unknownErr.set(exception);
                     }
-                } else {
-                    //成功
-                    execResult(response, result, runState, httpModel, context, executeHttp);
                 }
             });
             HttpResponse<String> response = responseFuture.get(getTimeout(httpModel), TimeUnit.SECONDS);
             if (response == null && unknownErr.get() == null) {
                 throw new Exception(unknownErr.get());
             }
-
+            execResult(response, result, runState, httpModel, context, executeHttp);
         } catch (TimeoutException e) {
             runState.addRunParams("statusCode", "TimeoutException");
             runState.addRunParams("statusName", "返回超时" + getTimeout(httpModel) + "秒");
@@ -385,7 +386,7 @@ public class HttpPlugin implements Plugin {
     /**
      * 将params拼接 到Url中
      */
-    public static String appendURL(String baseURL, JSONObject jsonObject) {
+    public static String appendURL(String baseURL, JSONObject jsonObject) throws UnsupportedEncodingException {
         StringBuilder sb = new StringBuilder(baseURL);
         Set<String> keys = jsonObject.keySet();
         if (!keys.isEmpty()) {
@@ -394,7 +395,7 @@ public class HttpPlugin implements Plugin {
         int num = 0;
         for (String key : keys) {
             String value = jsonObject.getString(key);
-            sb.append(key).append("=").append(value);
+            sb.append(key).append("=").append(URLEncoder.encode(value, "UTF-8"));
             num++;
             if (num < keys.size()) {
                 sb.append("&");
