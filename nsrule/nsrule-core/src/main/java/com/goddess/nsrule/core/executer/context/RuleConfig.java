@@ -2,7 +2,6 @@ package com.goddess.nsrule.core.executer.context;
 
 import com.goddess.nsrule.core.constant.ConstantUtil;
 import com.goddess.nsrule.core.constant.RuleException;
-import com.goddess.nsrule.core.executer.meta.MetaClass;
 import com.goddess.nsrule.core.executer.mode.Rule;
 import com.goddess.nsrule.core.executer.mode.base.action.Action;
 import com.goddess.nsrule.core.executer.mode.base.function.FunctionHandlerFactory;
@@ -13,7 +12,6 @@ import com.goddess.nsrule.core.parser.ActionParser;
 import com.goddess.nsrule.core.parser.ExecuteParser;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
