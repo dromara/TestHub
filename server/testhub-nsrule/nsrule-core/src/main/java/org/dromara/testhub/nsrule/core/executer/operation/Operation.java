@@ -1,7 +1,7 @@
 package org.dromara.testhub.nsrule.core.executer.operation;
 
 
-import org.dromara.testhub.nsrule.core.constant.Constant;
+import org.dromara.testhub.nsrule.core.constant.RuleConstant;
 import org.dromara.testhub.nsrule.core.constant.RuleException;
 
 import java.math.BigDecimal;
@@ -14,9 +14,9 @@ import java.util.stream.Collectors;
 
 public abstract class Operation {
     protected boolean oneOp = false;
-    private static DateTimeFormatter ydmhms = DateTimeFormatter.ofPattern(Constant.DateFormatter.YYYY_MM_DD_HH_MM_SS);
-    private static DateTimeFormatter ydm = DateTimeFormatter.ofPattern(Constant.DateFormatter.YYYY_MM_DD);
-    private static DateTimeFormatter hdm = DateTimeFormatter.ofPattern(Constant.DateFormatter.HH_MM_SS);
+    private static DateTimeFormatter ydmhms = DateTimeFormatter.ofPattern(RuleConstant.DateFormatter.YYYY_MM_DD_HH_MM_SS);
+    private static DateTimeFormatter ydm = DateTimeFormatter.ofPattern(RuleConstant.DateFormatter.YYYY_MM_DD);
+    private static DateTimeFormatter hdm = DateTimeFormatter.ofPattern(RuleConstant.DateFormatter.HH_MM_SS);
 
     public abstract String getOperationCode();
 
@@ -83,7 +83,9 @@ public abstract class Operation {
     public static BigDecimal getNumber(Object data) {
         if (data == null) {
             return null;
-        } else {
+        } else if (data instanceof BigDecimal){
+            return (BigDecimal)data;
+        }else {
             return new BigDecimal(data.toString());
         }
     }

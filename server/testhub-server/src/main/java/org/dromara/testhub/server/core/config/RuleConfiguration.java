@@ -1,7 +1,7 @@
 package org.dromara.testhub.server.core.config;
 
-import com.goddess.nsrule.core.executer.context.RuleConfig;
-import com.goddess.nsrule.core.parser.RuleConfigBuilder;
+import org.dromara.testhub.nsrule.core.executer.context.RuleConfig;
+import org.dromara.testhub.nsrule.core.parser.RuleConfigBuilder;
 import org.dromara.testhub.server.core.rule.DbRuleConfigBuilder;
 import org.dromara.testhub.server.core.rule.DbRuleManager;
 import lombok.extern.slf4j.Slf4j;

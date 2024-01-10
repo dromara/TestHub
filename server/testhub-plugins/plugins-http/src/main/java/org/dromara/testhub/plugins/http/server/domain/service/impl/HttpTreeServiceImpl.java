@@ -1,6 +1,6 @@
 package org.dromara.testhub.plugins.http.server.domain.service.impl;
 
-import com.goddess.nsrule.core.executer.context.RuleConfig;
+import org.dromara.testhub.nsrule.core.executer.context.RuleConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.dromara.testhub.framework.exception.TestHubException;

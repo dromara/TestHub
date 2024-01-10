@@ -1,7 +1,7 @@
 package org.dromara.testhub.plugins.http.actions;
 
 import com.alibaba.fastjson.JSONObject;
-import com.goddess.nsrule.core.executer.mode.ruleLine.Expression;
+import org.dromara.testhub.nsrule.core.executer.mode.ruleLine.Expression;
 import org.dromara.testhub.plugins.http.actions.model.TestHubExecuteHttp;
 import org.dromara.testhub.sdk.action.BaseJsonExecuteParser;
 import org.dromara.testhub.sdk.action.model.rule.TestHubAction;

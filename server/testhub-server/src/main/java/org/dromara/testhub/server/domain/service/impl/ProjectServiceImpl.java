@@ -3,21 +3,21 @@ package org.dromara.testhub.server.domain.service.impl;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.Assert;
 import com.alibaba.fastjson.JSONObject;
-import com.goddess.nsrule.core.executer.context.RuleProject;
+import org.dromara.testhub.nsrule.core.executer.context.RuleProject;
 import org.dromara.testhub.server.domain.convert.DbRuleConvert;
 import org.dromara.testhub.server.domain.dto.req.rule.RuleEnvironmentReqDto;
 import org.dromara.testhub.server.domain.dto.res.ExecuteResult.*;
 import org.dromara.testhub.server.domain.dto.res.rule.*;
 import org.dromara.testhub.server.infrastructure.repository.po.RulePo;
-import com.goddess.nsrule.core.executer.context.Context;
-import com.goddess.nsrule.core.executer.context.RuleConfig;
-import com.goddess.nsrule.core.executer.mode.Rule;
-import com.goddess.nsrule.core.executer.mode.base.action.*;
-import com.goddess.nsrule.core.parser.RuleParser;
-import com.goddess.nsrule.flow.model.Flow;
-import com.goddess.nsrule.flow.model.FlowContext;
-import com.goddess.nsrule.flow.model.RuleFlow;
-import com.goddess.nsrule.parserXml.XMLRuleParser;
+import org.dromara.testhub.nsrule.core.executer.context.Context;
+import org.dromara.testhub.nsrule.core.executer.context.RuleConfig;
+import org.dromara.testhub.nsrule.core.executer.mode.Rule;
+import org.dromara.testhub.nsrule.core.executer.mode.base.action.*;
+import org.dromara.testhub.nsrule.core.parser.RuleParser;
+import org.dromara.testhub.nsrule.flow.model.Flow;
+import org.dromara.testhub.nsrule.flow.model.FlowContext;
+import org.dromara.testhub.nsrule.flow.model.RuleFlow;
+import org.dromara.testhub.nsrule.parserXml.XMLRuleParser;
 import org.dromara.testhub.framework.exception.TestHubException;
 import org.dromara.testhub.framework.util.FileUtil;
 import org.dromara.testhub.framework.util.IdGenerator;
@@ -315,7 +315,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     //保存规则对象
-    private RuleResDto saveDocument(Document document, String ruleCode, long treeId, String model) {
+    private synchronized RuleResDto saveDocument(Document document, String ruleCode, long treeId, String model) {
         RuleParser<Document> parser = XMLRuleParser.getInstance(ruleConfig);
         Rule rule = null;
         try {

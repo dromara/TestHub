@@ -1,6 +1,6 @@
 package org.dromara.testhub.sdk.action.dto;
 
-import com.goddess.nsrule.core.executer.mode.base.action.RunState;
+import org.dromara.testhub.nsrule.core.executer.mode.base.action.RunState;
 import org.dromara.testhub.sdk.action.model.rule.TestHubAction;
 import org.dromara.testhub.sdk.action.model.rule.TestHubExecute;
 import lombok.Data;

@@ -49,7 +49,7 @@ public class OperationFactory {
 
     static {
         //获取该路径下所有类
-        Reflections reflections = new Reflections("com.goddess.nsrule.core.executer.operation");
+        Reflections reflections = new Reflections("org.dromara.testhub.nsrule.core.executer.operation");
         //获取继承了RelationOperation的所有类
         Set<Class<? extends Operation>> classSet = reflections.getSubTypesOf(Operation.class);
         for (Class<? extends Operation> clazz : classSet) {

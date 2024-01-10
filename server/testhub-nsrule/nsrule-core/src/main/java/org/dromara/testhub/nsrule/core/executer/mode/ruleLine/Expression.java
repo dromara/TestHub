@@ -1,6 +1,6 @@
 package org.dromara.testhub.nsrule.core.executer.mode.ruleLine;
 
-import org.dromara.testhub.nsrule.core.constant.Constant;
+import org.dromara.testhub.nsrule.core.constant.RuleConstant;
 import org.dromara.testhub.nsrule.core.constant.RuleException;
 import org.dromara.testhub.nsrule.core.executer.context.RuleConfig;
 import org.dromara.testhub.nsrule.core.executer.mode.BasePo;
@@ -51,15 +51,15 @@ public class Expression extends BasePo {
             throw new RuleException("操作符不能为空");
         }
 
-        if (Constant.ExpressionType.LOGIC.equals(expressionType)) {
-            if ((!Constant.OperationType.OR.equals(operationCode)) && (!Constant.OperationType.AND.equals(operationCode))) {
+        if (RuleConstant.ExpressionType.LOGIC.equals(expressionType)) {
+            if ((!RuleConstant.OperationType.OR.equals(operationCode)) && (!RuleConstant.OperationType.AND.equals(operationCode))) {
                 for (Expression t : subExpression) {
                     t.check();
                 }
             }
             return true;
         }
-        if (Constant.ExpressionType.RELATION.equals(expressionType)) {
+        if (RuleConstant.ExpressionType.RELATION.equals(expressionType)) {
             if (cover == null) {
                 throw new RuleException("操作数字段不能为空");
             }

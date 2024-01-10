@@ -1,8 +1,8 @@
 package org.dromara.testhub.sdk.action;
 
 import org.dromara.testhub.sdk.action.dto.res.RuleExpressionResDto;
-import com.goddess.nsrule.core.constant.Constant;
-import com.goddess.nsrule.core.executer.mode.ruleLine.Expression;
+import org.dromara.testhub.nsrule.core.constant.RuleConstant;
+import org.dromara.testhub.nsrule.core.executer.mode.ruleLine.Expression;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,7 @@ public class ExpressionConvertor {
         resDto.setId(0L);
         resDto.setType(expression.getExpressionType());
         resDto.setOperation(expression.getOperationCode());
-        if (Constant.ExpressionType.RELATION.equalsIgnoreCase(expression.getExpressionType())) {
+        if (RuleConstant.ExpressionType.RELATION.equalsIgnoreCase(expression.getExpressionType())) {
             resDto.setDataType(expression.getDataType());
             resDto.setCover(expression.getCover());
             resDto.setThreshold(expression.getThreshold());

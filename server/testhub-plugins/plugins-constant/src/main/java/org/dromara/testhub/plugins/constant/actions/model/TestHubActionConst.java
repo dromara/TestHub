@@ -1,6 +1,6 @@
 package org.dromara.testhub.plugins.constant.actions.model;
 
-import com.goddess.nsrule.core.executer.mode.base.bound.Bound;
+import org.dromara.testhub.nsrule.core.executer.mode.base.bound.Bound;
 import org.dromara.testhub.sdk.action.model.rule.TestHubAction;
 import lombok.Data;
 

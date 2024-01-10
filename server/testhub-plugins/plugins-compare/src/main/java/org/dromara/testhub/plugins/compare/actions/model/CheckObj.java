@@ -1,7 +1,7 @@
 package org.dromara.testhub.plugins.compare.actions.model;
 
-import com.goddess.nsrule.core.executer.context.RuleConfig;
-import com.goddess.nsrule.core.executer.mode.base.formula.FormulaNode;
+import org.dromara.testhub.nsrule.core.executer.context.RuleConfig;
+import org.dromara.testhub.nsrule.core.executer.mode.base.formula.FormulaNode;
 import lombok.Data;
 
 @Data

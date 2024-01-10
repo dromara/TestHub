@@ -1,5 +1,6 @@
 package org.dromara.testhub.plugins.http.actions.model;
 
+import org.dromara.testhub.plugins.http.core.HttpModel;
 import org.dromara.testhub.sdk.action.model.rule.TestHubAction;
 
 public class TestHubActionHttp extends TestHubAction {

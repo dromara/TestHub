@@ -1,9 +1,9 @@
 package org.dromara.testhub.plugins.check.actions;
 
-import com.goddess.nsrule.core.constant.RuleException;
-import com.goddess.nsrule.core.executer.mode.ruleLine.Expression;
-import com.goddess.nsrule.core.executer.mode.ruleLine.RuleLine;
-import com.goddess.nsrule.parserXml.XMLRuleParser;
+import org.dromara.testhub.nsrule.core.constant.RuleException;
+import org.dromara.testhub.nsrule.core.executer.mode.ruleLine.Expression;
+import org.dromara.testhub.nsrule.core.executer.mode.ruleLine.RuleLine;
+import org.dromara.testhub.nsrule.parserXml.XMLRuleParser;
 import org.dromara.testhub.plugins.check.actions.model.CheckItem;
 import org.dromara.testhub.plugins.check.actions.model.TestHubExecuteCheck;
 import org.dromara.testhub.sdk.action.BaseXMLExecuteParser;

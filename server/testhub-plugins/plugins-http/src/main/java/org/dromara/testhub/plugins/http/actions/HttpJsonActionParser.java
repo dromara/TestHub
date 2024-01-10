@@ -2,12 +2,12 @@ package org.dromara.testhub.plugins.http.actions;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.fastjson.JSONObject;
-import com.goddess.nsrule.core.executer.mode.base.bound.Bound;
-import com.goddess.nsrule.core.executer.mode.base.bound.FreeMarker;
-import com.goddess.nsrule.core.parser.BoundParser;
-import com.goddess.nsrule.core.parser.BoundParserFreeMarker;
+import org.dromara.testhub.nsrule.core.executer.mode.base.bound.Bound;
+import org.dromara.testhub.nsrule.core.executer.mode.base.bound.FreeMarker;
+import org.dromara.testhub.nsrule.core.parser.BoundParser;
+import org.dromara.testhub.nsrule.core.parser.BoundParserFreeMarker;
 import org.dromara.testhub.plugins.http.actions.model.Body;
-import org.dromara.testhub.plugins.http.actions.model.HttpModel;
+import org.dromara.testhub.plugins.http.core.HttpModel;
 import org.dromara.testhub.plugins.http.actions.model.TestHubActionHttp;
 import org.dromara.testhub.sdk.action.BaseJsonActionParser;
 import org.dromara.testhub.sdk.action.model.rule.TestHubAction;
@@ -26,6 +26,9 @@ public class HttpJsonActionParser implements BaseJsonActionParser {
             return actionHttp;
         }
         actionHttp.setHttpModel(JSONObject.parseObject(extendInfo, HttpModel.class));
+        if (actionHttp.getHttpModel().getBody() == null) {
+            actionHttp.getHttpModel().setBody( new Body());
+        }
         if (Body.RAW.equalsIgnoreCase(actionHttp.getHttpModel().getBody().getType())) {
             Bound bound = boundParser.parser(actionHttp.getHttpModel().getBody().getContent());
             actionHttp.getHttpModel().getBody().setBound(bound);
@@ -36,20 +39,20 @@ public class HttpJsonActionParser implements BaseJsonActionParser {
 
     @Override
     public JSONObject model2json(TestHubAction action) {
-        TestHubActionHttp actionHttp = JSONObject.parseObject(JSONObject.toJSONString(action),TestHubActionHttp.class);
+        TestHubActionHttp actionHttp = JSONObject.parseObject(JSONObject.toJSONString(action), TestHubActionHttp.class);
         actionHttp.getHttpModel().getBody().setBound(null);
-        if(CollectionUtil.isNotEmpty(actionHttp.getHttpModel().getRests())){
-            actionHttp.getHttpModel().getRests().forEach(o->o.setDataFormulaNode(null));
+        if (CollectionUtil.isNotEmpty(actionHttp.getHttpModel().getRests())) {
+            actionHttp.getHttpModel().getRests().forEach(o -> o.setDataFormulaNode(null));
         }
-        if(CollectionUtil.isNotEmpty(actionHttp.getHttpModel().getHeaders())){
-            actionHttp.getHttpModel().getHeaders().forEach(o->o.setDataFormulaNode(null));
+        if (CollectionUtil.isNotEmpty(actionHttp.getHttpModel().getHeaders())) {
+            actionHttp.getHttpModel().getHeaders().forEach(o -> o.setDataFormulaNode(null));
         }
-        if(CollectionUtil.isNotEmpty(actionHttp.getHttpModel().getParams())){
-            actionHttp.getHttpModel().getParams().forEach(o->o.setDataFormulaNode(null));
+        if (CollectionUtil.isNotEmpty(actionHttp.getHttpModel().getParams())) {
+            actionHttp.getHttpModel().getParams().forEach(o -> o.setDataFormulaNode(null));
         }
-        if(actionHttp.getHttpModel().getBody()!=null){
-            if(CollectionUtil.isNotEmpty(actionHttp.getHttpModel().getBody().getDatas())){
-                actionHttp.getHttpModel().getBody().getDatas().forEach(o->o.setDataFormulaNode(null));
+        if (actionHttp.getHttpModel().getBody() != null) {
+            if (CollectionUtil.isNotEmpty(actionHttp.getHttpModel().getBody().getDatas())) {
+                actionHttp.getHttpModel().getBody().getDatas().forEach(o -> o.setDataFormulaNode(null));
             }
         }
 
@@ -59,19 +62,19 @@ public class HttpJsonActionParser implements BaseJsonActionParser {
         return element;
     }
 
-    private void initDataFormulaNode(TestHubActionHttp actionHttp){
-        if(CollectionUtil.isNotEmpty(actionHttp.getHttpModel().getRests())){
-            actionHttp.getHttpModel().getRests().forEach(o->o.setData(o.getData()));
+    private void initDataFormulaNode(TestHubActionHttp actionHttp) {
+        if (CollectionUtil.isNotEmpty(actionHttp.getHttpModel().getRests())) {
+            actionHttp.getHttpModel().getRests().forEach(o -> o.setData(o.getData()));
         }
-        if(CollectionUtil.isNotEmpty(actionHttp.getHttpModel().getHeaders())){
-            actionHttp.getHttpModel().getHeaders().forEach(o->o.setData(o.getData()));
+        if (CollectionUtil.isNotEmpty(actionHttp.getHttpModel().getHeaders())) {
+            actionHttp.getHttpModel().getHeaders().forEach(o -> o.setData(o.getData()));
         }
-        if(CollectionUtil.isNotEmpty(actionHttp.getHttpModel().getParams())){
-            actionHttp.getHttpModel().getParams().forEach(o->o.setData(o.getData()));
+        if (CollectionUtil.isNotEmpty(actionHttp.getHttpModel().getParams())) {
+            actionHttp.getHttpModel().getParams().forEach(o -> o.setData(o.getData()));
         }
-        if(actionHttp.getHttpModel().getBody()!=null){
-            if(CollectionUtil.isNotEmpty(actionHttp.getHttpModel().getBody().getDatas())){
-                actionHttp.getHttpModel().getBody().getDatas().forEach(o->o.setData(o.getData()));
+        if (actionHttp.getHttpModel().getBody() != null) {
+            if (CollectionUtil.isNotEmpty(actionHttp.getHttpModel().getBody().getDatas())) {
+                actionHttp.getHttpModel().getBody().getDatas().forEach(o -> o.setData(o.getData()));
             }
             actionHttp.getHttpModel().getBody().arrange();
         }

@@ -1,21 +1,22 @@
 package org.dromara.testhub.server.domain.convert;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.goddess.nsrule.core.constant.Constant;
-import com.goddess.nsrule.core.executer.context.RuleConfig;
-import com.goddess.nsrule.core.executer.context.RuleProject;
-import com.goddess.nsrule.core.executer.meta.MetaClass;
-import com.goddess.nsrule.core.executer.meta.MetaProperty;
-import com.goddess.nsrule.core.executer.mode.Rule;
-import com.goddess.nsrule.core.executer.mode.base.action.Execute;
-import com.goddess.nsrule.core.executer.mode.base.action.Inject;
-import com.goddess.nsrule.core.executer.mode.base.action.Mapping;
-import com.goddess.nsrule.core.executer.mode.base.action.Param;
-import com.goddess.nsrule.flow.model.Flow;
-import com.goddess.nsrule.flow.model.RuleFlow;
+import org.dromara.testhub.nsrule.core.constant.RuleConstant;
+import org.dromara.testhub.nsrule.core.executer.context.RuleConfig;
+import org.dromara.testhub.nsrule.core.executer.context.RuleProject;
+import org.dromara.testhub.nsrule.core.executer.meta.MetaClass;
+import org.dromara.testhub.nsrule.core.executer.meta.MetaProperty;
+import org.dromara.testhub.nsrule.core.executer.mode.Rule;
+import org.dromara.testhub.nsrule.core.executer.mode.base.action.Execute;
+import org.dromara.testhub.nsrule.core.executer.mode.base.action.Inject;
+import org.dromara.testhub.nsrule.core.executer.mode.base.action.Mapping;
+import org.dromara.testhub.nsrule.core.executer.mode.base.action.Param;
+import org.dromara.testhub.nsrule.flow.model.Flow;
+import org.dromara.testhub.nsrule.flow.model.RuleFlow;
 import org.dromara.testhub.framework.util.DateUtil;
 import org.dromara.testhub.sdk.action.Plugin;
 import org.dromara.testhub.sdk.action.PluginFactory;
+import org.dromara.testhub.sdk.action.dto.res.RuleParamResDto;
 import org.dromara.testhub.sdk.action.model.rule.TestHubAction;
 import org.dromara.testhub.sdk.action.model.rule.TestHubExecute;
 import org.dromara.testhub.server.core.rule.CacheManager;
@@ -150,7 +151,7 @@ public class RuleConvertor {
             }
             resDto.setActions(actionResDtos);
         }
-        if (flowFlag && Constant.RuleModel.FLOW.equalsIgnoreCase(model.getModel())) {
+        if (flowFlag && RuleConstant.RuleModel.FLOW.equalsIgnoreCase(model.getModel())) {
             List<RuleFlowResDto> flowResDtos = new ArrayList<>();
             if (CollectionUtil.isNotEmpty(((RuleFlow) model).getFlows())) {
                 Collection<Flow> flows = ((RuleFlow) model).getFlows();

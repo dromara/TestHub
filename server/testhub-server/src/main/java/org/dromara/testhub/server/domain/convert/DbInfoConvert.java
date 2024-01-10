@@ -1,6 +1,6 @@
 package org.dromara.testhub.server.domain.convert;
 
-import org.dromara.testhub.server.domain.dto.req.rule.RuleParamReqDto;
+import org.dromara.testhub.sdk.action.dto.RuleParamReqDto;
 import org.dromara.testhub.server.infrastructure.repository.po.*;
 import org.mapstruct.Mapper;
 

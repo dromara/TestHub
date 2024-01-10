@@ -1,7 +1,7 @@
 package org.dromara.testhub.nsrule.core.executer.operation.impl.compose;
 
 
-import org.dromara.testhub.nsrule.core.constant.Constant;
+import org.dromara.testhub.nsrule.core.constant.RuleConstant;
 import org.dromara.testhub.nsrule.core.executer.operation.Operation;
 import org.dromara.testhub.nsrule.core.executer.operation.OperationFactory;
 
@@ -21,38 +21,38 @@ public class Neq extends Operation {
 
     @Override
     public String getOperationCode() {
-        return Constant.OperationType.NEQ;
+        return RuleConstant.OperationType.NEQ;
     }
 
     @Override
     public boolean execute(String dataTypeCode, Integer coverComplex, Object cover,
                            Integer thresholdComplex, Object threshold) {
-        Operation operation = OperationFactory.getOperation(Constant.OperationType.EQ);
+        Operation operation = OperationFactory.getOperation(RuleConstant.OperationType.EQ);
         return !operation.execute(dataTypeCode, coverComplex, cover, thresholdComplex, threshold);
     }
 
     @Override
     public boolean timeHms(LocalTime t1, LocalTime t2) {
-        return !OperationFactory.getOperation(Constant.OperationType.EQ).timeHms(t1, t2);
+        return !OperationFactory.getOperation(RuleConstant.OperationType.EQ).timeHms(t1, t2);
     }
 
     @Override
     public boolean timeYmdhms(LocalDateTime t1, LocalDateTime t2) {
-        return !OperationFactory.getOperation(Constant.OperationType.EQ).timeYmdhms(t1, t2);
+        return !OperationFactory.getOperation(RuleConstant.OperationType.EQ).timeYmdhms(t1, t2);
     }
 
     @Override
     public boolean timeYmd(LocalDate t1, LocalDate t2) {
-        return !OperationFactory.getOperation(Constant.OperationType.EQ).timeYmd(t1, t2);
+        return !OperationFactory.getOperation(RuleConstant.OperationType.EQ).timeYmd(t1, t2);
     }
 
     @Override
     public boolean number(BigDecimal t1, BigDecimal t2) {
-        return !OperationFactory.getOperation(Constant.OperationType.EQ).number(t1, t2);
+        return !OperationFactory.getOperation(RuleConstant.OperationType.EQ).number(t1, t2);
     }
 
     @Override
     public boolean boll(Boolean t1, Boolean t2) {
-        return !OperationFactory.getOperation(Constant.OperationType.EQ).boll(t1, t2);
+        return !OperationFactory.getOperation(RuleConstant.OperationType.EQ).boll(t1, t2);
     }
 }

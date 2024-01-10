@@ -1,9 +1,9 @@
 package org.dromara.testhub.server.core;
 
 
-import com.goddess.nsrule.core.eventbus.EventMessage;
-import com.goddess.nsrule.core.eventbus.EventType;
-import com.goddess.nsrule.core.eventbus.Subscribe;
+import org.dromara.testhub.nsrule.core.eventbus.EventMessage;
+import org.dromara.testhub.nsrule.core.eventbus.EventType;
+import org.dromara.testhub.nsrule.core.eventbus.Subscribe;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;

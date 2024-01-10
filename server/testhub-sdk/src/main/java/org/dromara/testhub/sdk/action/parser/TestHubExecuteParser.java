@@ -1,8 +1,8 @@
 package org.dromara.testhub.sdk.action.parser;
 
-import com.goddess.nsrule.core.executer.mode.base.action.Action;
-import com.goddess.nsrule.core.executer.mode.base.action.Execute;
-import com.goddess.nsrule.core.parser.ExecuteParser;
+import org.dromara.testhub.nsrule.core.executer.mode.base.action.Action;
+import org.dromara.testhub.nsrule.core.executer.mode.base.action.Execute;
+import org.dromara.testhub.nsrule.core.parser.ExecuteParser;
 import org.dromara.testhub.framework.exception.TestHubException;
 import org.dromara.testhub.sdk.action.Plugin;
 import org.dromara.testhub.sdk.action.PluginFactory;

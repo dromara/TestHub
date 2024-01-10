@@ -19,8 +19,8 @@ public class Result<T> {
 
     public Result(Exception exception, T content) {
         this.exception = exception;
-        this.flag = exception == null ? false : true;
-        this.bizError = this.flag ? this.flag : false;
+        this.flag = exception != null;
+        this.bizError = this.flag;
         this.content = content;
     }
 
@@ -30,8 +30,8 @@ public class Result<T> {
 
     public void setException(Exception exception) {
         this.exception = exception;
-        this.flag = exception == null ? false : true;
-        this.bizError = this.flag ? true : false;
+        this.flag = exception != null;
+        this.bizError = this.flag;
     }
 
     public BaseLog getLog() {

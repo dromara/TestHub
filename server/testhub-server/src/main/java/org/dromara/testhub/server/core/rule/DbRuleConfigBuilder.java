@@ -2,22 +2,24 @@ package org.dromara.testhub.server.core.rule;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.fastjson.JSONObject;
-import com.goddess.nsrule.core.constant.ExceptionCode;
-import com.goddess.nsrule.core.constant.RuleException;
-import com.goddess.nsrule.core.executer.context.RuleConfig;
-import com.goddess.nsrule.core.executer.context.RuleProject;
-import com.goddess.nsrule.core.executer.meta.MetaClass;
-import com.goddess.nsrule.core.executer.meta.MetaEnum;
-import com.goddess.nsrule.core.executer.meta.MetaProperty;
-import com.goddess.nsrule.core.executer.mode.Rule;
-import com.goddess.nsrule.core.executer.mode.base.action.Action;
-import com.goddess.nsrule.core.executer.mode.base.action.Execute;
-import com.goddess.nsrule.core.executer.mode.base.action.Param;
-import com.goddess.nsrule.core.parser.RuleConfigBuilder;
-import com.goddess.nsrule.flow.model.Flow;
-import com.goddess.nsrule.flow.model.RuleFlow;
-import com.goddess.nsrule.parserXml.XmlActionDefaultParser;
-import com.goddess.nsrule.parserXml.XmlExecuteDefaultParser;
+import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
+import org.dromara.testhub.nsrule.core.constant.ExceptionCode;
+import org.dromara.testhub.nsrule.core.constant.RuleException;
+import org.dromara.testhub.nsrule.core.executer.context.RuleConfig;
+import org.dromara.testhub.nsrule.core.executer.context.RuleProject;
+import org.dromara.testhub.nsrule.core.executer.meta.MetaClass;
+import org.dromara.testhub.nsrule.core.executer.meta.MetaEnum;
+import org.dromara.testhub.nsrule.core.executer.meta.MetaProperty;
+import org.dromara.testhub.nsrule.core.executer.mode.Rule;
+import org.dromara.testhub.nsrule.core.executer.mode.base.action.Action;
+import org.dromara.testhub.nsrule.core.executer.mode.base.action.Execute;
+import org.dromara.testhub.nsrule.core.executer.mode.base.action.Param;
+import org.dromara.testhub.nsrule.core.parser.RuleConfigBuilder;
+import org.dromara.testhub.nsrule.flow.model.Flow;
+import org.dromara.testhub.nsrule.flow.model.RuleFlow;
+import org.dromara.testhub.nsrule.parserXml.XmlActionDefaultParser;
+import org.dromara.testhub.nsrule.parserXml.XmlExecuteDefaultParser;
 import org.dromara.testhub.sdk.action.model.rule.TestHubAction;
 import org.dromara.testhub.sdk.action.parser.TestHubActionParser;
 import org.dromara.testhub.sdk.action.parser.TestHubExecuteParser;
@@ -32,6 +34,7 @@ import java.util.stream.Collectors;
 /**
  * 数据库构建 RuleConfig
  */
+@Slf4j
 public class DbRuleConfigBuilder implements RuleConfigBuilder<DbRuleManager> {
     @Override
     public RuleConfig build(DbRuleManager dbRuleManager) throws Exception {
@@ -186,28 +189,34 @@ public class DbRuleConfigBuilder implements RuleConfigBuilder<DbRuleManager> {
 
         for (RulePo rulePo:rulePos){
             RuleFlow rule = dbRuleManager.getDbRuleConvert().rulePo2model(rulePo);
-            rules.add(rule);
-            rule.setParams(dbRuleManager.getDbRuleConvert().paramPos2models(paramPoMap.getOrDefault(rulePo.getId(),new ArrayList<>())));
-            rule.setMetaEnums(parseMetaEnums(dbRuleManager, metaEnumPoMap.get(rulePo.getId())));
-            rule.setMetaClasses(parseMetaClass(dbRuleManager, metaClassPoMap.get(rulePo.getId()), metaPropertyPoMap));
+            try {
 
-            rule.setActions(parseActions(dbRuleManager, ruleConfig,project, actionPoMap.get(rulePo.getId()),rule.getMetaClassMap() ,"规则:" + rulePo.getName()));
+                rule.setParams(dbRuleManager.getDbRuleConvert().paramPos2models(paramPoMap.getOrDefault(rulePo.getId(),new ArrayList<>())));
+                rule.setMetaEnums(parseMetaEnums(dbRuleManager, metaEnumPoMap.get(rulePo.getId())));
+                rule.setMetaClasses(parseMetaClass(dbRuleManager, metaClassPoMap.get(rulePo.getId()), metaPropertyPoMap));
 
-            rule.setProject(project.getCode());
+                rule.setActions(parseActions(dbRuleManager, ruleConfig,project, actionPoMap.get(rulePo.getId()),rule.getMetaClassMap() ,"规则:" + rulePo.getName()));
 
-            List<Flow> flows = new ArrayList<>();
-            for (FlowPo flowPo:flowPoMap.get(rulePo.getCode())){
-                Flow flow = dbRuleManager.getDbRuleConvert().flowPo2model(flowPo);
-                List<Execute> executes = new ArrayList<>();
-                for (ExecutePo executePo:executePoMap.getOrDefault(flowPo.getId(),new ArrayList<>())){
-                    Execute execute = dbRuleManager.getDbRuleConvert().executePo2model(executePo,getAction(project,rule,executePo.getActionCode()));
-                    execute.setInjects(dbRuleManager.getDbRuleConvert().injectPos2models(injectPoMap.getOrDefault(executePo.getId(),new ArrayList<>())));
-                    executes.add(execute);
+                rule.setProject(project.getCode());
+
+                List<Flow> flows = new ArrayList<>();
+                for (FlowPo flowPo:flowPoMap.get(rulePo.getCode())){
+                    Flow flow = dbRuleManager.getDbRuleConvert().flowPo2model(flowPo);
+                    List<Execute> executes = new ArrayList<>();
+                    for (ExecutePo executePo:executePoMap.getOrDefault(flowPo.getId(),new ArrayList<>())){
+                        Execute execute = dbRuleManager.getDbRuleConvert().executePo2model(executePo,getAction(project,rule,executePo.getActionCode()));
+                        execute.setInjects(dbRuleManager.getDbRuleConvert().injectPos2models(injectPoMap.getOrDefault(executePo.getId(),new ArrayList<>())));
+                        executes.add(execute);
+                    }
+                    flow.setExecutes(executes);
+                    flows.add(flow);
                 }
-                flow.setExecutes(executes);
-                flows.add(flow);
+                rule.setFlows(flows);
+                rules.add(rule);
+            }catch (Exception exception){
+                log.error("解析:{}失败",rule.getCode()+rule.getName(),exception);
             }
-            rule.setFlows(flows);
+
         }
 
         return rules;

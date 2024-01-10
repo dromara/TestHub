@@ -1,7 +1,7 @@
 package org.dromara.testhub.plugins.check.actions.model;
 
-import com.goddess.nsrule.core.executer.mode.base.action.Execute;
-import com.goddess.nsrule.core.executer.mode.ruleLine.RuleLine;
+import org.dromara.testhub.nsrule.core.executer.mode.base.action.Execute;
+import org.dromara.testhub.nsrule.core.executer.mode.ruleLine.RuleLine;
 import org.dromara.testhub.sdk.action.model.rule.TestHubExecute;
 
 import java.util.List;

@@ -1,6 +1,6 @@
 package org.dromara.testhub.nsrule.core.executer.operation.impl.simple;
 
-import org.dromara.testhub.nsrule.core.constant.Constant;
+import org.dromara.testhub.nsrule.core.constant.RuleConstant;
 import org.dromara.testhub.nsrule.core.constant.RuleException;
 import org.dromara.testhub.nsrule.core.executer.operation.Operation;
 
@@ -20,7 +20,7 @@ import java.util.List;
 public class Eq extends Operation {
     @Override
     public String getOperationCode() {
-        return Constant.OperationType.EQ;
+        return RuleConstant.OperationType.EQ;
     }
 
     @Override
@@ -30,17 +30,17 @@ public class Eq extends Operation {
             return false;
         }
         switch (dataTypeCode) {
-            case Constant.DataType.NUMBER:
+            case RuleConstant.DataType.NUMBER:
                 return number(coverComplex, cover, thresholdComplex, threshold);
-            case Constant.DataType.BOLL:
+            case RuleConstant.DataType.BOLL:
                 return boll(coverComplex, cover, thresholdComplex, threshold);
-            case Constant.DataType.STRING:
+            case RuleConstant.DataType.STRING:
                 return string(coverComplex, cover, thresholdComplex, threshold);
-            case Constant.DataType.TIME_YMD:
+            case RuleConstant.DataType.TIME_YMD:
                 return timeYmd(coverComplex, cover, thresholdComplex, threshold);
-            case Constant.DataType.TIME_YMDHMS:
+            case RuleConstant.DataType.TIME_YMDHMS:
                 return timeYmdhms(coverComplex, cover, thresholdComplex, threshold);
-            case Constant.DataType.TIME_HMS:
+            case RuleConstant.DataType.TIME_HMS:
                 return timeHms(coverComplex, cover, thresholdComplex, threshold);
             default:
                 throw new RuleException(getOperationCode() + "不支持数据类型: " + dataTypeCode);

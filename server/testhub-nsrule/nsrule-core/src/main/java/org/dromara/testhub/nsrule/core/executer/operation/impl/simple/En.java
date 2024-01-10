@@ -1,7 +1,7 @@
 package org.dromara.testhub.nsrule.core.executer.operation.impl.simple;
 
 
-import org.dromara.testhub.nsrule.core.constant.Constant;
+import org.dromara.testhub.nsrule.core.constant.RuleConstant;
 import org.dromara.testhub.nsrule.core.executer.operation.Operation;
 
 import java.math.BigDecimal;
@@ -24,7 +24,7 @@ public class En extends Operation {
 
     @Override
     public String getOperationCode() {
-        return Constant.OperationType.EN;
+        return RuleConstant.OperationType.EN;
     }
 
     @Override

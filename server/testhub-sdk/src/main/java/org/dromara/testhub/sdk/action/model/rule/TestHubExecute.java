@@ -1,7 +1,7 @@
 package org.dromara.testhub.sdk.action.model.rule;
 
-import com.goddess.nsrule.core.executer.mode.base.action.Execute;
 import lombok.Data;
+import org.dromara.testhub.nsrule.core.executer.mode.base.action.Execute;
 
 
 @Data

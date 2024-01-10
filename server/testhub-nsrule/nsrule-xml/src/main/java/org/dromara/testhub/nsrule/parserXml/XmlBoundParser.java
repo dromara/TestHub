@@ -1,9 +1,9 @@
-package org.dromara.testhub.nsrule.parserXml;//package com.goddess.nsrule.parserXml;
+package org.dromara.testhub.nsrule.parserXml;//package org.dromara.testhub.nsrule.parserXml;
 //
 //import org.dromara.testhub.nsrule.context.executer.core.RuleConfig;
-//import com.goddess.nsrule.core.executer.mode.base.bound.*;
+//import org.dromara.testhub.nsrule.core.executer.mode.base.bound.*;
 //import org.dromara.testhub.nsrule.ruleLine.mode.executer.core.Expression;
-//import com.goddess.nsrule.core.parser.BoundParser2;
+//import org.dromara.testhub.nsrule.core.parser.BoundParser2;
 //import org.apache.commons.lang3.StringUtils;
 //import org.dom4j.Element;
 //import org.dom4j.QName;

@@ -1,6 +1,6 @@
 package org.dromara.testhub.nsrule.core.executer.meta;
 
-import org.dromara.testhub.nsrule.core.constant.Constant;
+import org.dromara.testhub.nsrule.core.constant.RuleConstant;
 import org.dromara.testhub.nsrule.core.constant.ConstantUtil;
 import org.dromara.testhub.nsrule.core.executer.context.Context;
 import org.dromara.testhub.nsrule.core.executer.operation.Operation;
@@ -18,7 +18,7 @@ import java.util.Map;
  */
 public class MetaObject {
     public static List<Map<String, Object>> getMetaObjects(Context context, List<Map<String, Object>> datas, String dataType) {
-        if (Constant.DataType.MAP.equalsIgnoreCase(dataType)) {
+        if (RuleConstant.DataType.MAP.equalsIgnoreCase(dataType)) {
             return datas;
         }
         List<Map<String, Object>> reDatas = new ArrayList<>();
@@ -30,7 +30,7 @@ public class MetaObject {
     }
 
     public static Map<String, Object> getMetaObject(Context context, Map<String, Object> data, String dataType) {
-        if (Constant.DataType.MAP.equalsIgnoreCase(dataType)) {
+        if (RuleConstant.DataType.MAP.equalsIgnoreCase(dataType)) {
             return data;
         }
         MetaClass metaClass = context.getRule().getMetaClassByDataType(dataType);
@@ -78,17 +78,17 @@ public class MetaObject {
     public static Object getBaseData(Context context, int complex, String dataType, Object data) {
         if (Operation.isList(complex)) {
             switch (dataType) {
-                case Constant.DataType.BOLL:
+                case RuleConstant.DataType.BOLL:
                     return Operation.getBollList(data);
-                case Constant.DataType.NUMBER:
+                case RuleConstant.DataType.NUMBER:
                     return Operation.getNumberList(data);
-                case Constant.DataType.STRING:
+                case RuleConstant.DataType.STRING:
                     return Operation.getList(data);
-                case Constant.DataType.TIME_YMD:
+                case RuleConstant.DataType.TIME_YMD:
                     return Operation.getTimeYdmList(data);
-                case Constant.DataType.TIME_YMDHMS:
+                case RuleConstant.DataType.TIME_YMDHMS:
                     return Operation.getTimeYdmhmsList(data);
-                case Constant.DataType.TIME_HMS:
+                case RuleConstant.DataType.TIME_HMS:
                     return Operation.getTimeHmsList(data);
                 default:
                     List<Object> reObjects = new ArrayList<>();
@@ -97,12 +97,12 @@ public class MetaObject {
             }
         } else {
             switch (dataType) {
-                case Constant.DataType.BOLL:
+                case RuleConstant.DataType.BOLL:
                     if (data instanceof Boolean) {
                         return data;
                     }
                     return Operation.getBoll(data);
-                case Constant.DataType.NUMBER:
+                case RuleConstant.DataType.NUMBER:
                     if (data instanceof BigDecimal) {
                         return data;
                     }
@@ -113,16 +113,16 @@ public class MetaObject {
                         return data;
                     }
                     return Operation.getNumber(data);
-                case Constant.DataType.STRING:
+                case RuleConstant.DataType.STRING:
                     if (data instanceof String) {
                         return data;
                     }
                     return Operation.getList(data).get(0);
-                case Constant.DataType.TIME_YMD:
+                case RuleConstant.DataType.TIME_YMD:
                     return Operation.getTimeYdm(data);
-                case Constant.DataType.TIME_YMDHMS:
+                case RuleConstant.DataType.TIME_YMDHMS:
                     return Operation.getTimeYdmhms(data);
-                case Constant.DataType.TIME_HMS:
+                case RuleConstant.DataType.TIME_HMS:
                     return Operation.getTimeHms(data);
             }
             return data;

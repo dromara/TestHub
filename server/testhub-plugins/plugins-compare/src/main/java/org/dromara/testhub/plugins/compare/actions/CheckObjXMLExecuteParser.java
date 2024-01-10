@@ -1,6 +1,6 @@
 package org.dromara.testhub.plugins.compare.actions;
 
-import com.goddess.nsrule.core.constant.RuleException;
+import org.dromara.testhub.nsrule.core.constant.RuleException;
 import org.dromara.testhub.plugins.compare.actions.model.CheckObj;
 import org.dromara.testhub.plugins.compare.actions.model.TestHubExecuteCheckObj;
 import org.dromara.testhub.sdk.action.BaseXMLExecuteParser;

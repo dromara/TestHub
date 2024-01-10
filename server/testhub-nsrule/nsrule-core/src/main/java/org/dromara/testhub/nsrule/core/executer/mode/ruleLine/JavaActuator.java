@@ -1,6 +1,6 @@
 package org.dromara.testhub.nsrule.core.executer.mode.ruleLine;
 
-import org.dromara.testhub.nsrule.core.constant.Constant;
+import org.dromara.testhub.nsrule.core.constant.RuleConstant;
 import org.dromara.testhub.nsrule.core.executer.context.Context;
 import org.dromara.testhub.nsrule.core.executer.mode.base.Result;
 import org.dromara.testhub.nsrule.core.executer.mode.base.formula.log.FormulaLog;
@@ -21,7 +21,7 @@ public class JavaActuator {
             log.setOperationCode(expression.getOperationCode());
             log.setOperationType(expression.getExpressionType());
         }
-        if (Constant.ExpressionType.LOGIC.equals(expression.getExpressionType())) {
+        if (RuleConstant.ExpressionType.LOGIC.equals(expression.getExpressionType())) {
             //逻辑
             return execute(expression.getOperationCode(), expression.getSubExpression(), context, log);
         } else {
@@ -29,12 +29,12 @@ public class JavaActuator {
             //关系
             // 1>2  1被比较的阀值 >操作符 2阀值
             Operation operation = OperationFactory.getOperation(expression.getOperationCode());
-            Result<Object> coverResult = expression.getCoverFormula().apply(context, log == null ? false : true);
+            Result<Object> coverResult = expression.getCoverFormula().apply(context, log != null);
             Object cover = coverResult.getContent();
             Object threshold = null;
             Result<Object> thresholdResult = null;
             if (!operation.isOneOp()) {
-                thresholdResult = expression.getThresholdFormula().apply(context, log == null ? false : true);
+                thresholdResult = expression.getThresholdFormula().apply(context, log != null);
                 threshold = thresholdResult.getContent();
             }
 
@@ -130,7 +130,7 @@ public class JavaActuator {
             for (int i = 0; i < l; i++) {
                 msg.append("|\t");
             }
-            if (Constant.ExpressionType.LOGIC.equalsIgnoreCase(operationType)) {
+            if (RuleConstant.ExpressionType.LOGIC.equalsIgnoreCase(operationType)) {
                 msg.append("操作符[" + operationCode + "]==结果[" + flag + "]\n");
                 for (Log log : subLog) {
                     msg.append(log.getMsg(l + 1));

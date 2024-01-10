@@ -1,7 +1,7 @@
 package org.dromara.testhub.nsrule.core.executer.operation.impl.simple;
 
 
-import org.dromara.testhub.nsrule.core.constant.Constant;
+import org.dromara.testhub.nsrule.core.constant.RuleConstant;
 import org.dromara.testhub.nsrule.core.constant.RuleException;
 import org.dromara.testhub.nsrule.core.executer.operation.Operation;
 
@@ -22,7 +22,7 @@ public class Gt extends Operation {
 
     @Override
     public String getOperationCode() {
-        return Constant.OperationType.GT;
+        return RuleConstant.OperationType.GT;
     }
 
     @Override
@@ -32,15 +32,15 @@ public class Gt extends Operation {
             return false;
         }
         switch (dataTypeCode) {
-            case Constant.DataType.NUMBER:
+            case RuleConstant.DataType.NUMBER:
                 return number(coverComplex, cover, thresholdComplex, threshold);
-            case Constant.DataType.STRING:
+            case RuleConstant.DataType.STRING:
                 return string(coverComplex, cover, thresholdComplex, threshold);
-            case Constant.DataType.TIME_YMD:
+            case RuleConstant.DataType.TIME_YMD:
                 return timeYmd(coverComplex, cover, thresholdComplex, threshold);
-            case Constant.DataType.TIME_YMDHMS:
+            case RuleConstant.DataType.TIME_YMDHMS:
                 return timeYmdhms(coverComplex, cover, thresholdComplex, threshold);
-            case Constant.DataType.TIME_HMS:
+            case RuleConstant.DataType.TIME_HMS:
                 return timeHms(coverComplex, cover, thresholdComplex, threshold);
             default:
                 throw new RuleException(getOperationCode() + "不支持数据类型: " + dataTypeCode);
@@ -129,7 +129,7 @@ public class Gt extends Operation {
 
     @Override
     public boolean boll(Boolean t1, Boolean t2) {
-        throw new RuleException(getOperationCode() + "不支持数据类型: " + Constant.DataType.BOLL);
+        throw new RuleException(getOperationCode() + "不支持数据类型: " + RuleConstant.DataType.BOLL);
     }
 
     private boolean string(Integer coverComplex, Object cover,

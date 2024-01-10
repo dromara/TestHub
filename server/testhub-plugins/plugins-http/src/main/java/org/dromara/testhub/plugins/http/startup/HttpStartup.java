@@ -1,13 +1,15 @@
 package org.dromara.testhub.plugins.http.startup;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.goddess.nsrule.core.executer.context.RuleConfig;
-import com.goddess.nsrule.core.executer.context.RuleProject;
+import org.dromara.testhub.nsrule.core.executer.context.RuleConfig;
+import org.dromara.testhub.nsrule.core.executer.context.RuleProject;
 import lombok.extern.slf4j.Slf4j;
 import org.dromara.testhub.plugins.http.HttpConstant;
 import org.dromara.testhub.plugins.http.server.domain.HttpCacheManager;
 import org.dromara.testhub.plugins.http.server.domain.cache.TreeCache;
+import org.dromara.testhub.plugins.http.server.repository.dao.HttpApiMapper;
 import org.dromara.testhub.plugins.http.server.repository.dao.HttpTreeNodeMapper;
+import org.dromara.testhub.plugins.http.server.repository.po.HttpApiPo;
 import org.dromara.testhub.plugins.http.server.repository.po.HttpTreeNodePo;
 import org.dromara.testhub.sdk.action.dto.res.TreeNodeResDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,8 @@ public class HttpStartup implements ApplicationListener<ContextRefreshedEvent> {
     private RuleConfig config;
     @Autowired
     private HttpTreeNodeMapper httpTreeNodeMapper;
+    @Autowired
+    private HttpApiMapper httpApiMapper;
 
 
     @Override
@@ -52,23 +56,22 @@ public class HttpStartup implements ApplicationListener<ContextRefreshedEvent> {
                 treeCache.addNode(treeNodeResDto);
             }
 
-            TreeNodeResDto treeNodeResDto = new TreeNodeResDto();
-            treeNodeResDto.setKey(String.valueOf(1111));
-            treeNodeResDto.setParentKey(String.valueOf(111));
-            treeNodeResDto.setName("111的API");
-            treeNodeResDto.setLeaf(true);
-            treeNodeResDto.setNodeType(HttpConstant.TREE_NODE_TYPE_API);
+            List<HttpApiPo> apiPos = httpApiMapper.selectList(new LambdaQueryWrapper<HttpApiPo>()
+                            .select(HttpApiPo::getTreeId,HttpApiPo::getId,HttpApiPo::getName)
+                    .eq(HttpApiPo::getProjectCode, ruleProject.getCode())
+                    .orderBy(true, false, HttpApiPo::getModifyTime));
 
-            treeCache.addNode(treeNodeResDto);
 
-            TreeNodeResDto treeNodeResDto1 = new TreeNodeResDto();
-            treeNodeResDto1.setKey(String.valueOf(121));
-            treeNodeResDto1.setParentKey(String.valueOf(12));
-            treeNodeResDto1.setName("12的API");
-            treeNodeResDto1.setLeaf(true);
-            treeNodeResDto1.setNodeType(HttpConstant.TREE_NODE_TYPE_API);
+            for (HttpApiPo po : apiPos) {
+                TreeNodeResDto res = new TreeNodeResDto();
+                res.setKey(String.valueOf(po.getId()));
+                res.setParentKey(String.valueOf(po.getTreeId()));
+                res.setName(po.getName());
+                res.setLeaf(true);
+                res.setNodeType(HttpConstant.TREE_NODE_TYPE_API);
 
-            treeCache.addNode(treeNodeResDto1);
+                treeCache.addNode(res);
+            }
 
         }
 

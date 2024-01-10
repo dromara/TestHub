@@ -6,7 +6,7 @@ import org.dromara.testhub.server.domain.convert.TreeInfoConvert;
 import org.dromara.testhub.server.infrastructure.repository.dao.TreeInfoMapper;
 import org.dromara.testhub.server.infrastructure.repository.dao.UserMapper;
 import org.dromara.testhub.server.infrastructure.repository.po.TreeInfoPo;
-import com.goddess.nsrule.core.executer.context.RuleConfig;
+import org.dromara.testhub.nsrule.core.executer.context.RuleConfig;
 import org.dromara.testhub.framework.exception.TestHubException;
 import org.dromara.testhub.server.core.rule.DbManager;
 import org.dromara.testhub.server.core.util.TreeUtil;

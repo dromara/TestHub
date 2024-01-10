@@ -1,8 +1,8 @@
 package org.dromara.testhub.server.domain.dto.res.ExecuteResult;
 
 import com.alibaba.fastjson.JSONObject;
-import com.goddess.nsrule.core.executer.meta.MetaProperty;
-import com.goddess.nsrule.core.executer.mode.base.action.Param;
+import org.dromara.testhub.nsrule.core.executer.meta.MetaProperty;
+import org.dromara.testhub.nsrule.core.executer.mode.base.action.Param;
 import org.dromara.testhub.server.domain.dto.res.rule.RuleResDto;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -1,7 +1,7 @@
 package org.dromara.testhub.nsrule.core.executer.operation.impl.simple;
 
 
-import org.dromara.testhub.nsrule.core.constant.Constant;
+import org.dromara.testhub.nsrule.core.constant.RuleConstant;
 import org.dromara.testhub.nsrule.core.constant.ExceptionCode;
 import org.dromara.testhub.nsrule.core.constant.RuleException;
 import org.dromara.testhub.nsrule.core.executer.operation.Operation;
@@ -23,7 +23,7 @@ public class Be extends Operation {
 
     @Override
     public String getOperationCode() {
-        return Constant.OperationType.BE;
+        return RuleConstant.OperationType.BE;
     }
 
     @Override
@@ -33,13 +33,13 @@ public class Be extends Operation {
             return false;
         }
         switch (dataTypeCode) {
-            case Constant.DataType.NUMBER:
+            case RuleConstant.DataType.NUMBER:
                 return number(coverComplex, cover, threshold);
-            case Constant.DataType.TIME_YMD:
+            case RuleConstant.DataType.TIME_YMD:
                 return timeYmd(coverComplex, cover, threshold);
-            case Constant.DataType.TIME_YMDHMS:
+            case RuleConstant.DataType.TIME_YMDHMS:
                 return timeYmdhms(coverComplex, cover, threshold);
-            case Constant.DataType.TIME_HMS:
+            case RuleConstant.DataType.TIME_HMS:
                 return timeHms(coverComplex, cover, threshold);
             default:
                 throw new RuleException(getOperationCode() + "不支持数据类型: " + dataTypeCode);
@@ -142,27 +142,27 @@ public class Be extends Operation {
 
     @Override
     public boolean timeHms(LocalTime t1, LocalTime t2) {
-        throw new RuleException(ExceptionCode.EC_0108, getOperationCode(), Constant.DataType.TIME_HMS);
+        throw new RuleException(ExceptionCode.EC_0108, getOperationCode(), RuleConstant.DataType.TIME_HMS);
     }
 
     @Override
     public boolean timeYmdhms(LocalDateTime t1, LocalDateTime t2) {
-        throw new RuleException(ExceptionCode.EC_0108, getOperationCode(), Constant.DataType.TIME_YMDHMS);
+        throw new RuleException(ExceptionCode.EC_0108, getOperationCode(), RuleConstant.DataType.TIME_YMDHMS);
     }
 
     @Override
     public boolean timeYmd(LocalDate t1, LocalDate t2) {
-        throw new RuleException(ExceptionCode.EC_0108, getOperationCode(), Constant.DataType.TIME_YMD);
+        throw new RuleException(ExceptionCode.EC_0108, getOperationCode(), RuleConstant.DataType.TIME_YMD);
     }
 
     @Override
     public boolean number(BigDecimal t1, BigDecimal t2) {
-        throw new RuleException(ExceptionCode.EC_0108, getOperationCode(), Constant.DataType.NUMBER);
+        throw new RuleException(ExceptionCode.EC_0108, getOperationCode(), RuleConstant.DataType.NUMBER);
     }
 
     @Override
     public boolean boll(Boolean t1, Boolean t2) {
-        throw new RuleException(ExceptionCode.EC_0108, getOperationCode(), Constant.DataType.BOLL);
+        throw new RuleException(ExceptionCode.EC_0108, getOperationCode(), RuleConstant.DataType.BOLL);
     }
 
 

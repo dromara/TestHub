@@ -4,9 +4,9 @@ import cn.hutool.core.collection.CollectionUtil;
 import org.dromara.testhub.server.domain.dto.req.rule.RuleActionReqDto;
 import org.dromara.testhub.server.domain.dto.req.rule.RuleExecuteReqDto;
 import org.dromara.testhub.server.domain.dto.req.rule.RuleInjectReqDto;
-import com.goddess.nsrule.core.executer.mode.base.action.Action;
-import com.goddess.nsrule.core.executer.mode.base.action.Execute;
-import com.goddess.nsrule.core.executer.mode.base.action.Inject;
+import org.dromara.testhub.nsrule.core.executer.mode.base.action.Action;
+import org.dromara.testhub.nsrule.core.executer.mode.base.action.Execute;
+import org.dromara.testhub.nsrule.core.executer.mode.base.action.Inject;
 import org.dromara.testhub.sdk.action.model.rule.TestHubAction;
 import org.dromara.testhub.sdk.action.model.rule.TestHubExecute;
 

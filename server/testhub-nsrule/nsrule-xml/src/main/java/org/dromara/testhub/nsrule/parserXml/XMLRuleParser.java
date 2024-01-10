@@ -1,7 +1,7 @@
 package org.dromara.testhub.nsrule.parserXml;
 
 import cn.hutool.core.collection.CollectionUtil;
-import org.dromara.testhub.nsrule.core.constant.Constant;
+import org.dromara.testhub.nsrule.core.constant.RuleConstant;
 import org.dromara.testhub.nsrule.core.constant.RuleException;
 import org.dromara.testhub.nsrule.core.executer.context.RuleConfig;
 import org.dromara.testhub.nsrule.core.executer.context.RuleProject;
@@ -10,8 +10,8 @@ import org.dromara.testhub.nsrule.core.executer.mode.base.action.Action;
 import org.dromara.testhub.nsrule.core.executer.mode.base.action.Execute;
 import org.dromara.testhub.nsrule.core.executer.mode.Rule;
 import org.dromara.testhub.nsrule.graph.model.*;
-import org.dromara.testhub.nsrule.model.Flow;
-import org.dromara.testhub.nsrule.model.RuleFlow;
+import org.dromara.testhub.nsrule.flow.model.Flow;
+import org.dromara.testhub.nsrule.flow.model.RuleFlow;
 import org.dromara.testhub.nsrule.core.executer.mode.ruleLine.Expression;
 import org.dromara.testhub.nsrule.core.parser.RuleParser;
 import org.dromara.testhub.nsrule.core.util.DataCheckUtil;
@@ -72,10 +72,10 @@ public class XMLRuleParser implements RuleParser<Document> {
 
 
             RuleProject ruleProject = ruleConfig.getProjectMap().get(project);
-            if (Constant.RuleModel.FLOW.equalsIgnoreCase(model)) {
+            if (RuleConstant.RuleModel.FLOW.equalsIgnoreCase(model)) {
                 RuleFlow ruleFlow = new RuleFlow();
                 rule = ruleFlow;
-            } else if (Constant.RuleModel.GRAPH.equalsIgnoreCase(model)) {
+            } else if (RuleConstant.RuleModel.GRAPH.equalsIgnoreCase(model)) {
                 RuleGraph ruleGraph = new RuleGraph();
                 rule = ruleGraph;
             } else {
@@ -104,9 +104,9 @@ public class XMLRuleParser implements RuleParser<Document> {
             for (Action action : actions) {
                 actionMap.put(action.getCode(), action);
             }
-            if (Constant.RuleModel.FLOW.equalsIgnoreCase(model)) {
+            if (RuleConstant.RuleModel.FLOW.equalsIgnoreCase(model)) {
                 ((RuleFlow) rule).setFlows(parseFlows(document.getRootElement().element("flows"), actionMap, rule.getCode()));
-            } else if (Constant.RuleModel.GRAPH.equalsIgnoreCase(model)) {
+            } else if (RuleConstant.RuleModel.GRAPH.equalsIgnoreCase(model)) {
                 RuleGraph ruleGraph = (RuleGraph) rule;
                 ruleGraph.setGraphs(parseGraphs(document.getRootElement().element("graphs")));
                 ruleGraph.setResults(parseResults(document.getRootElement().element("results")));
@@ -265,8 +265,8 @@ public class XMLRuleParser implements RuleParser<Document> {
         expressionType = element.attributeValue("expressionType");
         operationCode = element.attributeValue("operationCode");
         dataType = element.attributeValue("dataType");
-        if (Constant.ExpressionType.RELATION.equalsIgnoreCase(expressionType)) {
-            expressionType = Constant.ExpressionType.RELATION;
+        if (RuleConstant.ExpressionType.RELATION.equalsIgnoreCase(expressionType)) {
+            expressionType = RuleConstant.ExpressionType.RELATION;
 
             coverComplex = element.attributeValue("coverComplex");
             cover = element.attributeValue("cover");
@@ -292,8 +292,8 @@ public class XMLRuleParser implements RuleParser<Document> {
                 expression.setThreshold(threshold);
             }
 
-        } else if (Constant.ExpressionType.LOGIC.equalsIgnoreCase(expressionType)) {
-            expressionType = Constant.ExpressionType.LOGIC;
+        } else if (RuleConstant.ExpressionType.LOGIC.equalsIgnoreCase(expressionType)) {
+            expressionType = RuleConstant.ExpressionType.LOGIC;
             List<Expression> subConditions = new ArrayList<>();
             List<Element> items = element.element("subExpressions").elements("expression");
             for (Element item : items) {

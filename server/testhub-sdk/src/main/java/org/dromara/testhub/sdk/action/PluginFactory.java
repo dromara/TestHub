@@ -2,7 +2,7 @@
 package org.dromara.testhub.sdk.action;
 
 
-import com.goddess.nsrule.core.constant.RuleException;
+import org.dromara.testhub.nsrule.core.constant.RuleException;
 import org.springframework.stereotype.Component;
 
 import java.io.File;

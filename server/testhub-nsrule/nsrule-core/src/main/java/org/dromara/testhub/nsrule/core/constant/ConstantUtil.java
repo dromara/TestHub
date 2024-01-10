@@ -12,12 +12,12 @@ public class ConstantUtil {
     public static List<String> dataTypes = new ArrayList<>();
 
     static {
-        dataTypes.add(Constant.DataType.NUMBER);
-        dataTypes.add(Constant.DataType.STRING);
-        dataTypes.add(Constant.DataType.BOLL);
-        dataTypes.add(Constant.DataType.TIME_YMD);
-        dataTypes.add(Constant.DataType.TIME_YMDHMS);
-        dataTypes.add(Constant.DataType.TIME_HMS);
+        dataTypes.add(RuleConstant.DataType.NUMBER);
+        dataTypes.add(RuleConstant.DataType.STRING);
+        dataTypes.add(RuleConstant.DataType.BOLL);
+        dataTypes.add(RuleConstant.DataType.TIME_YMD);
+        dataTypes.add(RuleConstant.DataType.TIME_YMDHMS);
+        dataTypes.add(RuleConstant.DataType.TIME_HMS);
     }
 
     public static boolean isBaseDataType(String dataType) {
@@ -27,7 +27,7 @@ public class ConstantUtil {
     public static boolean isInnerDataType(String dataType) {
         boolean flag = isBaseDataType(dataType);
         if (flag == false) {
-            flag = Constant.DataType.MAP.equalsIgnoreCase(dataType);
+            flag = RuleConstant.DataType.MAP.equalsIgnoreCase(dataType);
         }
         return flag;
     }

@@ -1,5 +1,6 @@
 package org.dromara.testhub.server.domain.dto.req.rule;
 
+import org.dromara.testhub.sdk.action.dto.RuleParamReqDto;
 import org.dromara.testhub.server.domain.dto.res.rule.RuleMappingResDto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

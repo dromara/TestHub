@@ -1,7 +1,7 @@
 package org.dromara.testhub.plugins.compare.actions;
 
 
-import com.goddess.nsrule.core.executer.mode.base.action.RunState;
+import org.dromara.testhub.nsrule.core.executer.mode.base.action.RunState;
 import org.dromara.testhub.plugins.compare.actions.dto.CheckObjExecuteResult;
 import org.dromara.testhub.plugins.compare.actions.model.CheckObj;
 import org.dromara.testhub.plugins.compare.actions.model.TestHubExecuteCheckObj;

@@ -2,7 +2,7 @@ package org.dromara.testhub.nsrule.core.executer.mode.base.action;
 
 import com.alibaba.fastjson.JSONObject;
 import org.dromara.testhub.nsrule.core.executer.mode.BasePo;
-import org.dromara.testhub.nsrule.core.constant.Constant;
+import org.dromara.testhub.nsrule.core.constant.RuleConstant;
 import org.dromara.testhub.nsrule.core.constant.ExceptionCode;
 import org.dromara.testhub.nsrule.core.constant.RuleException;
 import org.dromara.testhub.nsrule.core.executer.context.Context;
@@ -10,7 +10,6 @@ import org.dromara.testhub.nsrule.core.executer.mode.base.Result;
 import org.dromara.testhub.nsrule.core.expand.impl.DoExecuteFactory;
 import org.apache.commons.lang3.StringUtils;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -38,7 +37,7 @@ public class Execute extends BasePo {
         LocalDateTime start = LocalDateTime.now();
         RunState.Item runState = new RunState.Item();
         Long startLong = System.currentTimeMillis();
-        runState.addSystemParams("startTime", start.format(Constant.Formatter.ydmhms));
+        runState.addSystemParams("startTime", start.format(RuleConstant.Formatter.ydmhms));
         runState.setCode(getCode());
         Result<Object> result = new Result<>();
         runState.setResult(result);
@@ -75,7 +74,7 @@ public class Execute extends BasePo {
             runState.addSystemParams("cost", time/1000);
             runState.addSystemParams("costUnit", "SECONDS");
         }
-        runState.addSystemParams("endTime", end.format(Constant.Formatter.ydmhms));
+        runState.addSystemParams("endTime", end.format(RuleConstant.Formatter.ydmhms));
         return runState;
     }
 

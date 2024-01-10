@@ -1,7 +1,7 @@
 package org.dromara.testhub.plugins.check.actions;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.goddess.nsrule.core.executer.mode.ruleLine.RuleLine;
+import org.dromara.testhub.nsrule.core.executer.mode.ruleLine.RuleLine;
 import org.dromara.testhub.plugins.check.actions.model.CheckItem;
 import org.dromara.testhub.plugins.check.actions.model.TestHubExecuteCheck;
 import org.dromara.testhub.plugins.check.actions.dto.RuleCheckItemResDto;

@@ -2,126 +2,31 @@ package org.dromara.testhub.nsrule.core.executer.mode.base.formula;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.JSONPath;
-import org.dromara.testhub.nsrule.core.constant.ExceptionCode;
-import org.dromara.testhub.nsrule.core.constant.RuleException;
 import org.dromara.testhub.nsrule.core.executer.context.Context;
 import org.dromara.testhub.nsrule.core.executer.mode.base.Result;
 import org.dromara.testhub.nsrule.core.executer.mode.base.formula.log.FormulaLog;
+import org.dromara.testhub.nsrule.core.executer.mode.base.formula.log.PathLog;
 import org.dromara.testhub.nsrule.core.executer.mode.base.function.FunctionHandler;
 import org.dromara.testhub.nsrule.core.executer.mode.base.function.FunctionHandlerFactory;
-import org.dromara.testhub.nsrule.core.expand.FormulaBuilder;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-/**
- * @author: 失败女神-vinc
- * @email: 18733123202@163.com
- * @date: 2022/6/8 22:06
- */
 public class FuncNode extends FormulaNode {
+    public static String TYPE = "FUNC";
     //内置方法
-    protected String func;
+    public String func;
     //attr1:,
-    protected List<Param> params;
+    public List<Param> params;
     //.val
-    protected String lastAttr;
+    public PathNode lastAttr;
 
 
-    public FuncNode(String text, FormulaBuilder builder) {
+    public FuncNode(String text) {
+        super(TYPE, text);
         this.type = "FUNC";
         this.text = text;
         this.params = new ArrayList<>();
-        CutObj cutObj = cut(text);
-        if (text.endsWith("}")) {
-            //%{xxxx()}
-            this.lastAttr = "all";
-        } else {
-            //%{xxxx()}.val
-            this.lastAttr = text.substring(text.lastIndexOf("}.") + 2);
-        }
-
-        int leftIndex = 0;
-        //%{xxxx
-        this.func = cutObj.paragraphs.get(leftIndex).substring(2);
-        int startIndex = leftIndex + 1;
-        do {
-            String nowStr = cutObj.paragraphs.get(startIndex);
-            if (nowStr.startsWith("},")) {
-                nowStr = nowStr.substring(2);
-            } else if (nowStr.startsWith("(")) {
-                nowStr = nowStr.substring(1);
-            }
-
-            int endIndex = -1;
-            if (nowStr.endsWith(":") && nowStr.indexOf(",") != -1) {
-                //attr1:固定值,attr2:
-                List<String> ps = Arrays.asList(nowStr.split(","));
-                for (int i = 0; i < ps.size(); i++) {
-                    FormulaNode node = null;
-                    String key = getKey(ps.get(i));
-                    String val = null;
-                    if (i == ps.size() - 1) {
-                        //attr1:
-                        val = cutObj.getStr(startIndex + 1);
-                        endIndex = cutObj.getEnd(startIndex + 1);
-                        node = builder.getFormulaNode(val);
-                    } else {
-                        //attr1:固定值 或者 attr1:固定值
-                        val = ps.get(i).substring(ps.get(i).indexOf(":") + 1);
-                        node = builder.getFormulaNode(val);
-                    }
-                    params.add(new Param(key, node));
-                }
-            } else if (nowStr.endsWith(":")) {
-                //attr1:
-                String key = getKey(nowStr);
-                String val = cutObj.getStr(startIndex + 1);
-                endIndex = cutObj.getEnd(startIndex + 1);
-                FormulaNode node = builder.getFormulaNode(val);
-                params.add(new Param(key, node));
-            } else if (!nowStr.endsWith(":") && !nowStr.trim().equals("")) {
-                //attr1:固定值  或则者 attr1:固定值, attr2:XXXX
-                do {
-                    String key = getKey(nowStr);
-                    String val = null;
-                    if (nowStr.indexOf(",") == -1) {
-                        val = nowStr.substring(nowStr.indexOf(":") + 1);
-                        params.add(new Param(key, new DataNode(val)));
-                    } else {
-                        val = nowStr.substring(nowStr.indexOf(":") + 1, nowStr.indexOf(","));
-                        params.add(new Param(key, new DataNode(val)));
-                    }
-                    if (nowStr.length() > key.length() + val.length() + 2) {
-                        nowStr = nowStr.substring(key.length() + val.length() + 2);
-                    } else {
-                        nowStr = null;
-                    }
-                } while (nowStr != null && nowStr.length() > 0);
-                endIndex = cutObj.getEnd(startIndex + 1);
-
-            } else if (!nowStr.trim().equals("")) {
-                throw new RuleException(ExceptionCode.EC_0005, text);
-            } else {
-//                throw new BlException(ExceptionCode.EC_0005,text);
-            }
-            if (endIndex != -1) {
-                if (cutObj.paragraphs.get(endIndex).equals("}")) {
-                    //}
-                    break;
-                } else if (cutObj.paragraphs.get(endIndex).startsWith("},")) {
-                    //},
-                    startIndex = endIndex;
-                } else {
-                    throw new RuleException(ExceptionCode.EC_0005, text);
-                }
-            } else {
-                break;
-            }
-
-
-        } while (true);
     }
 
     @Override
@@ -132,11 +37,11 @@ public class FuncNode extends FormulaNode {
             log = new FuncLog(this);
         }
 
-        FunctionHandlerFactory handlerFactory = context.getProject().getRuleConfig().getFunctionHandlerFactory();
+        FunctionHandlerFactory handlerFactory = context.getFunctionHandlerFactory();
         FunctionHandler functionHandler = handlerFactory.getFunctionHandler(func);
         JSONObject attrs = paramsHandler(context, log);
         Object reData = functionHandler.execute(context, attrs);
-
+        reData = resultHandler(context, log, reData);
         result.setContent(reData);
 
         result.setLog(log);
@@ -157,7 +62,7 @@ public class FuncNode extends FormulaNode {
     protected JSONObject paramsHandler(Context context, FuncLog funcLog) {
         JSONObject attrs = new JSONObject();
 
-        boolean isLog = funcLog == null ? false : true;
+        boolean isLog = funcLog != null;
 
         if (isLog) {
             List<ParamLog> paramLogs = new ArrayList<>();
@@ -179,26 +84,29 @@ public class FuncNode extends FormulaNode {
     /**
      * 处理出参
      *
-     * @param reData
      * @return
      */
-    protected Object resultHandler(Object reData) {
-        if (lastAttr.equals("all")) {
+    protected Object resultHandler(Context context, FuncLog log, Object reData) {
+        if (lastAttr == null) {
             return reData;
-        } else {
-            return JSONPath.eval(reData, "$." + lastAttr, false);
         }
+        try {
+            //todo 后边要优化
+            context.pushData(JSONObject.parseObject(JSONObject.toJSONString(reData)));
+            Result<Object> result = lastAttr.apply(context, log != null);
+            if (log != null) {
+                log.setLastAttrLog((PathLog) result.getLog());
+            }
+            return result.getContent();
+        } catch (Exception e) {
+            context.removeData();
+        }
+        return reData;
     }
-
 
     public static class Param {
         private String code;
         private FormulaNode node;
-
-        public Param(String code, FormulaNode node) {
-            this.code = code;
-            this.node = node;
-        }
 
         public String getCode() {
             return code;
@@ -251,12 +159,12 @@ public class FuncNode extends FormulaNode {
         //attr1:,
         protected List<ParamLog> paramLogs;
         //.val
-        protected String lastAttr;
+        protected PathLog lastAttrLog;
 
         public FuncLog(FuncNode node) {
             super(node);
             this.func = node.func;
-            this.lastAttr = node.lastAttr;
+//            this.lastAttr = node.lastAttr;
         }
 
         public List<ParamLog> getParamLogs() {
@@ -275,12 +183,12 @@ public class FuncNode extends FormulaNode {
             this.func = func;
         }
 
-        public String getLastAttr() {
-            return lastAttr;
+        public PathLog getLastAttrLog() {
+            return lastAttrLog;
         }
 
-        public void setLastAttr(String lastAttr) {
-            this.lastAttr = lastAttr;
+        public void setLastAttrLog(PathLog lastAttrLog) {
+            this.lastAttrLog = lastAttrLog;
         }
     }
 }

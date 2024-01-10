@@ -1,9 +1,9 @@
 package org.dromara.testhub.plugins.check.actions.model;
 
-import com.goddess.nsrule.core.executer.context.Context;
-import com.goddess.nsrule.core.executer.context.RuleConfig;
-import com.goddess.nsrule.core.executer.mode.base.bound.Bound;
-import com.goddess.nsrule.core.executer.mode.base.formula.FormulaNode;
+import org.dromara.testhub.nsrule.core.executer.context.Context;
+import org.dromara.testhub.nsrule.core.executer.context.RuleConfig;
+import org.dromara.testhub.nsrule.core.executer.mode.base.bound.Bound;
+import org.dromara.testhub.nsrule.core.executer.mode.base.formula.FormulaNode;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 

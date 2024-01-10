@@ -2,9 +2,9 @@ package org.dromara.testhub.plugins.sql.actions;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.fastjson.JSONObject;
-import com.goddess.nsrule.core.executer.context.Context;
-import com.goddess.nsrule.core.executer.mode.base.Result;
-import com.goddess.nsrule.core.executer.mode.base.action.RunState;
+import org.dromara.testhub.nsrule.core.executer.context.Context;
+import org.dromara.testhub.nsrule.core.executer.mode.base.Result;
+import org.dromara.testhub.nsrule.core.executer.mode.base.action.RunState;
 import org.dromara.testhub.framework.util.Key;
 import org.dromara.testhub.plugins.sql.actions.core.ConnectionManager;
 import org.dromara.testhub.plugins.sql.actions.model.TestHubExecuteSql;

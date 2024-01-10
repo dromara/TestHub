@@ -3,11 +3,11 @@ package org.dromara.testhub.plugins.constant.actions;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.goddess.nsrule.core.constant.Constant;
-import com.goddess.nsrule.core.executer.context.Context;
-import com.goddess.nsrule.core.executer.mode.base.Result;
-import com.goddess.nsrule.core.executer.mode.base.action.RunState;
-import com.goddess.nsrule.core.executer.operation.Operation;
+import org.dromara.testhub.nsrule.core.constant.RuleConstant;
+import org.dromara.testhub.nsrule.core.executer.context.Context;
+import org.dromara.testhub.nsrule.core.executer.mode.base.Result;
+import org.dromara.testhub.nsrule.core.executer.mode.base.action.RunState;
+import org.dromara.testhub.nsrule.core.executer.operation.Operation;
 import org.dromara.testhub.plugins.constant.actions.model.TestHubActionConst;
 import org.dromara.testhub.sdk.action.BaseDTOConvertor;
 import org.dromara.testhub.sdk.action.BaseJsonActionParser;
@@ -54,15 +54,15 @@ public class ConstPlugin implements Plugin {
         boolean baseDataType=context.getProject().isBaseDataType(dataType);
         if(baseDataType){
             redMaps.add(reData);
-            if(Constant.DataType.NUMBER.equalsIgnoreCase(dataType)){
+            if(RuleConstant.DataType.NUMBER.equalsIgnoreCase(dataType)){
                 reData.put("val", Operation.getNumber(dataStr.trim()));
-            }else if(Constant.DataType.STRING.equalsIgnoreCase(dataType)){
+            }else if(RuleConstant.DataType.STRING.equalsIgnoreCase(dataType)){
                 reData.put("val", dataStr.trim());
-            }else if(Constant.DataType.TIME_YMDHMS.equalsIgnoreCase(dataType)){
+            }else if(RuleConstant.DataType.TIME_YMDHMS.equalsIgnoreCase(dataType)){
                 reData.put("val",Operation.getTimeYdmhms(dataStr.trim()));
-            }else if(Constant.DataType.TIME_YMD.equalsIgnoreCase(dataType)){
+            }else if(RuleConstant.DataType.TIME_YMD.equalsIgnoreCase(dataType)){
                 reData.put("val", Operation.getTimeYdm(dataStr.trim()));
-            }else if(Constant.DataType.TIME_HMS.equalsIgnoreCase(dataType)){
+            }else if(RuleConstant.DataType.TIME_HMS.equalsIgnoreCase(dataType)){
                 reData.put("val", Operation.getTimeHms(dataStr.trim()));
             }
             return;

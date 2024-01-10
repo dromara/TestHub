@@ -1,8 +1,8 @@
 package org.dromara.testhub.plugins.convert.actions;
 
-import com.goddess.nsrule.core.constant.RuleException;
-import com.goddess.nsrule.core.executer.mode.base.action.Param;
-import com.goddess.nsrule.core.util.DataCheckUtil;
+import org.dromara.testhub.nsrule.core.constant.RuleException;
+import org.dromara.testhub.nsrule.core.executer.mode.base.action.Param;
+import org.dromara.testhub.nsrule.core.util.DataCheckUtil;
 import org.dromara.testhub.framework.exception.TestHubException;
 import org.dromara.testhub.plugins.convert.actions.model.Convert;
 import org.dromara.testhub.plugins.convert.actions.model.TestHubActionConvert;

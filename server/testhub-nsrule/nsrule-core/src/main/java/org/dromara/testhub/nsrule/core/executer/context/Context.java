@@ -11,6 +11,7 @@ import org.dromara.testhub.nsrule.core.executer.mode.base.action.Param;
 import org.dromara.testhub.nsrule.core.executer.mode.base.action.RunState;
 import org.dromara.testhub.nsrule.core.executer.mode.Rule;
 import org.apache.commons.lang3.StringUtils;
+import org.dromara.testhub.nsrule.core.executer.mode.base.function.FunctionHandlerFactory;
 
 import java.util.*;
 import java.util.concurrent.Executor;
@@ -39,14 +40,10 @@ public abstract class Context<T> {
 
     private JSONObject runData = new JSONObject();
     private List<RunState> runStates = new ArrayList<>();
-    private JSONObject ruleParams = new JSONObject();
+    private JSONObject ruleParams;
     private JSONObject globalParams;
 
-    //回溯栈
-    //private Stack<JudgePath> judgePathStack = new Stack<>();
-    //执行路径
-    //private Queue<JudgePath> judgePathQueue = new LinkedList<>();
-    //private Map<Thread, Flow> flowMap = new ConcurrentHashMap<>();
+
 
     //事件通知
     private EventBus eventBus;
@@ -56,17 +53,37 @@ public abstract class Context<T> {
         if(StringUtils.isEmpty(envCode)){
             this.globalParams = new JSONObject();
         }else {
-           List<Param> params = project.getGlobalParamMap().get(envCode);
-           if(CollectionUtil.isEmpty(params)){
-               this.globalParams = new JSONObject();
-           }else {
-               //这里说明环境编码存在
-               this.globalParams = Param.buildParams(params);
-           }
+            List<Param> params = project.getGlobalParamMap().get(envCode);
+            if(CollectionUtil.isEmpty(params)){
+                this.globalParams = new JSONObject();
+            }else {
+                //这里说明环境编码存在
+                this.globalParams = Param.buildParams(params);
+            }
         }
         this.project = project;
         this.rule = rule;
-        eventBus = new AsyncEventBus(executor == null ? baseExecutor : executor);
+        this.eventBus = new AsyncEventBus(executor == null ? baseExecutor : executor);
+    }
+    public Context(RuleProject project,String envCode) {
+        this.uuid = UUID.randomUUID().toString();
+        if(StringUtils.isEmpty(envCode)){
+            this.globalParams = new JSONObject();
+        }else {
+            List<Param> params = project.getGlobalParamMap().get(envCode);
+            if(CollectionUtil.isEmpty(params)){
+                this.globalParams = new JSONObject();
+            }else {
+                //这里说明环境编码存在
+                this.globalParams = Param.buildParams(params);
+            }
+        }
+        this.project = project;
+    }
+    public Context(JSONObject params) {
+        this.uuid = UUID.randomUUID().toString();
+        this.globalParams = params;
+        this.project = null;
     }
 
     public void register(Object observer) {
@@ -255,5 +272,8 @@ public abstract class Context<T> {
 
     public RuleProject getProject() {
         return project;
+    }
+    public FunctionHandlerFactory getFunctionHandlerFactory() {
+        return project.buildContext().getFunctionHandlerFactory();
     }
 }

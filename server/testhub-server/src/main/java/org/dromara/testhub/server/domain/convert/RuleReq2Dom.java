@@ -1,13 +1,14 @@
 package org.dromara.testhub.server.domain.convert;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.goddess.nsrule.core.executer.context.RuleConfig;
-import com.goddess.nsrule.core.executer.mode.base.action.Action;
-import com.goddess.nsrule.core.parser.ExecuteParser;
+import org.dromara.testhub.nsrule.core.executer.context.RuleConfig;
+import org.dromara.testhub.nsrule.core.executer.mode.base.action.Action;
+import org.dromara.testhub.nsrule.core.parser.ExecuteParser;
 import org.apache.commons.lang3.StringUtils;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
+import org.dromara.testhub.sdk.action.dto.RuleParamReqDto;
 import org.dromara.testhub.server.domain.dto.req.rule.*;
 
 import java.util.HashMap;

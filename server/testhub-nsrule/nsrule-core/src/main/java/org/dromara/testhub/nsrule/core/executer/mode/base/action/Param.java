@@ -3,7 +3,7 @@ package org.dromara.testhub.nsrule.core.executer.mode.base.action;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSONObject;
-import org.dromara.testhub.nsrule.core.constant.Constant;
+import org.dromara.testhub.nsrule.core.constant.RuleConstant;
 import org.dromara.testhub.nsrule.core.executer.mode.BaseDataPo;
 import org.dromara.testhub.nsrule.core.constant.ExceptionCode;
 import org.dromara.testhub.nsrule.core.constant.RuleException;
@@ -108,17 +108,17 @@ public class Param extends BaseDataPo {
 
     private static Object getData(Param param, Object data) {
         switch (param.getDataType()) {
-            case Constant.DataType.NUMBER:
+            case RuleConstant.DataType.NUMBER:
                 return data == null ? BigDecimal.ZERO : new BigDecimal(data.toString());
-            case Constant.DataType.STRING:
+            case RuleConstant.DataType.STRING:
                 return data == null ? "" : data.toString();
-            case Constant.DataType.BOLL:
+            case RuleConstant.DataType.BOLL:
                 return data == null ? false : Boolean.parseBoolean(data.toString());
-            case Constant.DataType.TIME_YMD:
+            case RuleConstant.DataType.TIME_YMD:
                 return data == null ? null : data.toString();
-            case Constant.DataType.TIME_HMS:
+            case RuleConstant.DataType.TIME_HMS:
                 return data == null ? null : data.toString();
-            case Constant.DataType.TIME_YMDHMS:
+            case RuleConstant.DataType.TIME_YMDHMS:
                 return data == null ? null : data.toString();
         }
         return data;

@@ -1,6 +1,6 @@
 package org.dromara.testhub.nsrule.core.executer.operation.impl.compose;
 
-import org.dromara.testhub.nsrule.core.constant.Constant;
+import org.dromara.testhub.nsrule.core.constant.RuleConstant;
 import org.dromara.testhub.nsrule.core.constant.ExceptionCode;
 import org.dromara.testhub.nsrule.core.constant.RuleException;
 import org.dromara.testhub.nsrule.core.executer.operation.Operation;
@@ -22,7 +22,7 @@ import java.util.List;
 public class Like extends Operation {
     @Override
     public String getOperationCode() {
-        return Constant.OperationType.Like;
+        return RuleConstant.OperationType.Like;
     }
 
     @Override
@@ -32,7 +32,7 @@ public class Like extends Operation {
             return false;
         }
         switch (dataTypeCode) {
-            case Constant.DataType.STRING:
+            case RuleConstant.DataType.STRING:
                 return string(coverComplex, cover, thresholdComplex, threshold);
 
             default:
@@ -59,26 +59,26 @@ public class Like extends Operation {
 
     @Override
     public boolean timeHms(LocalTime t1, LocalTime t2) {
-        throw new RuleException(ExceptionCode.EC_0108, getOperationCode(), Constant.DataType.TIME_HMS);
+        throw new RuleException(ExceptionCode.EC_0108, getOperationCode(), RuleConstant.DataType.TIME_HMS);
     }
 
     @Override
     public boolean timeYmdhms(LocalDateTime t1, LocalDateTime t2) {
-        throw new RuleException(ExceptionCode.EC_0108, getOperationCode(), Constant.DataType.TIME_YMDHMS);
+        throw new RuleException(ExceptionCode.EC_0108, getOperationCode(), RuleConstant.DataType.TIME_YMDHMS);
     }
 
     @Override
     public boolean timeYmd(LocalDate t1, LocalDate t2) {
-        throw new RuleException(ExceptionCode.EC_0108, getOperationCode(), Constant.DataType.TIME_YMD);
+        throw new RuleException(ExceptionCode.EC_0108, getOperationCode(), RuleConstant.DataType.TIME_YMD);
     }
 
     @Override
     public boolean number(BigDecimal t1, BigDecimal t2) {
-        throw new RuleException(ExceptionCode.EC_0108, getOperationCode(), Constant.DataType.NUMBER);
+        throw new RuleException(ExceptionCode.EC_0108, getOperationCode(), RuleConstant.DataType.NUMBER);
     }
 
     @Override
     public boolean boll(Boolean t1, Boolean t2) {
-        throw new RuleException(ExceptionCode.EC_0108, getOperationCode(), Constant.DataType.BOLL);
+        throw new RuleException(ExceptionCode.EC_0108, getOperationCode(), RuleConstant.DataType.BOLL);
     }
 }

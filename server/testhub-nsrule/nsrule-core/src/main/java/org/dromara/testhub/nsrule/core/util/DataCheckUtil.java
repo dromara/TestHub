@@ -1,7 +1,11 @@
 package org.dromara.testhub.nsrule.core.util;
 
+import org.dromara.testhub.nsrule.core.constant.ConstantUtil;
 import org.dromara.testhub.nsrule.core.constant.RuleException;
 import org.apache.commons.lang3.StringUtils;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author: 失败女神-vinc
@@ -17,6 +21,12 @@ public class DataCheckUtil {
             }
             i++;
         }
+    }
 
+    public static void dataTypeCheck(String data) {
+        boolean flag = ConstantUtil.isBaseDataType(data.toUpperCase());
+        if (!flag) {
+            throw new RuleException("找不到数据类型"+data);
+        }
     }
 }

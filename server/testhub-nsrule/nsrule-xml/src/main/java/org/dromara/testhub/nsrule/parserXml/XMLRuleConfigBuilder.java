@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.io.resource.Resource;
 import cn.hutool.core.io.resource.ResourceUtil;
 import cn.hutool.core.net.URLDecoder;
-import org.dromara.testhub.nsrule.core.constant.Constant;
+import org.dromara.testhub.nsrule.core.constant.RuleConstant;
 import org.dromara.testhub.nsrule.core.constant.ExceptionCode;
 import org.dromara.testhub.nsrule.core.constant.RuleException;
 import org.dromara.testhub.nsrule.core.executer.context.RuleProject;
@@ -26,6 +26,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
+import org.dromara.testhub.nsrule.core.util.DataCheckUtil;
 
 import java.io.File;
 import java.nio.charset.Charset;
@@ -181,6 +182,8 @@ public class XMLRuleConfigBuilder implements RuleConfigBuilder<String> {
                     param.setData(data);
                 }
             }
+            DataCheckUtil.notBlank(new String[]{code, dataType}, new String[]{"参数编码", "参数数据类型"});
+            DataCheckUtil.dataTypeCheck(dataType);
             params.add(param);
         }
         return params;
@@ -251,7 +254,7 @@ public class XMLRuleConfigBuilder implements RuleConfigBuilder<String> {
             metaEnum.setCode(code);
             metaEnum.setName(name);
             metaEnum.setType(type);
-            if (Constant.EnumType.FIXED.equalsIgnoreCase(type)) {
+            if (RuleConstant.EnumType.FIXED.equalsIgnoreCase(type)) {
                 List<MetaEnum.Item> itemList = new ArrayList<>();
                 //固定的要解析明细项
                 List<Element> items2 = item.element("items").elements("item");
@@ -421,7 +424,7 @@ public class XMLRuleConfigBuilder implements RuleConfigBuilder<String> {
         RuleParser parser = null;
         String type = path.substring(path.lastIndexOf(".") + 1).toLowerCase();
         switch (type) {
-            case Constant.ConfigType.XML:
+            case RuleConstant.ConfigType.XML:
                 parser = XMLRuleParser.getInstance(ruleConfig);
                 rule = parser.parse(DocumentHelper.parseText(ResourceUtil.readUtf8Str(path)), ruleConfig);
                 break;

@@ -1,16 +1,17 @@
 package org.dromara.testhub.server.startup;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.goddess.nsrule.core.executer.mode.base.action.Action;
+import org.dromara.testhub.nsrule.core.executer.mode.base.action.Action;
+import org.dromara.testhub.sdk.action.dto.res.RuleParamResDto;
 import org.dromara.testhub.sdk.action.model.rule.TestHubAction;
 import org.dromara.testhub.server.domain.dto.res.rule.*;
 import org.dromara.testhub.server.infrastructure.repository.po.EnvironmentPo;
 import org.dromara.testhub.server.infrastructure.repository.po.RulePo;
 import org.dromara.testhub.server.infrastructure.repository.po.TreeInfoPo;
-import com.goddess.nsrule.core.executer.context.RuleConfig;
-import com.goddess.nsrule.core.executer.context.RuleProject;
-import com.goddess.nsrule.core.executer.mode.Rule;
-import com.goddess.nsrule.core.executer.mode.base.action.Param;
+import org.dromara.testhub.nsrule.core.executer.context.RuleConfig;
+import org.dromara.testhub.nsrule.core.executer.context.RuleProject;
+import org.dromara.testhub.nsrule.core.executer.mode.Rule;
+import org.dromara.testhub.nsrule.core.executer.mode.base.action.Param;
 import org.dromara.testhub.server.core.rule.DbManager;
 import org.dromara.testhub.server.core.rule.DbRuleManager;
 import org.dromara.testhub.server.core.util.TreeUtil;

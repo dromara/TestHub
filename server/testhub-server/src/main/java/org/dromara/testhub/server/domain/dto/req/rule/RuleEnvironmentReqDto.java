@@ -5,8 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import org.dromara.testhub.server.domain.dto.res.rule.RuleParamResDto;
+import org.dromara.testhub.sdk.action.dto.RuleParamReqDto;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;

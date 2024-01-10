@@ -22,6 +22,12 @@ public class HttpDTOConvertor implements BaseDTOConvertor {
         if(CollectionUtil.isNotEmpty(model.getHttpModel().getHeaders())){
             model.getHttpModel().getHeaders().forEach(obj -> obj.setId(Long.valueOf(model.getHttpModel().getHeaders().indexOf(obj)+"")));
         }
+        if(CollectionUtil.isNotEmpty(model.getHttpModel().getRests())){
+            model.getHttpModel().getRests().forEach(obj -> obj.setId(Long.valueOf(model.getHttpModel().getRests().indexOf(obj)+"")));
+        }
+        if(CollectionUtil.isNotEmpty(model.getHttpModel().getCookies())){
+            model.getHttpModel().getCookies().forEach(obj -> obj.setId(Long.valueOf(model.getHttpModel().getCookies().indexOf(obj)+"")));
+        }
         if(model.getHttpModel().getBody()!=null&&CollectionUtil.isNotEmpty(model.getHttpModel().getBody().getDatas())){
             model.getHttpModel().getBody().getDatas().forEach(obj -> obj.setId(Long.valueOf(model.getHttpModel().getBody().getDatas().indexOf(obj)+"")));
         }

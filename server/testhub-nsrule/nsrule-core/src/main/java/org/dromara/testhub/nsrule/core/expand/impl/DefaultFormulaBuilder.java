@@ -1,14 +1,15 @@
 package org.dromara.testhub.nsrule.core.expand.impl;
 
-import org.dromara.testhub.nsrule.core.executer.mode.base.formula.*;
-import org.dromara.testhub.nsrule.core.expand.FormulaBuilder;
-import org.dromara.testhub.nsrule.core.expand.impl.ast.FormulaLexer;
-import org.dromara.testhub.nsrule.core.expand.impl.ast.FormulaParser;
-import org.antlr.v4.runtime.ANTLRInputStream;
-import org.antlr.v4.runtime.BailErrorStrategy;
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.tree.ParseTree;
-import org.antlr.v4.runtime.tree.TerminalNodeImpl;
+import org.dromara.testhub.nsrule.core.executer.mode.base.formula.*;
+import org.dromara.testhub.nsrule.core.executer.mode.base.formula.antlr.FormulaLexer;
+import org.dromara.testhub.nsrule.core.executer.mode.base.formula.antlr.FormulaParser;
+import org.dromara.testhub.nsrule.core.expand.FormulaBuilder;
+import org.dromara.testhub.nsrule.core.executer.mode.base.formula.ast.ASTTransformVisitor;
+import org.dromara.testhub.nsrule.core.executer.mode.base.formula.ast.MyErrorListener;
+
 
 /**
  * @author: 失败女神-vinc
@@ -17,62 +18,27 @@ import org.antlr.v4.runtime.tree.TerminalNodeImpl;
  */
 public class DefaultFormulaBuilder implements FormulaBuilder {
     public FormulaNode getFormulaNode(String text) {
-        if (text.startsWith("%{")) {
-            return new FuncNode(text, this);
-        } else if (text.startsWith("${")) {
-            return new PathNode(text, this);
-        } else {
-            return new DataNode(text);
-        }
-    }
+        try {
+            // 从字符串创建 CharStream
+            CharStream charStream = CharStreams.fromString(text);
 
-
-    public static class FormulaUtil {
-        public static FormulaNode getFormulaNode(String el) {
-            ANTLRInputStream input = new ANTLRInputStream(el);
-            FormulaLexer lexer = new FormulaLexer(input);
+            // 使用生成的 FormulaLexer 进行词法分析
+            FormulaLexer lexer = new FormulaLexer(charStream);
             CommonTokenStream tokens = new CommonTokenStream(lexer);
+
+            // 使用生成的 FormulaParser 进行语法分析
             FormulaParser parser = new FormulaParser(tokens);
-            parser.setErrorHandler(new BailErrorStrategy());
-            ParseTree tree = parser.formula();
+            parser.removeErrorListeners(); // 移除默认的错误处理器
+            parser.addErrorListener(new MyErrorListener());
 
-            FormulaVisitor formulaVisitor = new FormulaVisitor();
-            Object obj = formulaVisitor.visit(tree);
+            FormulaParser.FormulaContext formulaContext = parser.formula();
 
-            return transform(tree);
-        }
+            ASTTransformVisitor transformVisitor = new ASTTransformVisitor();
 
-        private static FormulaNode transform(ParseTree tree) {
-            if (tree instanceof FormulaParser.NumberFormulaContext || tree instanceof FormulaParser.StringFormulaContext) {
-                return new DataNode(tree.getText());
-            } else if (tree instanceof FormulaParser.VariableFormulaContext) {
-                return new PathNode2();
-            }
-            return new DataNode("12");
-        }
-
-        private static PathNode2 getPathNode(FormulaParser.VariableFormulaContext tree) {
-            PathNode2 pathNode2 = new PathNode2();
-            StringBuilder path = new StringBuilder();
-            int i = -1;
-            for (ParseTree item : tree.children) {
-                i++;
-                if (item instanceof TerminalNodeImpl) {
-                    if (i == 0) {
-                        path.append(item.getText());
-                    } else {
-                        path.append("." + item.getText());
-                    }
-                } else {
-                    break;
-                }
-            }
-
-            return pathNode2;
-        }
-
-        private static String getPath(FormulaParser.PathFormulaContext tree) {
-            return "";
+            FormulaNode node =  transformVisitor.visitFormula(formulaContext);
+            return node.simplify();
+        } catch (Exception e) {
+            return new DataNode(text);
         }
     }
 }

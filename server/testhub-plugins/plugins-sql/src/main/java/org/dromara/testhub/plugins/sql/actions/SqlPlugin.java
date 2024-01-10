@@ -6,10 +6,10 @@ import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.sql.parser.SQLParserUtils;
 import com.alibaba.druid.sql.parser.Token;
 import com.alibaba.fastjson.JSONObject;
-import com.goddess.nsrule.core.constant.Constant;
-import com.goddess.nsrule.core.executer.context.Context;
-import com.goddess.nsrule.core.executer.mode.base.Result;
-import com.goddess.nsrule.core.executer.mode.base.action.RunState;
+import org.dromara.testhub.nsrule.core.constant.RuleConstant;
+import org.dromara.testhub.nsrule.core.executer.context.Context;
+import org.dromara.testhub.nsrule.core.executer.mode.base.Result;
+import org.dromara.testhub.nsrule.core.executer.mode.base.action.RunState;
 import org.dromara.testhub.framework.exception.TestHubException;
 import org.dromara.testhub.framework.util.Key;
 import org.dromara.testhub.plugins.sql.actions.core.ConnectionManager;
@@ -120,9 +120,9 @@ public class SqlPlugin implements Plugin {
 
     protected Key getKey(Context context, TestHubExecuteSql execute) {
         String keyStr = null;
-        if (Constant.RuleModel.FLOW.equalsIgnoreCase(context.getRule().getModel())) {
+        if (RuleConstant.RuleModel.FLOW.equalsIgnoreCase(context.getRule().getModel())) {
             keyStr = context.getItemCode();
-        } else if (Constant.RuleModel.GRAPH.equalsIgnoreCase(context.getRule().getModel())) {
+        } else if (RuleConstant.RuleModel.GRAPH.equalsIgnoreCase(context.getRule().getModel())) {
             keyStr = context.getItemCode();
         }
         if (StringUtils.isNotEmpty(execute.getConKey())) {

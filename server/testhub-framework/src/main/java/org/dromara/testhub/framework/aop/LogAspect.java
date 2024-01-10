@@ -30,9 +30,10 @@ import java.util.concurrent.TimeUnit;
 @Aspect
 public class LogAspect {
 
-//    @Pointcut("execution(public *  com.goddess.testhub.*.api.*Controller.*(..))")
-    //com.goddess.testhub.web.interfaces.api
-    @Pointcut("execution(public *  org.dromara.testhub.*.interfaces.api.*Controller.*(..))")
+
+//    @Pointcut("execution(public *  org.dromara.testhub.*.interfaces.api.*Controller.*(..))")
+@Pointcut("@annotation(org.springframework.web.bind.annotation.PostMapping) " +
+        "|| @annotation(org.springframework.web.bind.annotation.GetMapping)")
     public void log() {
     }
 

@@ -1,6 +1,6 @@
 package org.dromara.testhub.plugins.compare.actions.model;
 
-import com.goddess.nsrule.core.executer.mode.base.action.Execute;
+import org.dromara.testhub.nsrule.core.executer.mode.base.action.Execute;
 import org.dromara.testhub.sdk.action.model.rule.TestHubExecute;
 
 import java.util.List;

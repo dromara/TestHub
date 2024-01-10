@@ -1,6 +1,6 @@
-package org.dromara.testhub.nsrule.core.parser;//package com.goddess.nsrule.core.parser;
+package org.dromara.testhub.nsrule.core.parser;//package org.dromara.testhub.nsrule.core.parser;
 //
-//import com.goddess.nsrule.core.executer.mode.base.bound.*;
+//import org.dromara.testhub.nsrule.core.executer.mode.base.bound.*;
 //
 //public interface BoundParser2<T> {
 //    default Compose boundCompose(T dataObj){

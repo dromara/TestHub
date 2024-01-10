@@ -3,11 +3,11 @@ package org.dromara.testhub.server.core.util;
 import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.fastjson.JSONPath;
 import org.dromara.testhub.framework.web.PageResult;
-import com.goddess.nsrule.core.constant.Constant;
-import com.goddess.nsrule.core.executer.mode.ruleLine.Expression;
-import com.goddess.nsrule.core.executer.mode.ruleLine.JavaActuator;
-import com.goddess.nsrule.core.executer.operation.Operation;
-import com.goddess.nsrule.core.executer.operation.OperationFactory;
+import org.dromara.testhub.nsrule.core.constant.RuleConstant;
+import org.dromara.testhub.nsrule.core.executer.mode.ruleLine.Expression;
+import org.dromara.testhub.nsrule.core.executer.mode.ruleLine.JavaActuator;
+import org.dromara.testhub.nsrule.core.executer.operation.Operation;
+import org.dromara.testhub.nsrule.core.executer.operation.OperationFactory;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang3.StringUtils;
 
@@ -71,7 +71,7 @@ public class CacheUtil<MODEL, RES> {
                 Object cover = sort.apply(o1);
                 Object threshold = sort.apply(o2);
                 boolean flag = true;
-                Operation lt = OperationFactory.getOperation(Constant.OperationType.LT);
+                Operation lt = OperationFactory.getOperation(RuleConstant.OperationType.LT);
                 flag = lt.execute(getDataType(cover), 0, cover, 0, threshold);
                 if (flag) {
                     return 1;
@@ -109,14 +109,14 @@ public class CacheUtil<MODEL, RES> {
         Expression baseExpression = new Expression();
         List<Expression> subExpressions = new ArrayList<>();
         baseExpression.setOperationCode("and");
-        baseExpression.setExpressionType(Constant.ExpressionType.LOGIC);
+        baseExpression.setExpressionType(RuleConstant.ExpressionType.LOGIC);
         for (String key : params.keySet()) {
             if (!key.startsWith("qp-")) {
                 continue;
             }
             Map<String, String> map = getQueryParamMap(key);
             Expression expression = new Expression();
-            expression.setExpressionType(Constant.ExpressionType.RELATION);
+            expression.setExpressionType(RuleConstant.ExpressionType.RELATION);
             expression.setOperationCode(map.get("option"));
             expression.setCoverComplex(0);
             expression.setThresholdComplex(0);
@@ -133,28 +133,28 @@ public class CacheUtil<MODEL, RES> {
 
     private static String getDataType(Object value) {
         if (value == null) {
-            return Constant.DataType.STRING;
+            return RuleConstant.DataType.STRING;
         }
         if (value instanceof String) {
-            return Constant.DataType.STRING;
+            return RuleConstant.DataType.STRING;
         }
         if (value instanceof Date) {
-            return Constant.DataType.TIME_YMDHMS;
+            return RuleConstant.DataType.TIME_YMDHMS;
         }
         if (value instanceof LocalDate) {
-            return Constant.DataType.TIME_YMD;
+            return RuleConstant.DataType.TIME_YMD;
         }
         if (value instanceof LocalTime) {
-            return Constant.DataType.TIME_HMS;
+            return RuleConstant.DataType.TIME_HMS;
         }
         if (value instanceof LocalDateTime) {
-            return Constant.DataType.TIME_YMDHMS;
+            return RuleConstant.DataType.TIME_YMDHMS;
         }
         if (value instanceof Boolean) {
-            return Constant.DataType.BOLL;
+            return RuleConstant.DataType.BOLL;
         }
         if (value instanceof Integer || value instanceof Double || value instanceof Long || value instanceof BigDecimal) {
-            return Constant.DataType.NUMBER;
+            return RuleConstant.DataType.NUMBER;
         }
         return null;
     }
@@ -186,16 +186,16 @@ public class CacheUtil<MODEL, RES> {
                 Object threshold = JSONPath.eval(o2, "$." + fileName);
                 boolean flag = true;
                 if ("ASC".equalsIgnoreCase(op)) {
-                    Operation lt = OperationFactory.getOperation(Constant.OperationType.LT);
+                    Operation lt = OperationFactory.getOperation(RuleConstant.OperationType.LT);
                     flag = lt.execute(getDataType(cover), 0, cover, 0, threshold);
                 } else {
-                    Operation gt = OperationFactory.getOperation(Constant.OperationType.GT);
+                    Operation gt = OperationFactory.getOperation(RuleConstant.OperationType.GT);
                     flag = gt.execute(getDataType(cover), 0, cover, 0, threshold);
                 }
                 if (flag) {
                     return -1;
                 }
-                Operation eq = OperationFactory.getOperation(Constant.OperationType.EQ);
+                Operation eq = OperationFactory.getOperation(RuleConstant.OperationType.EQ);
                 flag = eq.execute(getDataType(cover), 0, cover, 0, threshold);
                 if (flag) {
                     continue;

@@ -1,8 +1,8 @@
 package org.dromara.testhub.plugins.sleep.actions;
 
 import com.alibaba.fastjson.JSONObject;
-import com.goddess.nsrule.core.executer.context.Context;
-import com.goddess.nsrule.core.executer.mode.base.action.RunState;
+import org.dromara.testhub.nsrule.core.executer.context.Context;
+import org.dromara.testhub.nsrule.core.executer.mode.base.action.RunState;
 import org.dromara.testhub.plugins.sleep.actions.model.TestHubExecuteSleep;
 import org.dromara.testhub.sdk.action.BaseDTOConvertor;
 import org.dromara.testhub.sdk.action.BaseJsonExecuteParser;

@@ -11,9 +11,9 @@ import org.dromara.testhub.server.domain.dto.res.rule.RuleProjectSimpleResDto;
 import org.dromara.testhub.server.domain.dto.res.rule.RuleResDto;
 import org.dromara.testhub.server.infrastructure.repository.po.RulePo;
 import org.dromara.testhub.server.infrastructure.repository.po.TreeInfoPo;
-import com.goddess.nsrule.core.executer.context.RuleConfig;
-import com.goddess.nsrule.core.executer.context.RuleProject;
-import com.goddess.nsrule.core.executer.mode.Rule;
+import org.dromara.testhub.nsrule.core.executer.context.RuleConfig;
+import org.dromara.testhub.nsrule.core.executer.context.RuleProject;
+import org.dromara.testhub.nsrule.core.executer.mode.Rule;
 import org.springframework.stereotype.Component;
 
 import java.io.File;

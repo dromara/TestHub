@@ -1,9 +1,9 @@
 package org.dromara.testhub.plugins.sql.actions;
 
 import com.alibaba.fastjson.JSONObject;
-import com.goddess.nsrule.core.executer.mode.base.bound.FreeMarker;
-import com.goddess.nsrule.core.parser.BoundParser;
-import com.goddess.nsrule.core.parser.BoundParserFreeMarker;
+import org.dromara.testhub.nsrule.core.executer.mode.base.bound.FreeMarker;
+import org.dromara.testhub.nsrule.core.parser.BoundParser;
+import org.dromara.testhub.nsrule.core.parser.BoundParserFreeMarker;
 import org.dromara.testhub.sdk.action.BaseJsonActionParser;
 import org.dromara.testhub.sdk.action.model.rule.TestHubAction;
 import org.dromara.testhub.plugins.sql.actions.model.TestHubActionSql;

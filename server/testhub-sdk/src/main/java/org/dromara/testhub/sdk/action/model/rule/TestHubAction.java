@@ -1,10 +1,10 @@
 package org.dromara.testhub.sdk.action.model.rule;
 
 import com.alibaba.fastjson.JSONObject;
-import com.goddess.nsrule.core.executer.context.Context;
-import com.goddess.nsrule.core.executer.mode.base.action.Action;
-import com.goddess.nsrule.core.executer.mode.base.action.Execute;
-import com.goddess.nsrule.core.executer.mode.base.action.RunState;
+import org.dromara.testhub.nsrule.core.executer.context.Context;
+import org.dromara.testhub.nsrule.core.executer.mode.base.action.Action;
+import org.dromara.testhub.nsrule.core.executer.mode.base.action.Execute;
+import org.dromara.testhub.nsrule.core.executer.mode.base.action.RunState;
 import org.dromara.testhub.sdk.action.Plugin;
 import org.dromara.testhub.sdk.action.PluginFactory;
 import lombok.Data;
