@@ -1,4 +1,4 @@
-package org.dromara.testhub.nsrule.model;
+package org.dromara.testhub.nsrule.flow.model;
 
 import org.dromara.testhub.nsrule.core.constant.ExceptionCode;
 import org.dromara.testhub.nsrule.core.constant.RuleException;
