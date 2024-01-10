@@ -93,13 +93,17 @@ const AppPageModel: IAppPageType = {
     },
     newCaseConsole(state, { payload }) {
       let oldConsoles: IConsoleIndo<TreeNodeResDto>[] = state.caseConsoles;
-      const fileContent = `<?xml version="1.0" encoding="UTF-8"?>\n\n<rule code="${payload.key}" name="${payload.name}" model="flow" project="${state.curProject.code}">\n    <flows>\n        <flow code="flow1">\n \n        </flow>\n    </flows>\n</rule>`;
-      const rule: RuleResDto = { project: state.curProject.code, code: payload.key, treeId: payload.parentKey, name: payload.name, flows: [], fileContent: "" };
-      const tree: TreeNodeResDto = { key: payload.key, parentKey: payload.parentKey, name: payload.name, leaf: true, nodeType: "CASE", data: rule }
-      const console: IConsoleIndo<TreeNodeResDto> = { name: payload.name, key: payload.key, status: ConsoleStatus.DRAFT, data: tree };
-      console.nowFileContent = fileContent;
-      oldConsoles.push(console);
-      return { ...state, caseConsoles: [...oldConsoles], caseActiveKey: payload.key };
+      if (oldConsoles.filter(item => item.key == payload.key).length == 0) {
+        const fileContent = `<?xml version="1.0" encoding="UTF-8"?>\n\n<rule code="${payload.key}" name="${payload.name}" model="flow" project="${state.curProject.code}">\n    <flows>\n        <flow code="flow1">\n \n        </flow>\n    </flows>\n</rule>`;
+        const rule: RuleResDto = { project: state.curProject.code, code: payload.key, treeId: payload.parentKey, name: payload.name, flows: [], fileContent: "" };
+        const tree: TreeNodeResDto = { key: payload.key, parentKey: payload.parentKey, name: payload.name, leaf: true, nodeType: "CASE", data: rule }
+        const console: IConsoleIndo<TreeNodeResDto> = { name: payload.name, key: payload.key, status: ConsoleStatus.DRAFT, data: tree };
+        console.nowFileContent = fileContent;
+        oldConsoles.push(console);
+        return { ...state, caseConsoles: [...oldConsoles], caseActiveKey: payload.key };
+      } else {
+        return { ...state, caseActiveKey: payload.key };
+      }
     },
     setCaseConsole(state, { payload, callback }) {
       let oldConsoles: IConsoleIndo<TreeNodeResDto>[] = state.caseConsoles;
