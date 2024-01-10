@@ -14,4 +14,6 @@ export default {
     'http.data.body': 'Request Body',
     'http.data.resbody': 'Response Body',
     'http.data.resheaders': 'Response Headers',
+    'http.data.cookies': 'Cookie',
+    'http.data.recookies': 'Response Cookie',
 };

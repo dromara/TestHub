@@ -1,12 +1,32 @@
 import { ToolsTypeCode } from "@/utils/constants";
 import { ExecutionXmlReqDto } from "../server";
 import { ExecutionResult } from "../server/execution";
+import { HttpApiSendResDto } from "../server/plugins/http";
 
 
 export interface IUserInfo {
     userName: string;
     password: string;
     rememberMe: boolean
+}
+
+//
+
+export enum BaseConsoleStatus {
+    DRAFT = 'DRAFT',//草稿
+    SAVED = 'SAVED',//后台托管
+}
+export interface BaseConsoleInfo<D, P> {
+    name: string; // 名称
+    key: string; // key 唯一
+    status: BaseConsoleStatus;//状态
+    data: D;//数据
+    page: P;
+    // extend?: E;//
+}
+
+export interface BasePageInfo {
+
 }
 
 
@@ -17,8 +37,6 @@ export interface IConsoleInfo<T> {
     key: ToolsTypeCode; // key 唯一
     data: T | undefined | null;//数据
 }
-
-
 
 export enum ConsoleStatus {
     DRAFT = 'DRAFT',//草稿
@@ -85,4 +103,11 @@ export interface Throwable {
     message?: string;
     stackTrace?: StackTraceElement[];
     suppressed?: Throwable[];
+};
+
+
+export interface HttpConsoleInfo {
+    model?: string;
+    activeKey?: string;
+    resultData?: HttpApiSendResDto;
 };

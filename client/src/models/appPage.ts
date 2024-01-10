@@ -212,6 +212,9 @@ const AppPageModel: IAppPageType = {
           type: 'setCurProject',
           payload: project,
         });
+        if (callback && typeof callback === 'function') {
+          callback(project);
+        }
       }
       catch {
       }

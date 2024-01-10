@@ -8,6 +8,8 @@ import Params from '../assembly/params';
 import { useTheme } from '@/utils/hooks';
 export type Props = {
   data: HTTP.BodyResDto;
+  effective?: boolean;
+  height?: number | string;
 };
 
 const Body = forwardRef((props: Props, ref) => {
@@ -106,7 +108,7 @@ const Body = forwardRef((props: Props, ref) => {
         <Col style={{ height: 237, lineHeight: 15 }}>没有正文</Col>
       </Row>
       <ProCard split="vertical" hidden={data.type != 'form-data'}>
-        <Params params={data.datas == undefined ? [] : data.datas} ref={paramsRef} />
+        <Params params={data.datas == undefined ? [] : data.datas} ref={paramsRef} effective={props.effective} />
       </ProCard>
       <ProCard
         split="vertical"
@@ -122,20 +124,19 @@ const Body = forwardRef((props: Props, ref) => {
         <MonacoEditor
           width={'100%'}
           language={language}
-          height={200}
+          height={props.height == undefined ? 200 : props.height}
           onChange={(text) => {
             const newData = JSON.parse(JSON.stringify(data));
             newData.content = text;
             newData.type = 'raw'
             setData(newData);
           }}
-          // theme="vs"
           value={data.content}
           theme={theme}
           options={{
             minimap: { enabled: false },
-            // readOnly: true,
-            scrollBeyondLastLine: false, // 设置编辑器是否可以滚动到最后一行之后
+            overviewRulerBorder: false,
+            scrollBeyondLastLine: true, // 设置编辑器是否可以滚动到最后一行之后
             automaticLayout: true, // 自动布局
             scrollbar: {
               verticalScrollbarSize: 6,

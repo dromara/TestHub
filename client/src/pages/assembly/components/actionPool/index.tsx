@@ -98,7 +98,7 @@ export default (props: IProps) => {
                     }
                 }}
                 onCancel={() => { setActionOpen(false) }}
-                maskClosable={true}
+                maskClosable={false}
                 okText={i18n('case.button.ok')}
                 cancelText={i18n('case.button.cancel')}
             >

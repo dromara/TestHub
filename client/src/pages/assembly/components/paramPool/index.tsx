@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Button, Card, Modal } from 'antd';
+import { Button, Card, Col, Drawer, Modal, Row, Space, message } from 'antd';
 import { IAppPageState, IAssemblyPageState } from 'umi';
 import styles from './index.less';
 import i18n from '@/i18n';
@@ -75,6 +75,11 @@ export default (props: IProps) => {
     useEffect(() => {
         setCardList(getMenu());
     }, [assemblyPage.searchKey]);
+
+    const onClose = () => {
+        setEnvOpen(false)
+    };
+
     return (
         <>
             <div className={styles.card_container}>
@@ -83,7 +88,39 @@ export default (props: IProps) => {
                     <PlusOutlined style={{ fontSize: '22px' }} />
                 </Button>
             </div>
-            <Modal
+            <Drawer title="配置环境"
+                placement="right"
+                onClose={onClose}
+                open={envOpen}
+                width={800}
+                maskClosable={false}
+                destroyOnClose={true}
+                extra={
+                    <Space>
+                        <Button type="primary" onClick={async () => {
+                            if (envRef.current != undefined) {
+                                const res = await envRef.current.getData();
+                                if (res.flag) {
+                                    const env = res.data;
+                                    env.projectCode = appPage.curProject.code;
+                                    dispatch({
+                                        type: 'appPage/saveEnvironment',
+                                        payload: {
+                                            index: index,
+                                            data: res.data
+                                        },
+                                        callback: () => { setEnvOpen(false) }
+                                    })
+                                }
+                            }
+                        }}>
+                            保存
+                        </Button>
+                    </Space>
+                }>
+                <Env data={(index > -1 && envOpen) ? JSON.parse(JSON.stringify(appPage.curProject?.environments[index])) : {}} ref={envRef}></Env>
+            </Drawer>
+            {/* <Modal
                 title={"配置环境"}
                 width={750}
                 open={envOpen}
@@ -104,12 +141,12 @@ export default (props: IProps) => {
                     }
                 }}
                 onCancel={() => { setEnvOpen(false) }}
-                maskClosable={true}
+                maskClosable={false}
                 okText={i18n('case.button.ok')}
                 cancelText={i18n('case.button.cancel')}
             >
                 <Env data={(index > -1 && envOpen) ? JSON.parse(JSON.stringify(appPage.curProject?.environments[index])) : {}} ref={envRef}></Env>
-            </Modal >
+            </Modal > */}
             <Modal
                 title="是否确实删除环境"
                 width={360}

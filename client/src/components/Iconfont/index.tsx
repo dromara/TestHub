@@ -11,9 +11,9 @@ if (__UMI_ENV__ == 'local') {
   /* 在线链接服务仅供平台体验和调试使用，平台不承诺服务的稳定性，企业客户需下载字体包自行发布使用并做好备份。 */
 @font-face {
   font-family: 'iconfont';  /* Project id 4148545 */
-  src: url('//at.alicdn.com/t/c/font_4148545_rvqwl99lzm.woff2?t=1698234623228') format('woff2'),
-       url('//at.alicdn.com/t/c/font_4148545_rvqwl99lzm.woff?t=1698234623228') format('woff'),
-       url('//at.alicdn.com/t/c/font_4148545_rvqwl99lzm.ttf?t=1698234623228') format('truetype');
+  src: url('//at.alicdn.com/t/c/font_4148545_6fg5owe9txv.woff2?t=1698896001867') format('woff2'),
+       url('//at.alicdn.com/t/c/font_4148545_6fg5owe9txv.woff?t=1698896001867') format('woff'),
+       url('//at.alicdn.com/t/c/font_4148545_6fg5owe9txv.ttf?t=1698896001867') format('truetype');
 }
     `
   let style = document.createElement("style");

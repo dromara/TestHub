@@ -14,4 +14,6 @@ export default {
     'http.data.body': '请求体',
     'http.data.resbody': '响应体',
     'http.data.resheaders': '响应头',
+    'http.data.cookies': 'Cookie',
+    'http.data.recookies': '响应Cookie',
 }

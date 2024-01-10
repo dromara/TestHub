@@ -27,6 +27,7 @@
     "@ant-design/pro-components": "^2.6.4",
     "@ant-design/pro-layout": "6.5.0",
     "@traptitech/markdown-it-katex": "^3.6.0",
+    "ahooks": "^3.7.8",
     "antd": "4.23.2",
     "dnd-kit": "^0.0.1",
     "event-source-polyfill": "^1.0.31",

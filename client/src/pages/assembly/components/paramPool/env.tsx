@@ -5,6 +5,7 @@ import Params from '@/components/testHub/assembly/params';
 import { RuleEnvironmentResDto, RuleParamResDto } from '@/typings';
 import { ProForm, ProFormInstance, ProFormText, ProFormTextArea } from '@ant-design/pro-components';
 import i18n from '@/i18n';
+import styles from './index.less';
 const { Step } = Steps;
 interface IProps {
     data: RuleEnvironmentResDto;
@@ -20,6 +21,9 @@ export default forwardRef((props: IProps, ref) => {
 
             if (paramsRef.current != undefined) {
                 const res = await paramsRef.current.getData();
+                if (res.flag == false) {
+                    return { flag: false, data: data };
+                }
                 data.params = res.data;
             }
             const vals = await formRef.current?.validateFieldsReturnFormatValue?.();
@@ -92,8 +96,6 @@ export default forwardRef((props: IProps, ref) => {
                         }
                     }}
                 />
-
-
 
             </ProForm>
 

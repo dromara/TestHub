@@ -63,7 +63,7 @@ export interface TreeNodeResDto {
     /** 子节点列表 */
     children?: TreeNodeResDto[];
     /** 内容 */
-    data?: RuleResDto;
+    data?: any;
     /** key */
     key: string;
     /** key */
@@ -76,6 +76,8 @@ export interface TreeNodeResDto {
     nameDiv: string;
     /** 节点类型：FILE文件夹 CASE用例 */
     nodeType: string;
+    /** 是否打开 */
+    show?: boolean;
 };
 
 export interface RuleMetaEnumResDto {
@@ -281,4 +283,6 @@ export interface RuleParamResDto {
     name?: string;
     /** 是否必传 */
     necessary?: boolean;
+    /** 是否有效果 */
+    effective?: boolean;
 };

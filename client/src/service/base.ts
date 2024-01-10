@@ -134,7 +134,7 @@ export default function createRequest<P = void, R = {}>(
           dataName = 'data';
           break;
       }
-      // console.log(`请求的地址=${_baseURL}${_url}`)
+      console.log(`请求的地址=${_baseURL}${_url}`)
       request[method](`${_baseURL}${_url}`, { [dataName]: params }).then((res) => {
         if (!res) return;
         const { code, msg, data } = res;

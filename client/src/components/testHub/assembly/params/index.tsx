@@ -1,24 +1,57 @@
+import i18n from '@/i18n';
 import { RuleParamResDto } from '@/typings';
-import { CheckOutlined, CloseOutlined, MinusOutlined } from '@ant-design/icons';
-import { EditableFormInstance, ProCard, ProColumns, ProFormField } from '@ant-design/pro-components';
+import { BarsOutlined, CheckCircleOutlined } from '@ant-design/icons';
+import { EditableFormInstance, ProColumns } from '@ant-design/pro-components';
 import { EditableProTable } from '@ant-design/pro-components';
-import { Switch } from 'antd';
+import { Dropdown, Menu, Modal, Radio, RadioChangeEvent, Space, Switch, message } from 'antd';
+import classNames from 'classnames';
 import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
+import MonacoEditor from 'react-monaco-editor';
+import systemService, { } from '@/service/system';
+import { useTheme } from '@/utils/hooks';
 export type Props = {
     params: RuleParamResDto[];
+    effective?: boolean;
+    className?: string;
+    onChange?: Function;
 };
 
+const options = [
+    { label: 'XML', value: 'xml' },
+    // { label: 'JSON', value: 'json' },
+];
+export enum MenuType {
+    EDIT = 'edit',//批量编辑
+    // COPY_ = 'COPY',//
+}
+
 const Params = forwardRef((props: Props, ref) => {
+    const themeColor = useTheme();
+    const [theme, setTheme] = useState(themeColor == 'dark' ? 'BlackTheme' : 'default');
+    useEffect(() => {
+        setTheme(themeColor == 'dark' ? 'BlackTheme' : 'default');
+    }, [themeColor]);
 
     const editorFormRef = useRef<EditableFormInstance<RuleParamResDto>>();
     const [datas, setDatas] = useState<RuleParamResDto[]>(props.params);
     const [editableKeys, setEditableRowKeys] = useState<React.Key[]>([]);
+    const [info, setInfo] = useState<string | undefined>();
+    const [language, setLanguage] = useState('xml');
+    // useEffect(() => {
+    //     setDatas(props.params);
+    // }, [props.params]);
     useEffect(() => {
-        setDatas(props.params);
-    }, [props.params]);
+        if (props.onChange != undefined) {
+            props.onChange(datas);
+        }
+    }, [datas]);
 
     useImperativeHandle(ref, () => ({
         getData: async () => {
+            if (editableKeys.length > 0) {
+                message.error("有参数正在编辑中无法操作");
+                return { flag: false };
+            }
             await editorFormRef.current?.validateFieldsReturnFormatValue?.();
             return { flag: true, data: datas };
         },
@@ -41,11 +74,78 @@ const Params = forwardRef((props: Props, ref) => {
         setDatas(updatedDatas);
 
     }
+    function handleEffectiveChange(record) {
+        const updatedDatas = datas.map((item) => {
+            if (item.id === record.id) {
+                return { ...item, effective: record.effective != false ? false : true };
+            }
+            return item;
+        });
+        setDatas(updatedDatas);
+    }
+    function handleAllEffectiveChange(flag: boolean) {
+        const updatedDatas = datas.map((item) => {
+            return { ...item, effective: flag };
+        });
+        setDatas(updatedDatas);
+    }
+    const dirClickMenuList = async (item: any) => {
+        if (editableKeys.length > 0) {
+            message.error("有参数正在编辑中无法操作");
+            return;
+        }
+        var res = null;
+        if (item == MenuType.EDIT) {
+            if (datas.length > 0) {
+                res = (await systemService.paramsJson2Xml({ info: JSON.stringify(datas) })) as string;
+            } else {
+                res = "<params>\n\t<param code=\"\" name=\"\" dataType=\"STRING\" data=\"\"/>\n</params>";
+            }
+            setInfo(res)
+        } else {
 
+        }
+    }
+
+    const menu = (
+        <Menu>
+            <Menu.Item key={MenuType.EDIT} onClick={dirClickMenuList.bind(null, MenuType.EDIT)}>批量编辑</Menu.Item>
+            {/* <Menu.Item key="B" onClick={dirClickMenuList.bind(null, "B")}>复制调用</Menu.Item> */}
+        </Menu>
+    );
+    const allEffective = function handleSwitchChange() {
+        if (Array.isArray(datas) && datas.length > 0) {
+            const allFlagsTrue = datas.every(item => item.effective != false);
+            if (allFlagsTrue) {
+                return <span style={{ fontSize: 18 }}><CheckCircleOutlined style={{ color: "#87d068" }} onClick={() => handleAllEffectiveChange(false)} /></span>
+            } else {
+                return <span style={{ fontSize: 18 }}><CheckCircleOutlined style={{ color: "#A9A9A9" }} onClick={() => handleAllEffectiveChange(true)} /></span>
+            }
+        } else {
+            return "启用"
+        }
+    }
 
 
     const columns: ProColumns<RuleParamResDto>[] = [
         {
+            title: allEffective(),
+            dataIndex: 'effective',
+            width: '5%',
+            hideInTable: props.effective == true ? false : true,
+            render: (text, record, index, action) => {
+                if (record.effective != false) {
+                    return (
+                        <span style={{ fontSize: 18 }}><CheckCircleOutlined style={{ color: "#87d068" }} onClick={() => handleEffectiveChange(record)} /></span>
+                    );
+                } else {
+                    return (
+                        <span style={{ fontSize: 18 }}><CheckCircleOutlined style={{ color: "#A9A9A9" }} onClick={() => handleEffectiveChange(record)} /></span>
+                    );
+                }
+
+            },
+        }, {
             title: '参数名称',
             dataIndex: 'code',
             tooltip: '编码需要在组内唯一,必须以字母开头',
@@ -124,7 +224,13 @@ const Params = forwardRef((props: Props, ref) => {
             width: '28%'
         },
         {
-            title: '操作',
+            title: <>{"操作 "}
+                <Dropdown overlay={menu}>
+                    <Space>
+                        <BarsOutlined style={{ fontSize: 14 }} />
+                    </Space>
+                </Dropdown>
+            </>,
             valueType: 'option',
             width: '10%',
             render: (text, record, _, action) => [
@@ -150,44 +256,82 @@ const Params = forwardRef((props: Props, ref) => {
 
     return (
         <>
-            <EditableProTable<RuleParamResDto>
-                editableFormRef={editorFormRef}
-                rowKey="id"
-                recordCreatorProps={{
-                    record: () => ({
-                        id: Math.random() * 10000000000000000,
-                        code: "",
-                        dataType: "STRING"
-                    }),
+            <div className={classNames(props.className)}>
+                <EditableProTable<RuleParamResDto>
+                    editableFormRef={editorFormRef}
+                    rowKey="id"
+                    recordCreatorProps={{
+                        record: () => ({
+                            id: Math.random() * 10000000000000000,
+                            code: "",
+                            dataType: "STRING"
+                        }),
+                    }}
+                    columns={columns}
+                    value={datas}
+                    onChange={setDatas}
+                    editable={{
+                        type: 'multiple',
+                        editableKeys,
+                        actionRender: (row, config, defaultDoms) => {
+                            return [defaultDoms.save, defaultDoms.delete];
+                        },
+                        onValuesChange: (record, recordList) => {
+                            setDatas(recordList);
+                        },
+                        onChange: setEditableRowKeys,
+                    }}
+                />
+            </div>
+            <Modal
+                title={"批量编辑"}
+                width={750}
+                open={info != undefined}
+                destroyOnClose
+                onOk={async () => {
+                    var res = null;
+                    if (info != undefined) {
+                        res = (await systemService.paramsXml2Json({ info: info })) as RuleParamResDto[];
+                        setDatas(res);
+                    }
                 }}
-                columns={columns}
-                value={datas}
-                onChange={setDatas}
-                editable={{
-                    type: 'multiple',
-                    editableKeys,
-                    actionRender: (row, config, defaultDoms) => {
-                        return [defaultDoms.save, defaultDoms.delete];
-                    },
-                    onValuesChange: (record, recordList) => {
-                        setDatas(recordList);
-                    },
-                    onChange: setEditableRowKeys,
-                }}
-            />
-            {/* <ProCard title="表格数据" headerBordered collapsible>
-                <ProFormField
-                    ignoreFormItem
-                    fieldProps={{
-                        style: {
-                            width: '100%',
+                onCancel={() => { setInfo(undefined) }}
+                maskClosable={false}
+                okText={i18n('case.button.ok')}
+                cancelText={i18n('case.button.cancel')}
+            >
+                <div style={{ paddingTop: 5, paddingBottom: 15 }}>
+                    <Radio.Group options={options} onChange={({ target: { value } }: RadioChangeEvent) => {
+                        setLanguage(value);
+                    }} value={language} optionType="button" />
+                </div>
+                <MonacoEditor
+                    width={'100%'}
+                    language={language}
+                    height={400}
+                    onChange={(text) => {
+                        setInfo(text);
+                    }}
+                    // theme="vs"
+                    value={info}
+                    theme={theme}
+                    options={{
+                        minimap: { enabled: false },
+                        scrollBeyondLastLine: false, // 设置编辑器是否可以滚动到最后一行之后
+                        automaticLayout: true, // 自动布局
+                        scrollbar: {
+                            verticalScrollbarSize: 6,
+                            horizontalScrollbarSize: 6,
+                            verticalSliderSize: 6,
+                            horizontalSliderSize: 6,
+                            verticalHasArrows: false,
+                            horizontalHasArrows: false,
+                            arrowSize: 0,
+                            useShadows: true,
                         },
                     }}
-                    mode="read"
-                    valueType="jsonCode"
-                    text={JSON.stringify(datas)}
                 />
-            </ProCard > */}
+            </Modal >
         </>
     );
 });

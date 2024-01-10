@@ -32,6 +32,7 @@ declare namespace HTTP {
         body?: BodyResDto;
         /** 请求头 */
         headers?: RuleParamResDto[];
+        cookices?: RuleParamResDto[];
         /** rests参数 */
         rests?: RuleParamResDto[];
         /** id */
@@ -42,6 +43,8 @@ declare namespace HTTP {
         params?: RuleParamResDto[];
         /** 服务 */
         server?: string;
+        /** 环境 */
+        envCode?: string;
         /** 路径 */
         url?: string;
     };

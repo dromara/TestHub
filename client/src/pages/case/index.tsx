@@ -63,7 +63,7 @@ function CasePage(props: IProps) {
   const moveLeftAside = () => {
     if (volatileRef.current) {
       if (volatileRef.current.offsetWidth === 0) {
-        volatileRef.current.style.width = '250px';
+        volatileRef.current.style.width = '260px';
         setIsUnfold(true);
       } else {
         volatileRef.current.style.width = '0px';

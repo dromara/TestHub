@@ -28,7 +28,7 @@ const LNKConfig: INavItem[] = [
     title: i18n("layouts.nav.assembly"),
     icon: '\ue60f',
     path: '/assembly'
-  }
+  },
   // , {
   //   title: "百宝箱",
   //   icon: '\ue678',
@@ -53,7 +53,7 @@ const LNKConfig: INavItem[] = [
   //  ｜执行结果
   // {
   //   title: "HTTP",
-  //   icon: '\ue60a',
+  //   icon: '\ue63b',
   //   path: '/http'
   // },
   // {

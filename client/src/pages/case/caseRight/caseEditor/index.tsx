@@ -19,6 +19,7 @@ import { delay } from 'lodash';
 import { ExecutionResult } from '@/typings/server/execution';
 import CaseResult from '../caseResult';
 import i18n from '@/i18n';
+import { useDebounceFn } from 'ahooks';
 
 setLocaleData(zh_CN);
 
@@ -254,14 +255,23 @@ export default function caseEditorConsole(props: IProps) {
     return dom;
   };
 
+
+  const { run } = useDebounceFn(
+    (text: string) => {
+      dispatch({
+        type: 'appPage/setNowFileContent',
+        payload: {
+          key: iconsole.key,
+          text: text
+        },
+      })
+    },
+    {
+      wait: 500,
+    },
+  );
   const monacoEditorChange = (text: string) => {
-    dispatch({
-      type: 'appPage/setNowFileContent',
-      payload: {
-        key: iconsole.key,
-        text: text
-      },
-    })
+    run(text);
   };
 
   useEffect(() => {
