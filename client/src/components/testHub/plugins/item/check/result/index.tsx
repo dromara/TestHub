@@ -18,13 +18,12 @@ interface IProps {
 function Check(props: IProps) {
     const { executionResult, executeResult } = props;
     const data = executeResult.runStateItem.runParams;
-    // return <>{JSON.stringify(data)}</>
-    console
     const checks: React.JSX.Element[] = [];
     Object.keys(data).map((key: string) => {
         const checkItem = data[key]["checkItem"];
         const flag = data[key]["flag"];
         const results = data[key]["results"];
+
         checks.push(
 
             <Panel

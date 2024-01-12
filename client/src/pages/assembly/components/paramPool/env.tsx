@@ -68,7 +68,6 @@ export default forwardRef((props: IProps, ref) => {
                 <ProFormText
                     name="name"
                     label="名称"
-
                     labelCol={{ span: 3 }} // 设置 label 标签占据整个宽度
                     wrapperCol={{ span: 20 }} // 设置文本框占据整个宽度
                     rules={[{ required: true, message: "名称" + i18n('case.label.notNull') }]}

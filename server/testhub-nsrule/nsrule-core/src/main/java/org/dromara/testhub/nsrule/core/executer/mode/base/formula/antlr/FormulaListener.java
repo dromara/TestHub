@@ -18,6 +18,16 @@ public interface FormulaListener extends ParseTreeListener {
 	 */
 	void exitFormula(FormulaParser.FormulaContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link FormulaParser#otherNode}.
+	 * @param ctx the parse tree
+	 */
+	void enterOtherNode(FormulaParser.OtherNodeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link FormulaParser#otherNode}.
+	 * @param ctx the parse tree
+	 */
+	void exitOtherNode(FormulaParser.OtherNodeContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link FormulaParser#dataNode}.
 	 * @param ctx the parse tree
 	 */
@@ -357,4 +367,14 @@ public interface FormulaListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitSpace(FormulaParser.SpaceContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link FormulaParser#chineseString}.
+	 * @param ctx the parse tree
+	 */
+	void enterChineseString(FormulaParser.ChineseStringContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link FormulaParser#chineseString}.
+	 * @param ctx the parse tree
+	 */
+	void exitChineseString(FormulaParser.ChineseStringContext ctx);
 }

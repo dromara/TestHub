@@ -16,4 +16,5 @@ export default {
     'http.data.resheaders': 'Response Headers',
     'http.data.cookies': 'Cookie',
     'http.data.recookies': 'Response Cookie',
+    'http.data.req': 'Actual request',
 };

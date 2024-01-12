@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Badge, Card, Col, Descriptions, Radio, Row, Tag, Tooltip } from 'antd';
+import { Badge, Col, Descriptions, Divider, Radio, Row, Tabs, Tag, Tooltip, Typography } from 'antd';
 import { ProTable } from '@ant-design/pro-components';
 import MonacoEditor from 'react-monaco-editor/lib/editor';
 import { useTheme } from '@/utils/hooks';
-import { CardTabListType } from 'antd/lib/card';
 import i18n from '@/i18n';
 import ExpLog from '../../../../expLog';
 import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
-import TextEllipsis from '@/components/TextEllipsis';
+const { Title } = Typography;
 
 
 
@@ -23,6 +22,13 @@ const colorMap = {
     "HEAD": "orange",
     "PATCH": "lime",
     "OPTIONS": "blue"
+}
+
+const tableOptions = {
+    density: false,
+    reload: false,
+    search: false,
+    setting: false,
 }
 
 const options = {
@@ -68,6 +74,7 @@ function isUndefinedOrEmpty(obj: any) {
 }
 
 
+
 const HttpRes = (props: Props) => {
     const themeColor = useTheme();
     useEffect(() => {
@@ -75,137 +82,107 @@ const HttpRes = (props: Props) => {
     }, [themeColor]);
     const [theme, setTheme] = useState(themeColor == 'dark' ? 'BlackTheme' : 'default');
 
+    function showReq() {
+        return <>
+            {
+                !isUndefinedOrEmpty(props.data?.headers) &&
+                <>
+                    <Title level={5}>{i18n('http.data.headers')}</Title>
+                    <ProTable
+                        dataSource={Object.entries(props.data.headers || {}).map(([key, val]) => ({ key, val }))}
+                        columns={columns}
+                        search={false}
+                        pagination={false}
+                        options={tableOptions}
+                    />
+                </>
+
+            }
+            {
+                !isUndefinedOrEmpty(props.data?.rests) &&
+                <>
+                    <div style={{ width: '100%', height: 29 }}></div>
+                    <Title level={5}>{i18n('http.data.rests')}</Title>
+                    <ProTable
+                        dataSource={Object.entries(props.data.rests || {}).map(([key, val]) => ({ key, val }))}
+                        columns={columns}
+                        search={false}
+                        pagination={false}
+                        options={tableOptions}
+                    />
+                </>
+            }
+            {
+                !isUndefinedOrEmpty(props.data?.params) &&
+                <>
+                    <div style={{ width: '100%', height: 29 }}></div>
+                    <Title level={5}>{i18n('http.data.params')}</Title>
+                    <ProTable
+                        dataSource={Object.entries(props.data.params || {}).map(([key, val]) => ({ key, val }))}
+                        columns={columns}
+                        search={false}
+                        pagination={false}
+                        options={tableOptions}
+                    />
+                </>
+            }
+
+        </>
+    }
 
     const items = [
-        //Rests参数
-        <ProTable
-            dataSource={Object.entries(props.data.rests || {}).map(([key, val]) => ({ key, val }))}
-            columns={columns}
-            search={false}
-            pagination={false}
-            options={{
-                density: false,
-                reload: false,
-                search: false,
-                setting: false,
-            }}
-        />,
-        //Params参数
-        <ProTable
-            dataSource={Object.entries(props.data.params || {}).map(([key, val]) => ({ key, val }))}
-            columns={columns}
-            search={false}
-            pagination={false}
-            options={{
-                density: false,
-                reload: false,
-                search: false,
-                setting: false,
-            }}
-        />,
-        //请求头
-        <ProTable
-            dataSource={Object.entries(props.data.headers || {}).map(([key, val]) => ({ key, val }))}
-            columns={columns}
-            search={false}
-            pagination={false}
-            options={{
-                density: false,
-                reload: false,
-                search: false,
-                setting: false,
-            }}
-        />,
-        //请求体
-        <>
-            <Row style={{ height: 35, marginBottom: 10 }} align="middle">
-                <Col span={24}>
-                    <Radio.Group value={props.data.reqType == null ? "json" : props.data.reqType}>
-                        <Radio.Button value={'json'} disabled={props.data.reqType != "json"}>json</Radio.Button>
-                        <Radio.Button value={'text'} disabled={props.data.reqType != "text"}>text</Radio.Button>
-                        <Radio.Button value={'xml'} disabled={props.data.reqType != "xml"}>xml</Radio.Button>
-                    </Radio.Group>
-                </Col>
-            </Row>
-            <MonacoEditor
-                width={'100%'}
-                theme={theme}
-                language={props.data.reqType == null ? "json" : props.data.reqType}
-                height={window.innerHeight * 0.3}
-                value={props.data.reqType == "json" || props.data.reqType == null ? JSON.stringify(props.data.body, null, 2) : props.data.body}
-                options={options}
+        {
+            label: isUndefinedOrEmpty(props.res?.data) ? <>{i18n('http.data.resbody')}</> : <Badge dot color='lime'>{i18n('http.data.resbody')}</Badge>,
+            key: 'resbody', children: <>
+                <Row style={{ height: 35, marginBottom: 10 }} align="middle">
+                    <Col span={24}>
+                        <Radio.Group value={props.data.reType}>
+                            <Radio.Button value={'json'} disabled={props.data.reType != "json"}>json</Radio.Button>
+                            <Radio.Button value={'text'} disabled={props.data.reType != "text"}>text</Radio.Button>
+                            <Radio.Button value={'xml'} disabled={props.data.reType != "xml"}>xml</Radio.Button>
+                            <Radio.Button value={'html'} disabled={props.data.reType != "html"}>html</Radio.Button>
+                        </Radio.Group>
+                    </Col>
+                </Row>
+
+                {props.data["statusCode"] == 200 && (
+                    <MonacoEditor
+                        width={'100%'}
+                        language={props.data.reType}
+                        height={400}
+                        theme={theme}
+                        value={props.data.reType == "json" ? JSON.stringify(props.res?.data == undefined ? {} : props.res.data, null, 2) : props.res?.data}
+                        options={options}
+                    />
+                )}
+
+
+            </>
+        },
+        {
+            label: isUndefinedOrEmpty(props.res?.headers) ? <>{i18n('http.data.resheaders')}</> : <Badge dot color='lime'>{i18n('http.data.resheaders')}</Badge>,
+            key: 'resheaders', children: <ProTable
+                dataSource={Object.entries(props.res?.headers == undefined ? {} : props.res.headers).map(([key, val]) => ({ key, val }))}
+                columns={columns}
+                search={false}
+                pagination={false}
+                options={tableOptions}
             />
-        </>,
-        //返回值
-        <>
-            <Row style={{ height: 35, marginBottom: 10 }} align="middle">
-                <Col span={24}>
-                    <Radio.Group value={props.data.reType}>
-                        <Radio.Button value={'json'} disabled={props.data.reType != "json"}>json</Radio.Button>
-                        <Radio.Button value={'text'} disabled={props.data.reType != "text"}>text</Radio.Button>
-                        <Radio.Button value={'xml'} disabled={props.data.reType != "xml"}>xml</Radio.Button>
-                        <Radio.Button value={'html'} disabled={props.data.reType != "html"}>html</Radio.Button>
-                    </Radio.Group>
-                </Col>
-            </Row>
-            <MonacoEditor
-                width={'100%'}
-                language={props.data.reType}
-                height={400}
-                theme={theme}
-                value={props.data.reType == "json" ? JSON.stringify(props.res?.data == undefined ? {} : props.res.data, null, 2) : props.res.data}
-                options={options}
+        },
+        {
+            label: isUndefinedOrEmpty(props.res?.cookies) ? <>{i18n('http.data.recookies')}</> : <Badge dot color='lime'>{i18n('http.data.recookies')}</Badge>,
+            key: 'recookies', children: <ProTable
+                dataSource={Object.entries(props.res?.cookies == undefined ? {} : props.res.cookies).map(([key, val]) => ({ key, val }))}
+                columns={columns}
+                search={false}
+                pagination={false}
+                options={tableOptions}
             />
-        </>,
-        //响应头
-        <ProTable
-            dataSource={Object.entries(props.res?.headers == undefined ? {} : props.res.headers).map(([key, val]) => ({ key, val }))}
-            columns={columns}
-            search={false}
-            pagination={false}
-            options={{
-                density: false,
-                reload: false,
-                search: false,
-                setting: false,
-            }}
-        />
+        }, {
+            label: <Badge dot color='lime'>{i18n('http.data.req')}</Badge>,
+            key: 'req', children: showReq()
+        },
     ];
-
-
-    const operationTabList = () => {
-        const reDatas: CardTabListType[] = [];
-        reDatas.push({
-            key: "0",
-            tab: isUndefinedOrEmpty(props.data?.rests) ? <>{i18n('http.data.rests')}</> : <Badge dot color='lime'>{i18n('http.data.rests')}</Badge>,
-        });
-        reDatas.push({
-            key: "1",
-            tab: isUndefinedOrEmpty(props.data?.params) ? <>{i18n('http.data.params')}</> : <Badge dot color='lime'>{i18n('http.data.params')}</Badge>,
-        });
-        reDatas.push({
-            key: "2",
-            tab: isUndefinedOrEmpty(props.data?.headers) ? <>{i18n('http.data.headers')}</> : <Badge dot color='lime'>{i18n('http.data.headers')}</Badge>,
-        });
-        reDatas.push({
-            key: "3",
-            tab: isUndefinedOrEmpty(props.data?.body) ? <>{i18n('http.data.body')}</> : <Badge dot color='lime'>{i18n('http.data.body')}</Badge>,
-        });
-        reDatas.push({
-            key: "4",
-            tab: isUndefinedOrEmpty(props.res?.data) ? <>{i18n('http.data.resbody')}</> : <Badge dot color='lime'>{i18n('http.data.resbody')}</Badge>,
-        });
-        reDatas.push({
-            key: "5",
-            tab: isUndefinedOrEmpty(props.res?.headers) ? <>{i18n('http.data.resheaders')}</> : <Badge dot color='lime'>{i18n('http.data.resheaders')}</Badge>,
-        });
-        return reDatas;
-    };
-
-    const [tabStatus, seTabStatus] = useState<string>("0");
-    const onOperationTabChange = (key: string) => {
-        seTabStatus(key);
-    };
 
     return (
         <>
@@ -248,14 +225,8 @@ const HttpRes = (props: Props) => {
                 }
 
             </Descriptions>
-            <Card
-                bordered={false}
-                tabList={operationTabList()}
-                onTabChange={onOperationTabChange}
-            >
-                {items[parseInt(tabStatus)]}
-            </Card >
 
+            <Tabs items={items} />
         </>
     );
 };

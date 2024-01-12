@@ -2,18 +2,9 @@ server:
   #服务端口
   port: 12003
   servlet:
-    context-path: /
+    context-path: /api
 
-## 是否打开 undertow 日志，默认为 false
-#  server.undertow.accesslog.enabled=false
-#  # 设置访问日志所在目录
-#  server.undertow.accesslog.dir=logs
-#  # 指定工作者线程的 I/0 线程数，默认为 2 或者 CPU 的个数
-#  server.undertow.io-threads=
-#  # 指定工作者线程个数，默认为 I/O 线程个数的 8 倍
-#  server.undertow.worker-threads=
-#  # 设置 HTTP POST 内容的最大长度，默认不做限制
-#  server.undertow.max-http-post-size=0
+
 
 spring:
   mvc:
@@ -27,10 +18,11 @@ spring:
       max-file-size: 50MB #单个文件大小
       max-request-size: 500MB # 一个次请求中上传文件的总容量的限制
   profiles:
-    #指明环境是开发环境
-    active: dev
+    #指明使用的数据库
+    active: h2
+#    active: pgsql
     #导入其他yml文件
-    include: h2,testhub,actuator,mybatisplus
+    include: testhub,actuator,mybatisplus
 logging:
   config: classpath:config/logback-spring.xml
 

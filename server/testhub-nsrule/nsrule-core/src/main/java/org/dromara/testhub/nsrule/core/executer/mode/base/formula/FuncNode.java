@@ -52,6 +52,16 @@ public class FuncNode extends FormulaNode {
 
         return result;
     }
+    public FormulaNode simplify(){
+        for (Param param : params) {
+            param.setNode(param.getNode().simplify());
+        }
+        if(lastAttr !=null ){
+            lastAttr = (PathNode) lastAttr.simplify();
+        }
+        return this;
+    }
+
 
     /**
      * 处理入参

@@ -4,6 +4,8 @@ import { Col, Row } from 'antd';
 import React from 'react';
 import MyReactJson from '../myReactJson';
 import i18n from '@/i18n';
+import styles from './index.less';
+import './index.less';
 
 export type Props = {
     flow: FlowResult;
@@ -12,15 +14,78 @@ export type Props = {
 };
 
 const FormulaLog = (props: Props) => {
+    console.log(props.data)
     const formulaTypeConver = (type: string) => {
         if (type == 'data') {
             return (
                 <>
-                    <Col>{i18n('testhub.FormulaLog.val') + ': ' + props.data.data}</Col>
+                    <Col>
+                        <Row>
+                            <Col>
+                                {i18n('testhub.FormulaLog.result') + ': ' + props.data.data}
+                            </Col>
+                        </Row>
+                        {
+                            props.data.exec == 2
+                            && (
+                                <Row>
+                                    <Col>明细&nbsp;:&nbsp;</Col>
+                                    <Col>
+                                        {props.data.nodes?.map((item2) => (
+                                            <FormulaLog flow={props.flow} data={item2} result={props.result} />
+                                        ))}
+                                    </Col>
+                                </Row>
+                            )
+                        }
+                        {
+                            props.data.exec == 3
+                            && (
+                                props.data.mapLog?.map((key, item) => {
+                                    return (
+                                        <>
+                                            <Row>
+                                                <Col>&nbsp;&nbsp;{key}:</Col>
+                                                <Col>
+                                                    <FormulaLog flow={props.flow} data={item.log} result={props.result} />
+                                                </Col>
+                                            </Row>
+                                        </>
+                                    );
+                                })
+                            )
+                        }
+
+                    </Col>
                 </>
             );
-        }
-        if (type == 'func') {
+        } else if (type == 'mix') {
+            return (
+                <>
+                    <Col>
+                        <Row>
+                            <Col>
+                                {i18n('testhub.FormulaLog.result') + ': ' + props.data.data}
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>明细&nbsp;:&nbsp;</Col>
+                            <Col>
+                                {props.data.nodes?.map((item2) => (
+                                    <FormulaLog flow={props.flow} data={item2} result={props.result} />
+                                ))}
+                            </Col>
+                        </Row>
+                    </Col>
+                </>
+            );
+        } else if (type == 'arith') {
+            return (
+                <>
+                    <Col>{i18n('testhub.FormulaLog.result') + ': ' + props.data.data}</Col>
+                </>
+            );
+        } else if (type == 'func') {
             return (
                 <>
                     <Col>
@@ -28,44 +93,8 @@ const FormulaLog = (props: Props) => {
                             <Col>
                                 <Row>
                                     <Col>{i18n('testhub.FormulaLog.func')}&nbsp;:&nbsp;{props.data.func}</Col>
-                                    <Col>&nbsp;&nbsp;{i18n('testhub.FormulaLog.result')}&nbsp;:&nbsp;{props.data.data}</Col>
-                                </Row>
-                            </Col>
-                            <Col>&nbsp;&nbsp;</Col>
-                        </Row>
-
-                        {props.data.paramLogs.map((item, index) => {
-                            return (
-                                <>
-                                    <Row>
-                                        <Col>&nbsp;&nbsp;{props.data.func + '.' + item.code}:</Col>
-                                        <Col>
-                                            <FormulaLog flow={props.flow} data={item.log} result={props.result} />
-                                        </Col>
-                                    </Row>
-                                </>
-                            );
-                        })}
-                    </Col>
-                </>
-            );
-        }
-        if (type == 'path') {
-            let show = props.data.val;
-            // if (props.result?.propertyMap[props.data.val] != null) {
-            //     show = props.result?.propertyMap[props.data.val]['name'];
-            // } else if (props.result?.propertyMap[props.flow.code + '.' + props.data.val] != null) {
-            //     show = props.result?.propertyMap[props.flow.code + '.' + props.data.val]['name'];
-            // }
-            return (
-                <Col>
-                    {(props.data.indexLog == undefined || props.data.indexLog == null) && (
-                        <Row>
-                            <Col>
-                                <Row>
-                                    <Col>{i18n('testhub.FormulaLog.variable')}:&nbsp;{show}</Col>
                                     <Col>
-                                        &nbsp;{i18n('testhub.FormulaLog.val')}:&nbsp;
+                                        &nbsp;{i18n('testhub.FormulaLog.result')}:&nbsp;
                                         {(typeof props.data.data != 'object' || props.data.data == null) ? (
                                             (typeof props.data.data == 'boolean') ? props.data.data + "" : props.data.data
                                         ) : (
@@ -73,37 +102,67 @@ const FormulaLog = (props: Props) => {
                                         )}
                                     </Col>
                                 </Row>
+                                {props.data.paramLogs.map((item, index) => {
+                                    return (
+                                        <>
+                                            <Row>
+                                                <Col>&nbsp;&nbsp;{props.data.func + '.' + item.code}:</Col>
+                                                <Col>
+                                                    <FormulaLog flow={props.flow} data={item.log} result={props.result} />
+                                                </Col>
+                                            </Row>
+                                        </>
+                                    );
+                                })}
                             </Col>
-                            <Col>&nbsp;&nbsp;</Col>
                         </Row>
-                    )}
-                    {props.data.indexLog != undefined && props.data.indexLog != null && (
-                        <>
-                            <Row>
-                                <Col>
-                                    <Row>
-                                        <Col>
-                                            {i18n('testhub.FormulaLog.variable')}:&nbsp;{show} [{props.data.index}]{props.data.suffix}
-                                        </Col>
-                                        <Col>
-                                            &nbsp;{i18n('testhub.FormulaLog.val')}:&nbsp;
-                                            {(typeof props.data.data != 'object' || props.data.data == null) ? (
-                                                (typeof props.data.data == 'boolean') ? props.data.data + "" : props.data.data
-                                            ) : (
-                                                <MyReactJson data={props.data.data} />
+                    </Col>
+                </>
+            );
+        } else if (type == 'path') {
+            return (
+                <Col>
+
+                    <Row>
+                        <Col>{i18n('testhub.FormulaLog.path')}:&nbsp;{props.data.path}</Col>
+                        <Col>
+                            &nbsp;{i18n('testhub.FormulaLog.result')}:&nbsp;
+                            {(typeof props.data.data != 'object' || props.data.data == null) ? (
+                                (typeof props.data.data == 'boolean') ? props.data.data + "" : props.data.data
+                            ) : (
+                                <MyReactJson data={props.data.data} />
+                            )}
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>明细&nbsp;:&nbsp;</Col>
+                        <Col>
+                            {props.data.itemLogs.map((item, index) => {
+                                return (
+                                    <>
+                                        <Row>
+                                            <Col>&nbsp;&nbsp;{item.attrName}</Col>
+                                            {item.nodes && item.nodes.length > 0 && (
+                                                <Col>
+                                                    {item.nodes.map((item2, index1) => (
+
+                                                        <React.Fragment key={index1}>
+                                                            <Row>
+                                                                <Col>
+                                                                    <FormulaLog flow={props.flow} data={item2} result={props.result} />
+                                                                </Col>
+                                                            </Row>
+                                                        </React.Fragment>
+                                                    ))}
+                                                </Col>
                                             )}
-                                        </Col>
-                                    </Row>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col>{i18n('testhub.FormulaLog.index')}&nbsp;</Col>
-                                <Col>
-                                    <FormulaLog flow={props.flow} data={props.data.indexLog} result={props.result} />
-                                </Col>
-                            </Row>
-                        </>
-                    )}
+                                        </Row>
+                                    </>
+                                );
+                            })}
+                        </Col>
+                    </Row>
+
                 </Col>
             );
         }
@@ -111,7 +170,15 @@ const FormulaLog = (props: Props) => {
 
     return (
         <>
-            <Row align="middle">{formulaTypeConver(props.data.type?.toLocaleLowerCase())}</Row>
+            <Row className={styles.row_border}>
+                <Col>
+                    <Row>
+                        <Col>{i18n('testhub.FormulaLog.text')}:&nbsp;{props.data.text}</Col>
+                    </Row>
+                    <Row align="middle"  >{formulaTypeConver(props.data.type?.toLocaleLowerCase())}</Row>
+                </Col>
+            </Row>
+
         </>
     );
 };

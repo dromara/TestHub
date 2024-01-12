@@ -34,7 +34,7 @@ public abstract class FormulaNode {
         } catch (RuleException e) {
             throw e;
         } catch (Exception e) {
-            throw new RuleException(text + "计算失败", e);
+            throw new RuleException(text + "计算失败:"+e.getMessage(), e);
         }
 //        if(!result.isFlag()){
 //            try {
@@ -51,10 +51,10 @@ public abstract class FormulaNode {
     public FormulaNode simplify(){
         return this;
     }
+
     public boolean canSimplify(){
         return false;
     }
-
     public String getDataType() {
         return dataType;
     }

@@ -88,7 +88,7 @@ export default (props: IProps) => {
                     <PlusOutlined style={{ fontSize: '22px' }} />
                 </Button>
             </div>
-            <Drawer title="配置环境"
+            {/* <Drawer title="配置环境"
                 placement="right"
                 onClose={onClose}
                 open={envOpen}
@@ -119,8 +119,8 @@ export default (props: IProps) => {
                     </Space>
                 }>
                 <Env data={(index > -1 && envOpen) ? JSON.parse(JSON.stringify(appPage.curProject?.environments[index])) : {}} ref={envRef}></Env>
-            </Drawer>
-            {/* <Modal
+            </Drawer> */}
+            <Modal
                 title={"配置环境"}
                 width={750}
                 open={envOpen}
@@ -145,10 +145,13 @@ export default (props: IProps) => {
                 okText={i18n('case.button.ok')}
                 cancelText={i18n('case.button.cancel')}
             >
-                <Env data={(index > -1 && envOpen) ? JSON.parse(JSON.stringify(appPage.curProject?.environments[index])) : {}} ref={envRef}></Env>
-            </Modal > */}
+                <div className={styles.env_div}>
+                    <Env data={(index > -1 && envOpen) ? JSON.parse(JSON.stringify(appPage.curProject?.environments[index])) : {}} ref={envRef}></Env>
+                </div>
+
+            </Modal >
             <Modal
-                title="是否确实删除环境"
+                title="是否确认删除环境"
                 width={360}
                 open={delOpen}
                 maskClosable={true}

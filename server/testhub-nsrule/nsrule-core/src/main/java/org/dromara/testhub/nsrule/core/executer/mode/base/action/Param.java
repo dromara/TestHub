@@ -4,11 +4,13 @@ import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSONObject;
 import org.dromara.testhub.nsrule.core.constant.RuleConstant;
+import org.dromara.testhub.nsrule.core.executer.context.DefContext;
 import org.dromara.testhub.nsrule.core.executer.mode.BaseDataPo;
 import org.dromara.testhub.nsrule.core.constant.ExceptionCode;
 import org.dromara.testhub.nsrule.core.constant.RuleException;
 import org.dromara.testhub.nsrule.core.executer.context.Context;
 import org.dromara.testhub.nsrule.core.executer.mode.base.formula.DataNode;
+import org.dromara.testhub.nsrule.core.executer.mode.base.formula.MixNode;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -64,12 +66,22 @@ public class Param extends BaseDataPo {
         if (ArrayUtil.isEmpty(params)) {
             return json;
         }
-        //只填充固定值
+        List<Param> residues = new ArrayList<>();
+        //先 只填充固定值
         for (Param param : params) {
-            if (param.getDataFormulaNode() != null && DataNode.class.equals(param.getDataFormulaNode().getClass())) {
-                json.put(param.getCode(), getData(param, param.getDataFormulaNode().apply(null).getContent()));
+            if (param.getDataFormulaNode() != null && param.getDataFormulaNode() instanceof DataNode) {
+                json.put(param.getCode(), getData(param, param.getDataFormulaNode().apply(new DefContext()).getContent()));
+            }else {
+                residues.add(param);
             }
         }
+        // 在 填充 混合值 并且 只包含固定值的 这里
+        for (Param param : residues) {
+            if (param.getDataFormulaNode() != null && (param.getDataFormulaNode() instanceof MixNode mixNode)) {
+                json.put(param.getCode(), getData(param, mixNode.apply(new DefContext()).getContent()));
+            }
+        }
+
         return json;
     }
 

@@ -2,6 +2,7 @@ package org.dromara.testhub.nsrule.core.executer.mode.base.formula;
 
 import com.google.common.base.Joiner;
 import org.dromara.testhub.nsrule.core.constant.RuleConstant;
+import org.dromara.testhub.nsrule.core.constant.RuleException;
 import org.dromara.testhub.nsrule.core.executer.context.Context;
 import org.dromara.testhub.nsrule.core.executer.context.DefContext;
 import org.dromara.testhub.nsrule.core.executer.meta.MetaJavaType;
@@ -34,33 +35,25 @@ public class PathNode extends FormulaNode {
         log.setPath(path);
         Object data = context.getObject("$" + path);
         result.setContent(data);
-        if(log!=null){
-            log.setPath("$" + path);
-            log.setData(data);
-        }
+        log.setPath("$" + path);
+        log.setData(data);
         result.setLog(isLog ? log : null);
 
         return result;
     }
 
     public FormulaNode simplify() {
-        if (canSimplify()) {
-            String path = getPath(new DefContext(), new PathLog(this), false);
-            path = path.substring(1);
-            List<PathItem> items1 = new ArrayList<>();
-            items1.add(new PathItem(path));
-            setItems(items1);
-        }
-        return this;
-    }
-
-    public boolean canSimplify() {
-        for (PathItem item : items) {
-            if (!item.canSimplify()) {
-                return false;
+        for(PathItem item:items){
+            if(!item.canSimplify()){
+                return this;
             }
         }
-        return true;
+        String path = getPath(new DefContext(), new PathLog(this), false);
+        path = path.substring(1);
+        List<PathItem> items1 = new ArrayList<>();
+        items1.add(new PathItem(path));
+        setItems(items1);
+        return this;
     }
 
     private String getPath(Context context, PathLog log, boolean isLog) {
@@ -247,7 +240,11 @@ public class PathNode extends FormulaNode {
             for (FormulaNode node : nodes) {
                 Result<Object> result = node.apply(context, isLog);
                 nodeLogs.add((FormulaLog) result.getLog());
-                paths.add(result.getContent().toString());
+                if(result.getContent()!=null){
+                    paths.add(result.getContent().toString());
+                }else {
+                   throw new RuleException(node.text+"计算的值为空");
+                }
             }
             return Joiner.on(",").join(paths);
         }
@@ -276,6 +273,10 @@ public class PathNode extends FormulaNode {
                 }
             }
             return true;
+        }
+
+        public void setAttrName(String attrName) {
+            this.attrName = attrName;
         }
     }
 

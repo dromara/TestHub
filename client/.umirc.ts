@@ -80,8 +80,8 @@ export default defineConfig({
   define: {
     __APP_NAME__: "TestHub",
     __UMI_ENV__: "local",
-    __BUILD_TIME__: "2023-10-01",
-    __APP_VERSION__: '1.0.2',
+    __BUILD_TIME__: "2024-01-14",
+    __APP_VERSION__: '1.0.3',
     __APP_PORT__: 12003,
   }
 });

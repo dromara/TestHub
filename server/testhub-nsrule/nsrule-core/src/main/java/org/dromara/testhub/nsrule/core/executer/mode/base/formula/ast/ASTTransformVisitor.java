@@ -1,9 +1,12 @@
 package org.dromara.testhub.nsrule.core.executer.mode.base.formula.ast;
 
+import org.antlr.v4.runtime.tree.TerminalNode;
 import org.dromara.testhub.nsrule.core.constant.RuleConstant;
+import org.dromara.testhub.nsrule.core.executer.context.DefContext;
 import org.dromara.testhub.nsrule.core.executer.mode.base.formula.*;
 import org.dromara.testhub.nsrule.core.executer.mode.base.formula.antlr.FormulaBaseVisitor;
 import org.dromara.testhub.nsrule.core.executer.mode.base.formula.antlr.FormulaParser;
+import org.dromara.testhub.nsrule.core.executer.mode.base.formula.log.PathItemLog;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -29,6 +32,8 @@ public class ASTTransformVisitor extends FormulaBaseVisitor<FormulaNode> {
             root = visitArithmetic(ctx.arithmetic());
         } else if (ctx.dataNode() != null) {
             root = visitDataNode(ctx.dataNode());
+        }else if (ctx.otherNode() != null) {
+            root = new DataNode(ctx.otherNode().getText());
         }
         if (!ctx.formula().isEmpty()) {
             List<FormulaNode> datas = new ArrayList<>();
@@ -45,6 +50,10 @@ public class ASTTransformVisitor extends FormulaBaseVisitor<FormulaNode> {
 
         return root;
     }
+    @Override
+    public FormulaNode visitOtherNode(FormulaParser.OtherNodeContext ctx) {
+        return new DataNode(ctx.getText());
+    }
 
     @Override
     public FormulaNode visitPathNode(FormulaParser.PathNodeContext ctx) {
@@ -57,6 +66,7 @@ public class ASTTransformVisitor extends FormulaBaseVisitor<FormulaNode> {
         PathNode pathNode = new PathNode(ctx.getText());
         List<PathNode.PathItem> items = new ArrayList<>();
         items.add(new PathNode.PathItem(ctx.IDENTIFIER().getText()));
+        PathNode.PathItem per = items.get(0);
         for (FormulaParser.SubscriptContext subscriptContext : ctx.subscript()) {
             PathNode.PathItem item = null;
             if (subscriptContext.arraySubscript() != null) {
@@ -82,7 +92,18 @@ public class ASTTransformVisitor extends FormulaBaseVisitor<FormulaNode> {
             } else {
                 item = new PathNode.PathItem(subscriptContext.dotIdentifier().IDENTIFIER().getText());
             }
-            items.add(item);
+            if(item.type == PathNode.PathItem.TYPE_ALL || item.type == PathNode.PathItem.TYPE_ATTR){
+                if(per == null){
+                    per = item;
+                    items.add(item);
+                }else {
+                    String attrName = per.getPath(new DefContext(),new PathItemLog(),false).substring(1);
+                    per.setAttrName(attrName+item.getPath(new DefContext(),new PathItemLog(),false));
+                }
+            }else {
+                per = null;
+                items.add(item);
+            }
         }
         pathNode.setItems(items);
         return pathNode;
@@ -143,13 +164,19 @@ public class ASTTransformVisitor extends FormulaBaseVisitor<FormulaNode> {
         }
         return new DataNode(ctx.getText(), ctx.getText());
     }
+    private FormulaNode getSingleQuoteAnyText(TerminalNode node){
+        String text = node.getText();
+        return new DataNode(text, text.replaceAll("'",""));
+    }
 
     @Override
     public FormulaNode visitDataNode(FormulaParser.DataNodeContext ctx) {
         if (ctx.decimal() != null) {
-            return new DataNode(ctx.decimal().getText(), new BigDecimal(ctx.decimal().getText()));
+            return visitDecimal(ctx.decimal());
         } else if (ctx.SingleQuoteAnyText() != null) {
-            return new DataNode(ctx.SingleQuoteAnyText().getText());
+            return getSingleQuoteAnyText(ctx.SingleQuoteAnyText());
+        } else if (ctx.chineseString() != null) {
+            return new DataNode(ctx.chineseString().getText());
         } else if (ctx.IDENTIFIER() != null) {
             return new DataNode(ctx.IDENTIFIER().getText());
         }else if (ctx.LBRACKET()!=null){
@@ -181,26 +208,32 @@ public class ASTTransformVisitor extends FormulaBaseVisitor<FormulaNode> {
                 return new DataNode(ctx.getText(), data);
             }
         }
-        return null;
+        return new DataNode(ctx.getText());
     }
     private Object getData(FormulaParser.KeyValContext ctx) {
         if (ctx.decimal() != null) {
-            return new BigDecimal(ctx.decimal().getText());
+            if(ctx.decimal().getText().length()>1 &&  new BigDecimal(ctx.decimal().getText()).compareTo(BigDecimal.ZERO)==0){
+                return ctx.decimal().getText();
+            }else {
+                return new BigDecimal(ctx.decimal().getText());
+            }
         } else if (ctx.SingleQuoteAnyText() != null) {
-            return ctx.SingleQuoteAnyText().getText();
+            return ctx.SingleQuoteAnyText().getText().replaceAll("'","");
         } else if (ctx.val != null) {
             return ctx.val.getText();
         }
-        return null;
+        return ctx.getText();
     }
 
     private Object getDataNode(FormulaParser.DataNodeContext ctx) {
         if (ctx.decimal() != null) {
-            return new BigDecimal(ctx.decimal().getText());
+            return visitDecimal(ctx.decimal());
         } else if (ctx.SingleQuoteAnyText() != null) {
-            return ctx.SingleQuoteAnyText().getText();
+            return getSingleQuoteAnyText(ctx.SingleQuoteAnyText());
         } else if (ctx.IDENTIFIER() != null) {
             return ctx.IDENTIFIER().getText();
+        }else if (ctx.chineseString() != null) {
+            return ctx.chineseString().getText();
         }
         return null;
     }
@@ -247,7 +280,7 @@ public class ASTTransformVisitor extends FormulaBaseVisitor<FormulaNode> {
     @Override
     public FormulaNode visitFactor(FormulaParser.FactorContext ctx) {
         if (ctx.decimal() != null) {
-            return new DataNode(ctx.decimal().getText(),new BigDecimal(ctx.decimal().getText()));
+            return visitDecimal(ctx.decimal());
         } else if (ctx.binArithmetic() != null) {
             return visitBinArithmetic(ctx.binArithmetic());
         } else if (ctx.pathNode() != null) {
@@ -257,6 +290,16 @@ public class ASTTransformVisitor extends FormulaBaseVisitor<FormulaNode> {
         }
         return null;
     }
+
+    @Override
+    public FormulaNode visitDecimal(FormulaParser.DecimalContext ctx) {
+        if(ctx.getText().length()>1 &&  new BigDecimal(ctx.getText()).compareTo(BigDecimal.ZERO)==0){
+            return new DataNode(ctx.getText());
+        }else {
+            return new DataNode(ctx.getText(),new BigDecimal(ctx.getText()));
+        }
+    }
+
 
     @Override
     public FormulaNode visitFuncNode(FormulaParser.FuncNodeContext ctx) {

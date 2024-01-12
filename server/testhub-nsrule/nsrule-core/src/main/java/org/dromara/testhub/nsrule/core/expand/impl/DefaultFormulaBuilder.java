@@ -3,12 +3,17 @@ package org.dromara.testhub.nsrule.core.expand.impl;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.dromara.testhub.nsrule.core.constant.RuleException;
 import org.dromara.testhub.nsrule.core.executer.mode.base.formula.*;
 import org.dromara.testhub.nsrule.core.executer.mode.base.formula.antlr.FormulaLexer;
 import org.dromara.testhub.nsrule.core.executer.mode.base.formula.antlr.FormulaParser;
 import org.dromara.testhub.nsrule.core.expand.FormulaBuilder;
 import org.dromara.testhub.nsrule.core.executer.mode.base.formula.ast.ASTTransformVisitor;
 import org.dromara.testhub.nsrule.core.executer.mode.base.formula.ast.MyErrorListener;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 /**
@@ -17,7 +22,7 @@ import org.dromara.testhub.nsrule.core.executer.mode.base.formula.ast.MyErrorLis
  * @date: 2022/6/5 20:26
  */
 public class DefaultFormulaBuilder implements FormulaBuilder {
-    public FormulaNode getFormulaNode(String text) {
+    public FormulaNode getFormulaNode(String text){
         try {
             // 从字符串创建 CharStream
             CharStream charStream = CharStreams.fromString(text);
@@ -35,9 +40,12 @@ public class DefaultFormulaBuilder implements FormulaBuilder {
 
             ASTTransformVisitor transformVisitor = new ASTTransformVisitor();
 
-            FormulaNode node =  transformVisitor.visitFormula(formulaContext);
+            FormulaNode node = transformVisitor.visitFormula(formulaContext);
+
+//            return node;
             return node.simplify();
-        } catch (Exception e) {
+        }catch (Exception e) {
+//            e.printStackTrace();
             return new DataNode(text);
         }
     }

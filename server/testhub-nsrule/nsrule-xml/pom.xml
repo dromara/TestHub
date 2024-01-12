@@ -6,13 +6,14 @@
     <parent>
         <groupId>org.dromara.testhub</groupId>
         <artifactId>testhub-nsrule</artifactId>
-        <version>${revision}</version>
+        <version>1.0.3-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <groupId>org.dromara.testhub.nsrule</groupId>
     <artifactId>nsrule-xml</artifactId>
 
     <properties>
+        <revision>1.0.3-SNAPSHOT</revision>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

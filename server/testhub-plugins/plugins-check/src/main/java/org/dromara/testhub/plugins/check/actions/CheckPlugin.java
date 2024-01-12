@@ -2,6 +2,7 @@ package org.dromara.testhub.plugins.check.actions;
 
 
 import com.alibaba.fastjson.JSONObject;
+import org.dromara.testhub.nsrule.core.constant.RuleException;
 import org.dromara.testhub.nsrule.core.executer.context.Context;
 import org.dromara.testhub.nsrule.core.executer.mode.base.Result;
 import org.dromara.testhub.nsrule.core.executer.mode.base.action.RunState;
@@ -83,23 +84,30 @@ public class CheckPlugin implements Plugin {
                     }
                 }
                 for (int index = 0; index < max; index++) {
-                    JSONObject data = new JSONObject();
-                    data.put("index", index);
-                    context.pushData(data);
+                    try {
+                        JSONObject data = new JSONObject();
+                        data.put("index", index);
+                        context.pushData(data);
 
-                    CheckParamResult result = new CheckParamResult();
-                    results.add(result);
-                    result.setLog(new JavaActuator.Log());
+                        CheckParamResult result = new CheckParamResult();
+                        results.add(result);
+                        result.setLog(new JavaActuator.Log());
 
-                    checkItemExec(context, ruleLine, result, result2);
-                    res.add(result.isFlag());
-                    context.removeData();
-                    checkResultDto.getItemFlags().add(result.isFlag());
+                        checkItemExec(context, ruleLine, result, result2);
+                        res.add(result.isFlag());
 
-                    if (checkResultDto.getFlag() == true && !result.isFlag()) {
-                        checkResultDto.setFlag(false);
-                        paramMap.put("flag", checkResultDto.getFlag());
+                        checkResultDto.getItemFlags().add(result.isFlag());
+
+                        if (checkResultDto.getFlag() == true && !result.isFlag()) {
+                            checkResultDto.setFlag(false);
+                            paramMap.put("flag", checkResultDto.getFlag());
+                        }
+                    }catch (Exception e){
+                        throw new RuleException(e);
+                    }finally {
+                        context.removeData();
                     }
+
 
                 }
             } else {

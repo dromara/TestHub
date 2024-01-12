@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 public class ArithmeticNode extends FormulaNode {
-    public static String TYPE = "DATA";
+    public static String TYPE = "ARITH";
 
     private FormulaNode left;
     private String op;
@@ -65,6 +65,15 @@ public class ArithmeticNode extends FormulaNode {
         log.setData(res);
         result.setLog(isLog ? log : null);
         return result;
+    }
+    public FormulaNode simplify() {
+        if(left!=null){
+            left = left.simplify();
+        }
+        if(right!=null){
+            right = right.simplify();
+        }
+        return this;
     }
 
     private BigDecimal getData(Object data) {

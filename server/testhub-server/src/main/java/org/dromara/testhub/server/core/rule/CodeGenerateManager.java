@@ -1,13 +1,7 @@
 package org.dromara.testhub.server.core.rule;
 
-import com.goddess.nsrule.core.executer.context.RuleConfig;
-import com.goddess.nsrule.core.executer.mode.Rule;
-import com.goddess.nsrule.core.parser.RuleParser;
-import com.goddess.nsrule.parserXml.XMLRuleParser;
-import org.apache.commons.lang3.StringUtils;
-import org.dom4j.Document;
-import org.dromara.testhub.framework.exception.TestHubException;
-import org.dromara.testhub.framework.util.FileUtil;
+
+import org.dromara.testhub.nsrule.core.executer.context.RuleConfig;
 import org.dromara.testhub.server.infrastructure.repository.dao.CodeGenerateMapper;
 import org.dromara.testhub.server.infrastructure.repository.po.CodeGeneratePo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +9,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Component
 public class CodeGenerateManager {

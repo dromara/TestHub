@@ -16,4 +16,5 @@ export default {
     'http.data.resheaders': '响应头',
     'http.data.cookies': 'Cookie',
     'http.data.recookies': '响应Cookie',
+    'http.data.req': '实际请求',
 }

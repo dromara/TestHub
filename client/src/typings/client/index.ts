@@ -56,6 +56,7 @@ export interface IConsoleIndo<T> {
 
 
 export interface IFormulaLog {
+    exec?: number;
     data?: Record<string, any>;
     text?: string;
     type?: string;
@@ -65,7 +66,12 @@ export interface IFormulaLog {
 
     func?: string;
     paramLogs?: ParamLog[];
+    mapLog?: Record<string, ParamLog>;
+
     lastAttr?: string;
+
+    nodes?: ParamLog[];
+    dataLog?: ParamLog[];
 
     suffix?: string;
     index?: number;

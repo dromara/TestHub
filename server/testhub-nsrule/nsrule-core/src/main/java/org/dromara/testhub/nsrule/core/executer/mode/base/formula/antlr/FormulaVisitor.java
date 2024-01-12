@@ -17,6 +17,12 @@ public interface FormulaVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitFormula(FormulaParser.FormulaContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link FormulaParser#otherNode}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitOtherNode(FormulaParser.OtherNodeContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link FormulaParser#dataNode}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -220,4 +226,10 @@ public interface FormulaVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitSpace(FormulaParser.SpaceContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link FormulaParser#chineseString}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitChineseString(FormulaParser.ChineseStringContext ctx);
 }

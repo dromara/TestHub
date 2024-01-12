@@ -274,6 +274,6 @@ public abstract class Context<T> {
         return project;
     }
     public FunctionHandlerFactory getFunctionHandlerFactory() {
-        return project.buildContext().getFunctionHandlerFactory();
+        return project.getRuleConfig().getFunctionHandlerFactory();
     }
 }

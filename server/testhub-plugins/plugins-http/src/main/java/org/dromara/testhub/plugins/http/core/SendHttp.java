@@ -16,11 +16,10 @@ import org.jsoup.parser.Parser;
 import org.springframework.http.MediaType;
 
 import java.io.UnsupportedEncodingException;
+import java.net.ConnectException;
 import java.net.URI;
 import java.net.URLEncoder;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
+import java.net.http.*;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.*;
@@ -60,6 +59,20 @@ public class SendHttp {
         STATUS_DESC.put(504, "Gateway Timeout");
     }
 
+    /**
+     * 替换rest风格的参数
+     */
+    private static String replaceRests(String input, JSONObject map) {
+        String output = input;
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue().toString();
+            String placeholder = "{" + key + "}";
+            output = output.replace(placeholder, value);
+        }
+        return output;
+    }
+
 
 
     public static ResData send(Context context, HttpModel httpModel, ResData resData){
@@ -67,16 +80,17 @@ public class SendHttp {
 
         resData.setTimeout(timeout);
 
-        String url = httpModel.getUrl();
+
+        JSONObject rests = Param.buildParams(context, httpModel.getRests(), context.getData());
+        resData.setRests(rests);
+
+        String url = httpModel.execUrl(context,rests);
+        url = replaceRests(url,rests);
+
 
         String method = httpModel.getMethod();
         resData.setReqType(httpModel.getBody().getLanguage().toLowerCase());
         resData.setMethod(method);
-
-        JSONObject rests = Param.buildParams(context, httpModel.getRests(), context.getData());
-        resData.setRests(rests);
-        //Rest替换
-        url = replaceRests(url, rests.getInnerMap());
 
         JSONObject params = Param.buildParams(context, httpModel.getParams(), context.getData());
 
@@ -120,13 +134,13 @@ public class SendHttp {
                     resData.setError(true);
                     if (exception instanceof ExecutionException) {
                         Throwable cause = exception.getCause();
-                        if (cause instanceof java.net.ConnectException) {
+                        if (cause instanceof ConnectException) {
                             resData.setStatusCode("ConnectException");
                             resData.setStatusName("连接异常");
-                        } else if (cause instanceof java.net.http.HttpConnectTimeoutException) {
+                        } else if (cause instanceof HttpConnectTimeoutException) {
                             resData.setStatusCode("ConnectTimeoutException");
                             resData.setStatusName("链接超时" + timeout + "秒");
-                        } else if (cause instanceof java.net.http.HttpTimeoutException) {
+                        } else if (cause instanceof HttpTimeoutException) {
                             resData.setStatusCode("HttpTimeoutException");
                             resData.setStatusName("返回超时" + timeout + "秒");
                         } else {
@@ -234,6 +248,7 @@ public class SendHttp {
         Body body = httpModel.getBody();
         JSONObject headers = Param.buildParams(context, httpModel.getHeaders(), context.getData());
         if (Body.NONE.equalsIgnoreCase(body.getType()) || StringUtils.isNotEmpty(headers.getString("Content-Type"))) {
+            headers.put("Content-Type", MediaType.APPLICATION_JSON_VALUE);
             return headers;
         }
         if (Body.RAW.equalsIgnoreCase(body.getType())) {
@@ -276,19 +291,7 @@ public class SendHttp {
         }
         return sb.toString();
     }
-    /**
-     * 替换rest风格的参数
-     */
-    private static String replaceRests(String input, Map<String, Object> map) {
-        String output = input;
-        for (Map.Entry<String, Object> entry : map.entrySet()) {
-            String key = entry.getKey();
-            String value = entry.getValue().toString();
-            String placeholder = "{" + key + "}";
-            output = output.replace(placeholder, value);
-        }
-        return output;
-    }
+
     /**
      * 获取请求体
      */

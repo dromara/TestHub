@@ -29,6 +29,18 @@ public class FormulaBaseListener implements FormulaListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterOtherNode(FormulaParser.OtherNodeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitOtherNode(FormulaParser.OtherNodeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterDataNode(FormulaParser.DataNodeContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -432,6 +444,18 @@ public class FormulaBaseListener implements FormulaListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitSpace(FormulaParser.SpaceContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterChineseString(FormulaParser.ChineseStringContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitChineseString(FormulaParser.ChineseStringContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

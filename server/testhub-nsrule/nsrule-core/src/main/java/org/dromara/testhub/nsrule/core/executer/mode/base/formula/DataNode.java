@@ -3,7 +3,6 @@ package org.dromara.testhub.nsrule.core.executer.mode.base.formula;
 import org.dromara.testhub.nsrule.core.executer.context.Context;
 import org.dromara.testhub.nsrule.core.executer.context.DefContext;
 import org.dromara.testhub.nsrule.core.executer.mode.base.Result;
-import org.dromara.testhub.nsrule.core.executer.mode.base.formula.FormulaNode;
 import org.dromara.testhub.nsrule.core.executer.mode.base.formula.log.DataLog;
 import org.dromara.testhub.nsrule.core.executer.mode.base.formula.log.FormulaLog;
 
@@ -11,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 
 /**
@@ -19,9 +19,9 @@ import java.util.Map;
 public class DataNode extends FormulaNode {
     public static String TYPE = "DATA";
 
-    private static int EXEC_DATA = 1;
-    private static int EXEC_DATAS = 2;
-    private static int EXEC_MAP = 3;
+    public static int EXEC_DATA = 1;
+    public static int EXEC_DATAS = 2;
+    public static int EXEC_MAP = 3;
     private Object data;
     private int exec;
     private List<FormulaNode> datas;
@@ -63,24 +63,11 @@ public class DataNode extends FormulaNode {
             result.setContent(data);
         } else if (exec == EXEC_DATAS) {
             List<Object> temps = new ArrayList<>();
-            for (FormulaNode tNode : datas) {
-                Result<Object> temp = tNode.apply(context, isLog);
-                if (dataLog != null) {
-                    dataLog.getDataLog().add((FormulaLog) temp.getLog());
-                }
-                temps.add(temp.getContent());
-            }
+            processNodes(datas, dataLog, temps, context, isLog);
             result.setContent(temps);
-
         } else if (exec == EXEC_MAP) {
             Map<String, Object> temps = new HashMap<>();
-            map.forEach((key, value) -> {
-                Result<Object> temp = value.apply(context, isLog);
-                if (dataLog != null) {
-                    dataLog.getMapLog().put(key, (FormulaLog) temp.getLog());
-                }
-                temps.put(key, temp.getContent());
-            });
+            processMap(map, dataLog, temps, context, isLog);
             result.setContent(temps);
         }
 
@@ -91,34 +78,97 @@ public class DataNode extends FormulaNode {
     }
 
     public FormulaNode simplify() {
-        if (!canSimplify() || exec == EXEC_DATA) {
+        if (exec == EXEC_DATA) {
             return this;
         }
-        data = apply(new DefContext()).getContent();
+
         if (exec == EXEC_DATAS) {
-            datas = null;
+            List<FormulaNode> nodes = new ArrayList<>();
+            boolean flag = true;
+            for (FormulaNode node : datas) {
+                FormulaNode node1 = node.simplify();
+                if(!node1.canSimplify()){
+                    flag = false;
+                }
+                nodes.add(node1);
+            }
+            if(flag){
+                List<Object> temps = new ArrayList<>();
+                processNodes(datas, null, temps, new DefContext(), false);
+                exec = EXEC_DATA;
+                data = temps;
+                datas = null;
+            }else {
+                datas = nodes;
+            }
         } else if (exec == EXEC_MAP) {
-            map = null;
+            AtomicBoolean flag = new AtomicBoolean(true);
+            Map<String, FormulaNode> tempMap = new HashMap<>();
+
+            map.forEach((key, node) -> {
+                FormulaNode node1 = node.simplify();
+                if(!node1.canSimplify()){
+                    flag.set(false);
+                }
+                tempMap.put(key, node1);
+            });
+            if(flag.get()){
+                Map<String, Object> temps = new HashMap<>();
+                processMap(map, null, temps, new DefContext(), false);
+                exec = EXEC_DATA;
+                data = temps;
+                map = null;
+            }else {
+                map = tempMap;
+            }
+
+
         }
-        exec = EXEC_DATA;
         return this;
     }
-
-    public boolean canSimplify() {
-        if (exec == EXEC_DATAS) {
-            for (FormulaNode tNode : datas) {
-                if (!tNode.canSimplify()) {
-                    return false;
-                }
-            }
-        } else if (exec == EXEC_MAP) {
-            for (FormulaNode tNode : map.values()) {
-                if (!tNode.canSimplify()) {
-                    return false;
-                }
-            }
+    @Override
+    public boolean canSimplify(){
+        if(this.getExec() != EXEC_DATA){
+            return false;
         }
         return true;
     }
+
+
+
+    private void processNodes(List<FormulaNode> nodes, DataLog dataLog, List<Object> temps, Context context, boolean isLog) {
+        for (FormulaNode node : nodes) {
+            var temp = node.apply(context, isLog);
+            if (dataLog != null) {
+                dataLog.getNodes().add((FormulaLog) temp.getLog());
+            }
+            temps.add(temp.getContent());
+        }
+    }
+
+    private void processMap(Map<String, FormulaNode> inputMap, DataLog dataLog, Map<String, Object> temps, Context context, boolean isLog) {
+        inputMap.forEach((key, value) -> {
+            var temp = value.apply(context, isLog);
+            if (dataLog != null) {
+                dataLog.getMapLog().put(key, (FormulaLog) temp.getLog());
+            }
+            temps.put(key, temp.getContent());
+        });
+    }
+
+
+    public int getExec() {
+        return exec;
+    }
+
+    public void setData(Object data) {
+        this.data = data;
+    }
+
+    public Object getData() {
+        return data;
+    }
+
+
 
 }

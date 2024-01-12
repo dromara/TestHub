@@ -5,13 +5,16 @@
 @import './theme/primaryColor/polarGreen.less';
 
 body {
+
   ul,
   ol,
   li {
     padding-left: 0;
     list-style: none;
   }
-  overflow: overlay; /*滚动条会覆盖在页面之上*/
+
+  overflow: overlay;
+  /*滚动条会覆盖在页面之上*/
 }
 
 div,
@@ -19,6 +22,7 @@ ul,
 li {
   transition: border-color 0.3s, background 0.3s, padding 0.1s;
 }
+
 // cubic-bezier(0.215, 0.61, 0.355, 1)
 
 :root {
@@ -60,4 +64,3 @@ input:-webkit-autofill {
 ::-webkit-scrollbar-corner {
   background: transparent;
 }
-

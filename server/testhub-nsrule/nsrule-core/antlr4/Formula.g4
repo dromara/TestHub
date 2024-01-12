@@ -2,10 +2,15 @@ grammar Formula;
 
 //https://github.com/alibaba/fastjson/wiki/JSONPath
 
-formula: ('(' dataType = IDENTIFIER ')')? (funcNode | pathNode | dataNode | arithmetic) (formula)*;
+formula: ('(' dataType = IDENTIFIER ')')? (funcNode | pathNode  | dataNode | arithmetic |otherNode) (formula)*;
+
+
+otherNode : (DIV | WELL | AND | SEMICOLON | PERCENTAGE |AT | DOT| COLON | MUL | QUE_MARK
+    | SIGH | SUB | DOLLAR | SPACE)+;
+
 
 dataNode:
-    IDENTIFIER | SingleQuoteAnyText | decimal
+    IDENTIFIER | SingleQuoteAnyText | decimal | chineseString
     | LBRACKET dataNode ( COMMA dataNode)* RBRACKET
     | LBRACKET formula ( COMMA formula)* RBRACKET
     | LCURLY keyVal (COMMA keyVal)* RCURLY
@@ -110,6 +115,7 @@ factor: decimal | '(' binArithmetic ')' | pathNode | funcNode;
 space :
     SPACE+;
 
+chineseString: CHINESE+;
 
 SingleQuoteAnyText: '\'' ~'\''* '\'';
 
@@ -134,6 +140,7 @@ PERCENTAGE:'%';
 SPACE:' ';
 SingleQuote: '\'';
 QUE_MARK :'?';
+SIGH :'!';
 COMMA :',';
 DOT: '.';
 DOLLAR: '$';
@@ -146,6 +153,14 @@ FLOAT: [0-9]+'.'[0-9]+;
 
 IDENTIFIER:
     [a-zA-Z_] [a-zA-Z_0-9]*;
+
+CHINESE: [\u4e00-\u9fa5];
+
+WELL:'#';
+AND:'&';
+SEMICOLON:';';
+AT:'@';
+COLON:':';
 
 
 Whitespace:

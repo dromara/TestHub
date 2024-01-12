@@ -1,6 +1,9 @@
 export default {
+    'testhub.FormulaLog.path': '路径',
+    'testhub.FormulaLog.text': '表达式',
     'testhub.FormulaLog.val': '值',
     'testhub.FormulaLog.func': '方法',
+    'testhub.FormulaLog.arith': '公式',
     'testhub.FormulaLog.result': '返回值',
     'testhub.FormulaLog.variable': '变量',
     'testhub.FormulaLog.index': '下标',

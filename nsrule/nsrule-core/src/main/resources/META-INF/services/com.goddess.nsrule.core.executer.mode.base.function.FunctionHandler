@@ -1,8 +1,0 @@
-
-com.goddess.nsrule.core.executer.mode.base.function.impl.FunctionAdd
-com.goddess.nsrule.core.executer.mode.base.function.impl.FunctionSub
-com.goddess.nsrule.core.executer.mode.base.function.impl.FunctionMult
-com.goddess.nsrule.core.executer.mode.base.function.impl.FunctionDiv
-
-com.goddess.nsrule.core.executer.mode.base.function.impl.FunctionSize
-com.goddess.nsrule.core.executer.mode.base.function.impl.FunctionLength

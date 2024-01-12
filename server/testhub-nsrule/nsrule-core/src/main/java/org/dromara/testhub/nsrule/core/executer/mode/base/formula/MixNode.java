@@ -32,8 +32,9 @@ public class MixNode extends FormulaNode {
         for (FormulaNode tNode : datas) {
             Result<Object> temp = tNode.apply(context, isLog);
             dayaLogs.add((FormulaLog) temp.getLog());
-            stringBuilder.append(temp.getContent().toString());
-
+            if(temp.getContent()!=null){
+                stringBuilder.append(temp.getContent().toString());
+            }
         }
         result.setContent(stringBuilder.toString());
         if (log != null) {
@@ -46,23 +47,46 @@ public class MixNode extends FormulaNode {
     }
 
     public FormulaNode simplify() {
-        if (!canSimplify()) {
-            return this;
+        List<FormulaNode> nodes = new ArrayList<>();
+        DataNode per = null;
+        //相连的两个dataNode可以合并
+        for (int i = 0; i < datas.size(); i++) {
+            FormulaNode thisNode = datas.get(i);
+            thisNode.simplify();
+            if (per == null) {
+                if(thisNode instanceof MixNode mixNode){
+                    nodes.addAll(mixNode.datas);
+                }else {
+                    nodes.add(thisNode);
+                }
+                if (nodes.get(nodes.size()-1).canSimplify()) {
+                    per = (DataNode)nodes.get(nodes.size()-1);
+                }
+            }else  if (thisNode.canSimplify()) {
+                per.text = per.text + thisNode.text;
+                per.setData(per.text);
+            }else {
+                if(thisNode instanceof MixNode mixNode){
+                    nodes.addAll(mixNode.datas);
+                }else {
+                    nodes.add(thisNode);
+                }
+                per = null;
+            }
         }
-        for (FormulaNode tNode : datas) {
-            tNode.simplify();
+        this.datas = nodes;
+        if(canSimplify()){
+            return new DataNode(text);
         }
-
         return this;
     }
-
-    public boolean canSimplify() {
-        for (FormulaNode tNode : datas) {
-            if (!tNode.canSimplify()) {
+    @Override
+    public boolean canSimplify(){
+        for (FormulaNode node : datas) {
+            if(!node.canSimplify()){
                 return false;
             }
         }
         return true;
     }
-
 }
