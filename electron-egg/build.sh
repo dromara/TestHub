@@ -6,7 +6,7 @@ read -p "版本号: " DOCKER_IMAGE_TAG
 
 # 拷贝jar包
 cp ../server/testhub-server/target/testhub-server-$DOCKER_IMAGE_TAG-SNAPSHOT.jar ./build/extraResources/TestHub.jar
-cp ./docker/backend/application.yml ./build/extraResources/application.yml
+cp ../docker/backend/application.yml ./build/extraResources/application.yml
 
 echo "请选择平台:"
 echo "1. win64"
