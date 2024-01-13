@@ -13,27 +13,43 @@ star: true
 # copyright: 无版权
 ---
 
+## V 1.0.3
+
+**2024 年 01 月 13 日**
+
+- 🪲🪲 修复 BUG🪲🪲
+
+  - 优化用例编辑器卡顿问题
+  - 修复 HTTP 不支持异步接口能问题
+  - 自动生成的 ID 和人工输入的 ID 可能会产生重复@magic [#I8AZW1 ](https://gitee.com/dromara/TestHub/issues/I8AZW1)
+
+- 👍👍 新增功能 👍👍
+  - 优化 Formula 表达式日志展示。[使用说明](/principle/operand.md)
+  - 基于 antlr4 重构 Formula 表达式
+  - 支持操作 cookie [#I8I89D ](https://gitee.com/dromara/TestHub/issues/I8I89D)
+  - 参数支持复制键入 [#I8B27J ](https://gitee.com/dromara/TestHub/issues/I8B27J)
+  - 优化环境变量的使用 [#I8CEPE ](https://gitee.com/dromara/TestHub/issues/I8CEPE)
+
 ## V 1.0.2
 
 **2023 年 10 月 27 日**
 
-[1.0.2升级使用说明 ](/logDesc/1_0_2.md)
+[1.0.2 升级使用说明 ](/logDesc/1_0_2.md)
 
 - 🪲🪲 修复 BUG🪲🪲
 
   - 解决用例类目树超出不显示滚动条的问题
   - 修复无法退出登陆的问题
-  - 修复HTTP超时问题
-  
+  - 修复 HTTP 超时问题
+
 - 👍👍 新增功能 👍👍
 
-  - sql能力支持同时执行多条sql
+  - sql 能力支持同时执行多条 sql
   - 实现简单级权限控制
   - 后端部分插件化改造
   - 提供组件库的功能
   - 提供页面配置行为
   - 支持配置多环境
-
 
 ## V 1.0.1
 

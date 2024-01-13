@@ -29,7 +29,7 @@ category:
 
 | 请求体                | 支持 |
 | --------------------- | ---- |
-| ra w-json              | ✅   |
+| ra w-json             | ✅   |
 | raw-xml               | ✅   |
 | raw-text              | ✅   |
 | raw-html              |      |
@@ -92,10 +92,10 @@ category:
             </httpModel>
         </action>
         <action code="getOrder" name="获取订单" type="HTTP" dataType="map">
-            <httpModel url="http://192.168.0.4:12004/getOrder/{id}" method="get">
-                <rests>
+            <params>
                     <param code="id" dataType="STRING" data="18"/>
-                </rests>
+            </params>
+            <httpModel url="http://192.168.0.4:12004/getOrder/${id}" method="get">
                 <params>
                     <param code="orderCode" dataType="STRING" data="28bcff20b0"/>
                 </params>

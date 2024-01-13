@@ -18,7 +18,7 @@ nsrule 项目 暂未发布中央仓库，需要打开 nsrule 的工程执行 mvn
 ![](/images/build/image.png)
 
 **实现你的个性化插件**
-参考 actions、methods、tools 实现你的个性化插件
+参考 atesthub-plugins 实现你的个性化插件
 ![](/images/build/plugin.png)
 
 **导入你的个性化插件**

@@ -157,7 +157,22 @@ highlights:
 	<img class="no-zoom friends-item-img hover-alt" :src="$withBase('/images/friends/link/test-hub-heng.png')" alt="流程编排，插件驱动，测试无限可能">
 </a>
 <a class="friends-item" href="https://gitee.com/dromara/disjob" target="_blank" title="一个分布式的任务调度框架">
-	<img class="no-zoom friends-item-img hover-alt" :src="$withBase('/images/friends/link/Disjob.png')" alt="一个分布式的任务调度框架">
+	<img class="no-zoom friends-item-img hover-alt" :src="$withBase('/images/friends/link/disjob-2.png')" alt="一个分布式的任务调度框架">
+</a>
+<a class="friends-item" href="https://gitee.com/dromara/binlog4j" target="_blank" title="基 于 Java 轻 量 级 的 Mysql (Mariadb) Binlog 客 户 端">
+	<img class="no-zoom friends-item-img hover-alt" :src="$withBase('/images/friends/link/Binlog4j.png')" alt="基 于 Java 轻 量 级 的 Mysql (Mariadb) Binlog 客 户 端">
+</a>
+<a class="friends-item" href="https://gitee.com/dromara/yft-design" target="_blank" title="基于fabric.js的图片设计，使用 Vue3+ TypeScript + fabric.js + pinia + element-plus + pwa，支持 文字、图片、形状、线条、二维码 、条形码几种最常用的元素类型，每一种元素都拥有高度可编辑能力，缩略图显示，模板，支持导出json，svg, image文件">
+	<img class="no-zoom friends-item-img hover-alt" :src="$withBase('/images/friends/link/yft-design.png')" alt="基于fabric.js的图片设计，使用 Vue3+ TypeScript + fabric.js + pinia + element-plus + pwa，支持 文字、图片、形状、线条、二维码 、条形码几种最常用的元素类型，每一种元素都拥有高度可编辑能力，缩略图显示，模板，支持导出json，svg, image文件">
+</a>
+<a class="friends-item" href="https://gitee.com/dromara/x-file-storage" target="_blank" title="一行代码将文件存储到 本地、FTP、SFTP、WebDAV、谷歌云、阿里云OSS、华为云OBS、七牛云Kodo、腾讯云COS、百度云 BOS、又拍云USS、MinIO、 AWS S3、金山云 KS3、美团云 MSS、京东云 OSS、天翼云 OOS、移动云 EOS、沃云 OSS、 网易数帆 NOS、Ucloud US3、青云 QingStor、IBM COS 等平台">
+	<img class="no-zoom friends-item-img hover-alt" :src="$withBase('/images/friends/link/file4j.png')" alt="一行代码将文件存储到 本地、FTP、SFTP、WebDAV、谷歌云、阿里云OSS、华为云OBS、七牛云Kodo、腾讯云COS、百度云 BOS、又拍云USS、MinIO、 AWS S3、金山云 KS3、美团云 MSS、京东云 OSS、天翼云 OOS、移动云 EOS、沃云 OSS、 网易数帆 NOS、Ucloud US3、青云 QingStor、IBM COS 等平台">
+</a>
+<a class="friends-item" href="https://wemq.nicholasld.cn/" target="_blank" title="开源、高性能、安全、功能强大的物联网调试和管理解决方案">
+	<img class="no-zoom friends-item-img hover-alt" :src="$withBase('/images/friends/link/wemq.png')" alt="开源、高性能、安全、功能强大的物联网调试和管理解决方案">
+</a>
+<a class="friends-item" href="https://gitee.com/dromara/mayfly-go" target="_blank" title="web版linux(终端 文件 脚本 进程)、数据库(mysql pgsql 高斯 达梦)、redis(单机 哨兵 集群)、mongo统一管理操作平台">
+	<img class="no-zoom friends-item-img hover-alt" :src="$withBase('/images/friends/link/mayfly-go.png')" alt="web版linux(终端 文件 脚本 进程)、数据库(mysql pgsql 高斯 达梦)、redis(单机 哨兵 集群)、mongo统一管理操作平台">
 </a>
 
 </p>
