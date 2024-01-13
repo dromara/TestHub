@@ -159,20 +159,25 @@ public abstract class Context<T> {
     }
 
     public Object getObject(String path) {
-        Object data = JSONPath.eval(this.data, path, false);
-        if (data == null) {
-            data = getByDataStack(path);
-            if (data == null) {
-                data = JSONPath.eval(this.ruleParams, path, false);
-                if (data == null) {
-                    data = JSONPath.eval(this.runData.get(getItemCode()), path, false);
-                    if (data == null) {
+        Object data = null;
+        if(!JSONPath.contains(this.data,path)){
+            Boolean flag = false;
+            data = getByDataStack(path,flag);
+            if(!flag){
+                if(!JSONPath.contains(this.ruleParams,path)){
+                    if(!JSONPath.contains(this.runData.get(getItemCode()),path)){
                         data = JSONPath.eval(this.globalParams, path, false);
+                    }else {
+                        data = JSONPath.eval(this.runData.get(getItemCode()), path, false);
                     }
+                }else {
+                    data = JSONPath.eval(this.ruleParams, path, false);
                 }
             }
+        }else {
+            //存在路径
+            data = JSONPath.eval(this.data, path, false);
         }
-
         return data;
     }
     // 根据值栈 生成 参数
@@ -199,7 +204,7 @@ public abstract class Context<T> {
         return params;
     }
 
-    private Object getByDataStack(String path) {
+    private Object getByDataStack(String path,Boolean flag) {
         Object data = null;
         for (JSONObject tData :stackList.stream()
                 .collect(Collectors.collectingAndThen(Collectors.toList(), list -> {
@@ -207,10 +212,16 @@ public abstract class Context<T> {
                     return list;
                 }))) {
             data = JSONPath.eval(tData, path, false);
+
             if (data != null) {
+                flag = true;
                 return data;
+            }if(JSONPath.contains(tData,path)){
+                flag = true;
+                return null;
             }
         }
+        flag = false;
         return data;
     }
 

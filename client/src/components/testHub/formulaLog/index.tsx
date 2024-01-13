@@ -22,7 +22,13 @@ const FormulaLog = (props: Props) => {
                     <Col>
                         <Row>
                             <Col>
-                                {i18n('testhub.FormulaLog.result') + ': ' + props.data.data}
+                                {i18n('testhub.FormulaLog.result') + ': '}
+
+                                {(typeof props.data.data != 'object' || props.data.data == null) ? (
+                                    (typeof props.data.data == 'boolean') ? props.data.data + "" : props.data.data
+                                ) : (
+                                    <MyReactJson data={props.data.data} />
+                                )}
                             </Col>
                         </Row>
                         {

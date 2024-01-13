@@ -180,36 +180,37 @@ public class ASTTransformVisitor extends FormulaBaseVisitor<FormulaNode> {
         } else if (ctx.IDENTIFIER() != null) {
             return new DataNode(ctx.IDENTIFIER().getText());
         }else if (ctx.LBRACKET()!=null){
-            if(ctx.dataNode().isEmpty()){
+//            if(ctx.dataNode().isEmpty()){
                 List<FormulaNode> datas = new ArrayList<>();
                 for(FormulaParser.FormulaContext subCtx:ctx.formula()){
                     datas.add(visitFormula(subCtx));
                 }
                 return new DataNode(ctx.getText(),datas);
-            }else {
-                List<Object> datas = new ArrayList<>();
-                for(FormulaParser.DataNodeContext subCtx:ctx.dataNode()){
-                    datas.add(getDataNode(subCtx));
-                }
-                return new DataNode(ctx.getText(),datas);
-            }
+//            }else {
+//                List<Object> datas = new ArrayList<>();
+//                for(FormulaParser.DataNodeContext subCtx:ctx.dataNode()){
+//                    datas.add(getDataNode(subCtx));
+//                }
+//                return new DataNode(ctx.getText(),datas);
+//            }
         }else if (ctx.LCURLY()!=null){
-            if(ctx.keyVal().isEmpty()){
+//            if(ctx.keyVal().isEmpty()){
                 Map<String, FormulaNode> map = new HashMap<>();
                 for (FormulaParser.KeyFormulaContext subCtx : ctx.keyFormula()) {
                     map.put(subCtx.IDENTIFIER().getText(), visitFormula(subCtx.formula()));
                 }
                 return new DataNode(ctx.getText(), map);
-            }else {
-                Map<String, Object> data = new HashMap<>();
-                for (FormulaParser.KeyValContext subCtx : ctx.keyVal()) {
-                    data.put(subCtx.key.getText(),  getData(subCtx));
-                }
-                return new DataNode(ctx.getText(), data);
-            }
+//            }else {
+//                Map<String, Object> data = new HashMap<>();
+//                for (FormulaParser.KeyValContext subCtx : ctx.keyVal()) {
+//                    data.put(subCtx.key.getText(),  getData(subCtx));
+//                }
+//                return new DataNode(ctx.getText(), data);
+//            }
         }
         return new DataNode(ctx.getText());
     }
+
     private Object getData(FormulaParser.KeyValContext ctx) {
         if (ctx.decimal() != null) {
             if(ctx.decimal().getText().length()>1 &&  new BigDecimal(ctx.decimal().getText()).compareTo(BigDecimal.ZERO)==0){

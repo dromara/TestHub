@@ -11,9 +11,9 @@ otherNode : (DIV | WELL | AND | SEMICOLON | PERCENTAGE |AT | DOT| COLON | MUL | 
 
 dataNode:
     IDENTIFIER | SingleQuoteAnyText | decimal | chineseString
-    | LBRACKET dataNode ( COMMA dataNode)* RBRACKET
+//    | LBRACKET dataNode ( COMMA dataNode)* RBRACKET
     | LBRACKET formula ( COMMA formula)* RBRACKET
-    | LCURLY keyVal (COMMA keyVal)* RCURLY
+//    | LCURLY keyVal (COMMA keyVal)* RCURLY
     | LCURLY keyFormula (COMMA keyFormula)* RCURLY;
 
 keyVal:

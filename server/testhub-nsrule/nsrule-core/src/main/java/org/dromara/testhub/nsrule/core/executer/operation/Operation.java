@@ -368,7 +368,7 @@ public abstract class Operation {
                     BigDecimal t1 = t1s.get(i);
                     BigDecimal t2 = t2s.get(i);
                     boolean flag = number(t1, t2);
-                    if (flag) {
+                    if (!flag) {
                         return false;
                     }
                 }
@@ -388,7 +388,7 @@ public abstract class Operation {
                 }
             }
         }
-        return false;
+        return true;
     }
 
 
