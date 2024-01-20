@@ -24,7 +24,7 @@ public class DataCheckUtil {
     }
 
     public static void dataTypeCheck(String data) {
-        boolean flag = ConstantUtil.isBaseDataType(data.toUpperCase());
+        boolean flag = ConstantUtil.isInnerDataType(data.toUpperCase());
         if (!flag) {
             throw new RuleException("找不到数据类型"+data);
         }
