@@ -6,7 +6,7 @@ formula: ('(' dataType = IDENTIFIER ')')? (funcNode | pathNode  | dataNode | ari
 
 
 otherNode : (DIV | WELL | AND | SEMICOLON | PERCENTAGE |AT | DOT| COLON | MUL | QUE_MARK
-    | SIGH | SUB | DOLLAR | SPACE)+;
+    | SIGH | SUB | DOLLAR | SPACE | EQ)+;
 
 
 dataNode:
