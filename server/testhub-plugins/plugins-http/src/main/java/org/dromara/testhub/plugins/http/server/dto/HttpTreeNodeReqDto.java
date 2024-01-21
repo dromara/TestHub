@@ -5,9 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.dromara.testhub.nsrule.core.executer.mode.base.action.Param;
 import org.dromara.testhub.plugins.http.actions.model.Body;
-import org.dromara.testhub.plugins.http.core.HttpModel;
 import org.dromara.testhub.sdk.action.dto.RuleParamReqDto;
 import org.springframework.validation.annotation.Validated;
 
@@ -21,19 +19,23 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 @ApiModel
-public class HttpApiReqDto {
-    private static final long serialVersionUID = 1L;
+public class HttpTreeNodeReqDto {
 
     private Long id;
-    @NotNull
+
+    @ApiModelProperty(value = "父节点")
+    private Long parentId;
+
+    @ApiModelProperty(value = "节点类型")
+    private String nodeType;
     @ApiModelProperty(value = "项目编码")
     private String projectCode;
 
     @ApiModelProperty(value = "接口名")
     private String name;
 
-    @ApiModelProperty(value = "类目树")
-    private Long treeId = 0L;
+
+
 
     @ApiModelProperty(value = "环境编码")
     private String envCode;

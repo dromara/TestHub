@@ -51,7 +51,7 @@ function HttpRigth(props: IProps) {
     function renderCurrentTab(item: BaseConsoleInfo<TreeNodeResDto, HttpConsoleInfo>) {
         return (
             <>
-                <HttpConsole httpPage={httpPage} appPage={appPage} dispatch={dispatch} data={item.data.data} info={item.page} />
+                <HttpConsole key={item.data.key} httpPage={httpPage} appPage={appPage} dispatch={dispatch} console={item} node={item.data} data={item.data.data} info={item.page} />
             </>
         );
     }

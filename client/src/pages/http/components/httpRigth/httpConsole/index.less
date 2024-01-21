@@ -2,29 +2,34 @@
 
 .httpConsoleBox {
   height: 100%;
-  width: 90%;
-  margin-left: 5%;
-  padding: 30px 15px 15px 15px;
+  padding: 10px 15px 0px 15px;
   display: flex;
   flex-direction: column;
 }
 
 .httpConsoleBox .httpTar {
   // flex: 0 1 auto;
+  // padding-top: 30px;
+  height: auto;
 }
 
 
 .httpConsoleContainer {
-  height: 100%;
   width: 100%;
+  // height: 100%;
+  flex: 1;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 
 .httpConsole {
-  height: 100%;
+  display: flex;
+  flex-direction: column;
   width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
 
 .httpConsoleInfoNoResult {
@@ -36,48 +41,19 @@
 }
 
 .httpConsoleInfo {
-  overflow: hidden;
-  max-height: 60%;
-  min-height: 40%;
+  overflow: scroll;
   width: 100%;
   height: 50%;
 }
 
 .httpConsoleResult {
-  // flex: 1;
-  // overflow: scroll;
-  max-height: 60%;
-  min-height: 40%;
+  flex: 1;
+  width: 100%;
   height: 50%;
+  overflow: hidden;
   border-top: 1px solid var(--color-border);
 }
 
-// .httpConsoleInfoNoResult {
-//   display: flex;
-//   flex-direction: column;
-//   overflow: hidden;
-//   width: 100%;
-//   height: 100%;
-// }
-
-// .httpConsoleInfo {
-//   display: flex;
-//   flex-direction: column;
-//   overflow: hidden;
-//   max-width: 60%;
-//   min-width: 40%;
-//   width: 60%;
-//   height: 100%;
-// }
-
-// .httpConsoleResult {
-//   flex: 1;
-//   overflow: scroll;
-//   max-width: 60%;
-//   min-width: 40%;
-//   height: 100%;
-//   border-left: 1px solid var(--color-border);
-// }
 
 .httpMethod {
   width: 140px;
@@ -113,4 +89,14 @@
 
 .httpConsole .custom-tabs {
   height: 100%;
+}
+
+.custom-dropdown-button .custom-btn:first-child {
+  width: 78px;
+  height: 40px;
+}
+
+.custom-dropdown-button .custom-btn-icon-only {
+  width: 40px;
+  height: 40px;
 }

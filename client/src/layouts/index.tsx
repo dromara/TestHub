@@ -51,11 +51,11 @@ const LNKConfig: INavItem[] = [
   //-百宝箱  
   //  ｜批次管理
   //  ｜执行结果
-  // {
-  //   title: "HTTP",
-  //   icon: '\ue63b',
-  //   path: '/http'
-  // },
+  {
+    title: "HTTP",
+    icon: '\ue63b',
+    path: '/http'
+  },
   // {
   //   title: i18n('home.nav.github'),
   //   icon: '\ue885',

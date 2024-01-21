@@ -4,6 +4,8 @@ import systemService from '@/service/system';
 import { Effect, Reducer } from 'umi';
 import { HTTP } from '@/components/testHub/http/typings';
 import { HttpApiSendResDto } from '@/typings/server/plugins/http';
+import isEqual from 'lodash/isEqual';
+import cloneDeep from 'lodash/cloneDeep';
 
 export interface IHttpPageState {
     consoles: BaseConsoleInfo<TreeNodeResDto, HttpConsoleInfo>[];
@@ -27,10 +29,12 @@ export interface IHttpPageType {
         setShowResult: Reducer<any>;//设置执行结果
         setNodeShow: Reducer<any>;//设置节点关闭或者打开
         delConsole: Reducer<any>;//关闭tab页
+        saveConsoleData: Reducer<any>;//
+        setConsoleData: Reducer<any>;//
     };
     effects: {
-        loadHttpTrees: Effect;//获取项目列表
-        addTree: Effect;//新增类目树
+        loadTrees: Effect;//获取项目列表
+        saveTree: Effect;//新增类目树
         updateTree: Effect;//编辑类目树
         newApiConsole: Effect;//新建用例控制台tab
         loadApi: Effect;//获取APi数据
@@ -55,7 +59,7 @@ const HttpPageModel: IHttpPageType = {
     state: {
         consoles: [],
         isLoaded: false,
-        showResult: true
+        showResult: false
     },
 
     reducers: {
@@ -65,7 +69,7 @@ const HttpPageModel: IHttpPageType = {
         addHttpConsole(state, { payload }) {
             let oldConsoles: BaseConsoleInfo<TreeNodeResDto, HttpConsoleInfo>[] = state.consoles;
             if (oldConsoles.filter(item => item.key == payload.node.key).length == 0) {
-                let console: BaseConsoleInfo<TreeNodeResDto, HttpConsoleInfo> = { ...payload.node, data: payload.node, page: payload.page == undefined ? {} : payload.page, status: payload.status }
+                let console: BaseConsoleInfo<TreeNodeResDto, HttpConsoleInfo> = { ...payload.node, data: payload.node, oldData: cloneDeep(payload.node.data), page: payload.page == undefined ? {} : payload.page, status: payload.status }
                 oldConsoles.push(console);
                 return { ...state, consoles: [...oldConsoles], activeKey: payload.node.key };
             } else {
@@ -104,9 +108,31 @@ const HttpPageModel: IHttpPageType = {
             }
 
         },
+        saveConsoleData(state, { payload }) {
+            let oldConsoles: BaseConsoleInfo<TreeNodeResDto, HttpConsoleInfo>[] = state.consoles;
+            let index = oldConsoles.findIndex(item => item.key == payload.key);
+            let oldConsole = oldConsoles[index];
+            oldConsole.oldData = payload.data;
+            oldConsole.status = BaseConsoleStatus.SAVED
+            oldConsoles[index] = { ...oldConsole };
+            return { ...state, consoles: [...oldConsoles] };
+        },
+        setConsoleData(state, { payload }) {
+            let oldConsoles: BaseConsoleInfo<TreeNodeResDto, HttpConsoleInfo>[] = state.consoles;
+            let index = oldConsoles.findIndex(item => item.key == payload.key);
+            let oldConsole = oldConsoles[index];
+            oldConsole.data.data = payload.data;
+            if (isEqual(payload.data, oldConsole.oldData)) {
+                oldConsole.status = BaseConsoleStatus.SAVED
+            } else {
+                oldConsole.status = BaseConsoleStatus.DRAFT
+            }
+            oldConsoles[index] = { ...oldConsole };
+            return { ...state, consoles: [...oldConsoles] };
+        },
     },
     effects: {
-        *loadHttpTrees({ payload, callback }, { put, select }) {
+        *loadTrees({ payload, callback }, { put, select }) {
             try {
                 const resDtos = (yield httpService.getTree(payload)) as TreeNodeResDto[];
                 yield put({
@@ -120,8 +146,7 @@ const HttpPageModel: IHttpPageType = {
             catch {
             }
         },
-        *addTree({ payload, callback }, { put, select }) {
-            console.log();
+        *saveTree({ payload, callback }, { put, select }) {
             try {
                 const treeNode = (yield httpService.saveTree({ ...payload })) as TreeNodeResDto;
                 if (callback && typeof callback === 'function') {
@@ -130,7 +155,7 @@ const HttpPageModel: IHttpPageType = {
             }
             catch {
                 if (callback && typeof callback === 'function') {
-                    callback(false);
+                    callback(undefined);
                 }
             }
         },

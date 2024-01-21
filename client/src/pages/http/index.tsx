@@ -67,6 +67,41 @@ function Http(props: IProps) {
             }
         }
     };
+    const refresh = (flag: boolean) => {
+        if (appPage.curProject == null) {
+            dispatch({
+                type: 'appPage/getProjects',
+                callback: (projects: any) => {
+                    dispatch({
+                        type: 'appPage/intiProject',
+                        payload: { projectCode: projects[0].code },
+                        callback: (project: any) => {
+                            dispatch({
+                                type: 'httpPage/loadTrees',
+                                payload: { projectCode: projects[0].code },
+                            })
+                        }
+                    })
+                }
+            })
+        } else {
+            if (flag) {
+                dispatch({
+                    type: 'httpPage/loadTrees',
+                    payload: { projectCode: appPage.curProject.code },
+                })
+            } else if (!httpPage.isLoaded) {
+                dispatch({
+                    type: 'httpPage/loadTrees',
+                    payload: { projectCode: appPage.curProject.code },
+                })
+            }
+        }
+
+    }
+    useEffect(() => {
+        refresh(false);
+    }, []);
 
     const callback = () => {
         // monacoEditorExternalList[activeKey!] && monacoEditorExternalList[activeKey!].layout();
@@ -74,7 +109,7 @@ function Http(props: IProps) {
     return <>
         <DraggableContainer className={classnames(styles.httpBox)} callback={callback} volatileDom={{ volatileRef, volatileIndex: 0 }} >
             <div ref={volatileRef} className={styles.httpLeftBox}>
-                <HttpLeft httpPage={httpPage} dispatch={dispatch} appPage={appPage} />
+                <HttpLeft httpPage={httpPage} dispatch={dispatch} appPage={appPage} refresh={() => { refresh(true) }} />
             </div>
             <div className={styles.httpRightCase}>
                 <HttpRigth httpPage={httpPage} dispatch={dispatch} appPage={appPage} />

@@ -18,6 +18,7 @@ interface IProps {
     appPage: IAppPageState;
     httpPage: IHttpPageState;
     dispatch: Function;
+    refresh: Function;
 }
 
 enum HttpNodeType {
@@ -77,14 +78,6 @@ const recognizeIcon = (nodeType: string) => {
     } else {
         return '\ue713'
     }
-}
-
-
-
-
-function refresh() {
-    let flag = true;
-
 }
 
 function HttpLeft(props: IProps) {
@@ -194,7 +187,7 @@ function HttpLeft(props: IProps) {
     }
 
     return <>
-        <SearchTree treeData={httpPage.httpTrees} recognizeIcon={recognizeIcon} refresh={refresh} renderMenu={renderMenu} doubleClick={doubleClick} singleClick={singleClick} />
+        <SearchTree treeData={httpPage.httpTrees} recognizeIcon={recognizeIcon} refresh={props.refresh} renderMenu={renderMenu} doubleClick={doubleClick} singleClick={singleClick} />
         <TreeAdd parentKey={dirFlag} httpPage={httpPage} appPage={props.appPage} dispatch={props.dispatch} callback={() => { setDirFlag(undefined) }} />
         <TreeUpdate thisKey={upDirFlag} httpPage={httpPage} appPage={props.appPage} dispatch={props.dispatch} callback={() => { setUpDirFlag(undefined) }} />
         <ApiAdd parentKey={addApiFlag} httpPage={httpPage} appPage={props.appPage} dispatch={props.dispatch} callback={() => { setAddApiFlag(undefined) }} />

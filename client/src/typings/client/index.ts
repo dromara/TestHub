@@ -20,7 +20,8 @@ export interface BaseConsoleInfo<D, P> {
     name: string; // 名称
     key: string; // key 唯一
     status: BaseConsoleStatus;//状态
-    data: D;//数据
+    data: D;//节点 数据
+    oldData: any;//旧的数据 就是原始的 data.data
     page: P;
     // extend?: E;//
 }
@@ -113,7 +114,6 @@ export interface Throwable {
 
 
 export interface HttpConsoleInfo {
-    model?: string;
     activeKey?: string;
     resultData?: HttpApiSendResDto;
 };

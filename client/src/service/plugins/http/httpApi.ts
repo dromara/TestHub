@@ -13,7 +13,7 @@ const getTree = createRequest<{ projectCode: string }, TreeNodeResDto[]>('/api/p
 });
 
 /** 获取API详情 */
-const getApi = createRequest<{ id: number }, HTTP.HttpRequestResDto>('/api/plugin/http/getApi/:id', {
+const getApi = createRequest<{ id: number }, HTTP.HttpRequestResDto>('/api/plugin/http/getOne/:id', {
   method: 'get',
 });
 
@@ -24,7 +24,7 @@ const sendApi = createRequest<HTTP.HttpRequestResDto, HttpApiSendResDto>('/api/p
 });
 
 /** 保存树节点 */
-const saveTree = createRequest<HttpTreeReqDto, TreeNodeResDto>('/api/plugin/http/saveTree', {
+const saveTree = createRequest<HttpTreeReqDto, TreeNodeResDto>('/api/plugin/http/save', {
   method: 'post',
 });
 

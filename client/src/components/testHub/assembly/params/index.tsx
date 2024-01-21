@@ -145,6 +145,7 @@ const Params = forwardRef((props: Props, ref) => {
             dataIndex: 'effective',
             width: '5%',
             hideInTable: props.effective == true ? false : true,
+            editable: false,
             render: (text, record, index, action) => {
                 if (record.effective != false) {
                     return (
@@ -155,7 +156,6 @@ const Params = forwardRef((props: Props, ref) => {
                         <span style={{ fontSize: 18 }}><CheckCircleOutlined style={{ color: "#A9A9A9" }} onClick={() => handleEffectiveChange(record)} /></span>
                     );
                 }
-
             },
         }, {
             title: '参数名称',

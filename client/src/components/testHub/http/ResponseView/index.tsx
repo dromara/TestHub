@@ -3,6 +3,10 @@ import { HttpApiSendResDto } from '@/typings/server/plugins/http';
 import { ProTable } from '@ant-design/pro-components';
 import { Badge, Descriptions, Tabs, Tag } from 'antd';
 import React from 'react';
+import MonacoEditor from 'react-monaco-editor';
+import styles from './index.less';
+import './index.less';
+import classnames from 'classnames';
 
 export type Props = {
   data?: HttpApiSendResDto
@@ -38,6 +42,32 @@ const getProTable = function (data: Record<string, any> | undefined) {
     }}
   />
 }
+const getMonacoEditor = function (text: string, reType: string) {
+  return <MonacoEditor
+    width={'100%'}
+    language={reType}
+    height={'100%'}
+    value={text}
+    theme={'default'}
+    options={{
+      minimap: { enabled: false },
+      overviewRulerBorder: false,
+      scrollBeyondLastLine: true, // 设置编辑器是否可以滚动到最后一行之后
+      automaticLayout: true, // 自动布局
+      readOnly: true,
+      scrollbar: {
+        verticalScrollbarSize: 6,
+        horizontalScrollbarSize: 6,
+        verticalSliderSize: 6,
+        horizontalSliderSize: 6,
+        verticalHasArrows: false,
+        horizontalHasArrows: false,
+        arrowSize: 0,
+        useShadows: true,
+      },
+    }}
+  />
+}
 const colorMap = {
   "POST": "magenta",
   "GET": "green",
@@ -49,15 +79,45 @@ const colorMap = {
 }
 
 const getBaseInfo = function (data: HttpApiSendResDto) {
+
   return <>
     <Descriptions column={1}>
       <Descriptions.Item label={<b>{i18n('http.text.url')}</b>}>{data.url}</Descriptions.Item>
     </Descriptions>
     <Descriptions column={3}>
-      <Descriptions.Item label={<b>{i18n('http.text.method')}</b>}><Tag color={colorMap[data.method == undefined ? "GET" : data.method.toUpperCase()]}>{data.method.toUpperCase()}</Tag></Descriptions.Item>
+      <Descriptions.Item label={<b>{i18n('http.text.method')}</b>}><Tag color={colorMap[data.method ? data.method.toUpperCase() : "GET"]}>{data.method}</Tag></Descriptions.Item>
       <Descriptions.Item label={<b>{i18n('http.text.status')}</b>}>{data.statusCode}</Descriptions.Item>
       <Descriptions.Item label={<b>{i18n('http.text.statusDesc')}</b>}>{data.statusName}</Descriptions.Item>
     </Descriptions>
+    {
+      !isUndefinedOrEmpty(data.rests) &&
+      <Descriptions column={1}>
+        <Descriptions.Item label={<b>{i18n('http.data.rests')}</b>}> </Descriptions.Item>
+        <Descriptions.Item> {getProTable(data.rests)}</Descriptions.Item>
+      </Descriptions>
+    }
+    {
+      !isUndefinedOrEmpty(data.params) &&
+      <Descriptions column={1}>
+        <Descriptions.Item label={<b>{i18n('http.data.params')}</b>}> </Descriptions.Item>
+        <Descriptions.Item> {getProTable(data.params)}</Descriptions.Item>
+      </Descriptions>
+    }
+    {
+      !isUndefinedOrEmpty(data.cookies) &&
+      <Descriptions column={1}>
+        <Descriptions.Item label={<b>cookies</b>}> </Descriptions.Item>
+        <Descriptions.Item> {getProTable(data.cookies)}</Descriptions.Item>
+      </Descriptions>
+    }
+    {
+      !isUndefinedOrEmpty(data.headers) &&
+      <Descriptions column={1}>
+        <Descriptions.Item label={<b>{i18n('http.data.headers')}</b>}> </Descriptions.Item>
+        <Descriptions.Item> {getProTable(data.headers)}</Descriptions.Item>
+      </Descriptions>
+    }
+
   </>
 }
 
@@ -67,25 +127,6 @@ const getView = function (data: HttpApiSendResDto) {
       label: <Badge dot color='lime'>{"实际请求"}</Badge>,
       key: 'base',
       children: getBaseInfo(data)
-    },
-    {
-      label: isUndefinedOrEmpty(data.rests) ? <>{i18n('http.data.rests')}</> : <Badge dot color='lime'>{i18n('http.data.rests')}</Badge>,
-      key: 'rests',
-      children: getProTable(data.rests)
-    },
-    {
-      label: isUndefinedOrEmpty(data.params) ? <>{i18n('http.data.params')}</> : <Badge dot color='lime'>{i18n('http.data.params')}</Badge>,
-      key: 'params',
-      children: getProTable(data.params)
-    }, {
-      label: isUndefinedOrEmpty(data.cookies) ? <>{"cookies"}</> : <Badge dot color='lime'>{"cookies"}</Badge>,
-      key: 'cookies',
-      children: getProTable(data.cookies)
-    },
-    {
-      label: isUndefinedOrEmpty(data.headers) ? <>{i18n('http.data.headers')}</> : <Badge dot color='lime'>{i18n('http.data.headers')}</Badge>,
-      key: 'headers',
-      children: getProTable(data.headers)
     }, {
       label: isUndefinedOrEmpty(data.reHeaders) ? <>{i18n('http.data.resheaders')}</> : <Badge dot color='lime'>{i18n('http.data.resheaders')}</Badge>,
       key: 'reHeaders',
@@ -94,24 +135,31 @@ const getView = function (data: HttpApiSendResDto) {
       label: isUndefinedOrEmpty(data.reCookies) ? <>{i18n('http.data.recookies')}</> : <Badge dot color='lime'>{i18n('http.data.recookies')}</Badge>,
       key: 'reCookies',
       children: getProTable(data.reCookies)
+    }, {
+      label: <Badge dot color='lime'>返回值</Badge>,
+      key: 'reData',
+      children: getMonacoEditor(data.resData, data.reType)
     },
   ];
-  return <Tabs items={items} />;
+  return <Tabs items={items} defaultActiveKey='reData' />;
 }
+
+
+
 
 
 const ResponseView = (props: Props) => {
   return (
-    <>
+    <div className={classnames(styles.responseViewContainer)}>
       {
         props.data == undefined && <>没有数据</>
       }
       {
-        props.data != undefined && <>
+        props.data != undefined && <div className='responseViewContainerTabs'>
           {getView(props.data)}
-        </>
+        </div>
       }
-    </>
+    </div>
   )
 };
 

@@ -6,33 +6,35 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.dromara.testhub.plugins.http.actions.model.Body;
-import org.dromara.testhub.sdk.action.dto.RuleParamReqDto;
 import org.dromara.testhub.sdk.action.dto.res.RuleParamResDto;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * @author vinc
+ */
 @Validated
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @ApiModel
-public class HttpApiResDto {
-    private static final long serialVersionUID = 1L;
+public class HttpTreeNodeResDto {
 
     private Long id;
 
+    @ApiModelProperty(value = "父节点")
+    @NotNull
+    private Long parentId;
+
     @ApiModelProperty(value = "项目编码")
+    @NotNull
     private String projectCode;
 
-    @ApiModelProperty(value = "接口名")
+    @ApiModelProperty(value = "名称")
+    @NotNull
     private String name;
-
-    @ApiModelProperty(value = "类目树")
-    private Long treeId = 0L;
 
     @ApiModelProperty(value = "环境编码")
     private String envCode;
@@ -49,7 +51,7 @@ public class HttpApiResDto {
     @ApiModelProperty(value = "headers")
     private List<RuleParamResDto> headers;
 
-    private BodyResDto body;
+    private HttpApiResDto.BodyResDto body;
 
     @ApiModelProperty(value = "params")
     private List<RuleParamResDto> params;
@@ -68,6 +70,7 @@ public class HttpApiResDto {
         private String type = Body.NONE;
         private String language = Body.JSON;
         private String content;
-        private List<RuleParamResDto> datas = new ArrayList<>();
+        private List<RuleParamResDto> datas;
     }
+
 }

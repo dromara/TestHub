@@ -37,6 +37,7 @@ declare namespace HTTP {
         rests?: RuleParamResDto[];
         /** id */
         id?: number;
+        parentId?: number;
         /** 请求方式 */
         method?: string;
         /** 参数 */
@@ -45,6 +46,7 @@ declare namespace HTTP {
         server?: string;
         /** 环境 */
         envCode?: string;
+        projectCode?: string;
         /** 路径 */
         url?: string;
     };

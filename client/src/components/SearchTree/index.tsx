@@ -86,7 +86,9 @@ function SearchTree(props: IProps) {
                     <SearchInput onChange={throttle(searchChange, 200)} placeholder={"搜索"} />
                     <div
                         className={classnames(styles.searchTreeRefresh, styles.searchTreeButton)}
-                        onClick={props.refresh()}
+                        onClick={() => {
+                            props.refresh()
+                        }}
                     >
                         <Iconfont code="&#xe8aa;" size={15} />
                     </div>
@@ -169,20 +171,22 @@ function TreeNode(props: INodeProps) {
                                 }
                             </div>
                             <div className={styles.right}>
-                                {
-                                    !data.leaf &&
-                                    <div onClick={handleClick.bind(null)} className={styles.arrows}>
-                                        {
-                                            isLoading
-                                                ?
-                                                <div className={styles.loadingIcon}>
-                                                    <Iconfont code='&#xe62d;' />
-                                                </div>
-                                                :
-                                                <Iconfont className={classnames(styles.arrowsIcon, { [styles.rotateArrowsIcon]: show })} code='&#xe618;' />
-                                        }
-                                    </div>
-                                }
+                                <div onClick={handleClick.bind(null)} className={styles.arrows}>
+                                    {
+                                        (!data.leaf && data.children != null && data.children.length > 0) &&
+                                        <>
+                                            {
+                                                isLoading
+                                                    ?
+                                                    <div className={styles.loadingIcon}>
+                                                        <Iconfont code='&#xe62d;' />
+                                                    </div>
+                                                    :
+                                                    <Iconfont className={classnames(styles.arrowsIcon, { [styles.rotateArrowsIcon]: show })} code='&#xe618;' />
+                                            }
+                                        </>
+                                    }
+                                </div>
                                 <div className={styles.dblclickArea} onDoubleClick={nodeDoubleClick}>
                                     <div className={styles.typeIcon}>
                                         <Iconfont code={props.recognizeIcon(data.nodeType)!}></Iconfont>
