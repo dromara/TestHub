@@ -9,6 +9,7 @@ import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } f
 import MonacoEditor from 'react-monaco-editor';
 import systemService, { } from '@/service/system';
 import { useTheme } from '@/utils/hooks';
+import { useDebounceFn } from 'ahooks';
 export type Props = {
     params: RuleParamResDto[];
     effective?: boolean;
@@ -24,6 +25,8 @@ export enum MenuType {
     EDIT = 'edit',//批量编辑
     // COPY_ = 'COPY',//
 }
+
+
 
 const Params = forwardRef((props: Props, ref) => {
     const themeColor = useTheme();
@@ -56,6 +59,15 @@ const Params = forwardRef((props: Props, ref) => {
             return { flag: true, data: datas };
         },
     }));
+
+    const { run } = useDebounceFn(
+        (text: any, callback: Function) => {
+            callback(text);
+        },
+        {
+            wait: 500,
+        },
+    );
 
     function handleSwitchChange(record, checked) {
 
@@ -293,6 +305,7 @@ const Params = forwardRef((props: Props, ref) => {
                     if (info != undefined) {
                         res = (await systemService.paramsXml2Json({ info: info })) as RuleParamResDto[];
                         setDatas(res);
+                        setInfo(undefined);
                     }
                 }}
                 onCancel={() => { setInfo(undefined) }}
@@ -310,7 +323,7 @@ const Params = forwardRef((props: Props, ref) => {
                     language={language}
                     height={400}
                     onChange={(text) => {
-                        setInfo(text);
+                        run(text, setInfo)
                     }}
                     // theme="vs"
                     value={info}
