@@ -37,6 +37,7 @@ public class HttpXMLActionParser implements BaseXMLActionParser {
         httpModel.setHeaders(XMLRuleConfigBuilder.parseParams(element.element("headers")));
         httpModel.setParams(XMLRuleConfigBuilder.parseParams(element.element("params")));
         httpModel.setRests(XMLRuleConfigBuilder.parseParams(element.element("rests")));
+        httpModel.setCookies(XMLRuleConfigBuilder.parseParams(element.element("cookies")));
         httpModel.setBody(parseBody(element.element("body"), action));
         return httpModel;
     }

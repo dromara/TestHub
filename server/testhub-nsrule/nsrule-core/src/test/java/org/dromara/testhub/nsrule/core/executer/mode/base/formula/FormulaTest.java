@@ -152,7 +152,8 @@ public class FormulaTest {
 
 
 //        FormulaNode node69 = formulaBuilder.getFormulaNode("[8.95,12.99,8.99,22.99]");
-        FormulaNode node70 = formulaBuilder.getFormulaNode("http:172.20.101.65:10010/server/workerHeartbeat?id=${expensive}");
+        FormulaNode node70 = formulaBuilder.getFormulaNode("http:172.20.101.65:10010/server/workerHeartbeat?id=1&a=1");
+        FormulaNode node71 = formulaBuilder.getFormulaNode("0123");
 
         System.out.println("---");
     }

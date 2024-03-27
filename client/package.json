@@ -1,79 +1,138 @@
 {
   "name": "TestHub",
-  "license": "Apache-2.0",
-  "author": "失败女神 18733123202@163.com",
-  "version": "1.0.3",
+  "version": "1.0.0",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://gitee.com/dromara/TestHub/"
+  },
+  "author": "失败女神",
+  "main": "src/main/index.js",
   "scripts": {
-    "start": "umi dev ",
-    "win:dev": " SET NODE_OPTIONS=--openssl-legacy-provider && umi dev ",
-    "postinstall": "umi generate tmp",
+    "lint": "umi lint",
+    "postinstall": "umi setup",
     "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",
-    "build:web": "cross-env UMI_ENV=web BUILD_TIME=2024-01-13 APP_VERSION=1.0.3 APP_PORT=12003 umi build",
-    "build:desktop": "cross-env UMI_ENV=desktop BUILD_TIME=2023-01-13 APP_VERSION=1.0.3 APP_PORT=12003 umi build"
-  },
-  "gitHooks": {
-    "pre-commit": "lint-staged"
-  },
-  "lint-staged": {
-    "*.{js,jsx,less,md,json}": [
-      "prettier --write"
-    ],
-    "*.ts?(x)": [
-      "prettier --parser=typescript --write"
-    ]
+    "start": "cross-env UMI_ENV=local cross-env APP_NAME=TestHub cross-env APP_VERSION=1.0.4 cross-env APP_PORT=12003 umi dev",
+    "build:web": "cross-env UMI_ENV=web cross-env APP_NAME=TestHub cross-env APP_VERSION=1.0.4 cross-env APP_PORT=12003 umi build",
+    "build:desktop": "cross-env UMI_ENV=desktop cross-env APP_NAME=TestHub cross-env APP_VERSION=1.0.4 cross-env APP_PORT=12003 umi build"
   },
   "dependencies": {
     "@ant-design/icons": "^5.1.4",
-    "@ant-design/pro-components": "^2.6.4",
+    "@ant-design/pro-components": "^2.6.49",
     "@ant-design/pro-layout": "6.5.0",
+    "@dnd-kit/modifiers": "^6.0.1",
     "@traptitech/markdown-it-katex": "^3.6.0",
-    "ahooks": "^3.7.8",
-    "antd": "4.23.2",
-    "dnd-kit": "^0.0.1",
+    "ahooks": "^3.7.10",
+    "ali-react-table": "^2.6.1",
+    "antd": "^5.13.2",
+    "copy-to-clipboard": "^3.3.3",
+    "echarts": "^5.4.2",
+    "echarts-for-react": "^3.0.2",
+    "electron-log": "^4.4.8",
     "event-source-polyfill": "^1.0.31",
-    "github-markdown-css": "^5.2.0",
-    "highlight.js": "^11.7.0",
-    "js-cookie": "^3.0.5",
+    "highlight.js": "^11.9.0",
     "lodash": "^4.17.21",
-    "markdown-it": "^13.0.1",
     "markdown-it-link-attributes": "^4.0.1",
-    "monaco-editor": "^0.34.0",
+    "monaco-editor": "^0.44.0",
     "monaco-editor-esm-webpack-plugin": "^2.1.0",
-    "monaco-editor-nls": "^3.0.0",
     "monaco-editor-webpack-plugin": "^7.0.1",
-    "npm": "^9.6.2",
-    "react": "17.x",
-    "react-dom": "17.x",
-    "react-json-view": "^1.21.3",
-    "react-masonry-css": "^1.0.16",
-    "react-monaco-editor": "^0.52.0",
-    "react-resize-detector": "^9.1.0",
-    "react-sticky-box": "^2.0.4",
-    "sql-formatter": "^12.0.4",
-    "syntax-parser": "^1.0.17",
-    "umi": "^3.5.34",
+    "node-machine-id": "^1.1.12",
+    "react-complex-tree": "^2.3.4",
+    "react-highlight-words": "^0.20.0",
+    "react-list": "^0.8.17",
+    "react-monaco-editor": "^0.54.0",
+    "react-resizable-panels": "^2.0.3",
+    "react-sortablejs": "^6.1.4",
+    "react-transition-group": "^4.4.5",
+    "sql-formatter": "^13.0.4",
+    "styled-components": "^6.0.1",
+    "umi": "^4.0.87",
     "umi-request": "^1.4.0",
-    "xml-formatter": "^3.3.2"
+    "uuid": "^9.0.0",
+    "zustand": "^4.4.4"
   },
   "devDependencies": {
     "@types/event-source-polyfill": "^1.0.1",
-    "@types/lodash": "^4.14.194",
-    "@types/markdown-it": "^12.2.3",
-    "@types/markdown-it-link-attributes": "^3.0.1",
-    "@types/react": "^17.0.0",
-    "@types/react-dom": "^17.0.0",
-    "@umijs/preset-react": "1.x",
-    "@umijs/test": "^3.5.34",
-    "classnames": "^2.3.2",
+    "@types/lodash": "^4.14.195",
+    "@types/react": "^18.0.33",
+    "@types/react-dom": "^18.0.11",
+    "@types/uuid": "^9.0.1",
+    "@typescript-eslint/eslint-plugin": "^6.7.2",
+    "@typescript-eslint/parser": "^6.7.2",
+    "@umijs/plugins": "^4.0.55",
+    "concurrently": "^8.1.0",
     "cross-env": "^7.0.3",
-    "lint-staged": "^10.0.7",
-    "prettier": "^2.2.0",
-    "typescript": "^4.1.2",
-    "webpack-bundle-analyzer": "^4.8.0",
-    "yorkie": "^2.0.0"
+    "eslint": "^8.49.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-import-resolver-webpack": "^0.13.7",
+    "eslint-plugin-babel": "^5.3.1",
+    "eslint-plugin-import": "^2.28.1",
+    "eslint-plugin-prettier": "^5.0.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "prettier": "^2",
+    "prettier-plugin-organize-imports": "^2",
+    "prettier-plugin-packagejson": "^2",
+    "tailwindcss": "^3",
+    "typescript": "^5.0.3"
+  },
+  "peerDependencies": {
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=16"
+  },
+  "build": {
+    "appId": "com.chat2db",
+    "directories": {
+      "output": "release/"
+    },
+    "productName": "Chat2DB",
+    "asar": false,
+    "files": [
+      "dist/**/*",
+      "static/",
+      "src/main",
+      "versions/**/*",
+      "package.json",
+      "!node_modules/**/*",
+      "node_modules/uuid",
+      "node_modules/electron-log",
+      "node_modules/node-machine-id"
+    ],
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowElevation": true,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "deleteAppDataOnUninstall": false,
+      "shortcutName": "Chat2DB"
+    },
+    "mac": {
+      "icon": "src/assets/logo/logo.icns",
+      "target": [
+        "zip",
+        "dmg"
+      ]
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis"
+        }
+      ],
+      "publisherName": "Chat2DB",
+      "icon": "src/assets/logo/logo.ico"
+    },
+    "linux": {
+      "maintainer": "Chat2DB, huanyueyaoqin@qq.com",
+      "category": "Network;",
+      "target": [
+        "AppImage"
+      ]
+    }
   }
 }

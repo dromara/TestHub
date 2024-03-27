@@ -1,87 +1,99 @@
 import { defineConfig } from 'umi';
+import { transitionTimezoneTimestamp } from './src/utils/webpack';
+
 const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 
 const chainWebpack = (config: any, { webpack }: any) => {
   config.plugin('monaco-editor').use(MonacoWebpackPlugin, [
     {
-      languages: ['typescript', 'javascript', 'shell', 'yaml', 'java', 'mysql', 'pgsql', 'sql', 'xml', 'html', 'json', 'freemarker2', 'text'],
+      languages: ['mysql', 'pgsql', 'sql', 'xml', 'html', 'json', 'freemarker2', 'text'],
+      // languages: ['typescript', 'javascript', 'shell', 'yaml', 'java', 'mysql', 'pgsql', 'sql', 'xml', 'html', 'json', 'freemarker2', 'text'],
     },
   ]);
 };
 
 export default defineConfig({
-  title: 'TestHub',
-  history: {
-    type: 'hash',
-  },
+  title: process.env.APP_NAME,
   base: '/',
   publicPath: '/',
-  hash: false,
+  hash: true,
   routes: [
     {
       path: '/',
-      component: '@/components/AppContainer',
+      component: '@/layouts/GlobalLayout',
       routes: [
-        { path: '/login', exact: true, component: '@/pages/login' },
-        { path: '/test', exact: true, component: '@/pages/test' },
-        { path: '/error', component: '@/pages/error' },
+        {
+          path: '/login',
+          component: '@/pages/login',
+        },
+        {
+          path: '/demo',
+          component: '@/pages/demo',
+        },
+        {
+          path: '/http',
+          component: 'main',
+        },
+        {
+          path: '/tools',
+          component: 'main',
+        },
+
+        {
+          path: '/test',
+          component: 'main',
+        },
+        {
+          path: '/case',
+          component: 'main',
+        },
+        {
+          path: '/assembly',
+          component: 'main',
+        },
         {
           path: '/',
-          component: '@/layouts',
-          routes: [
-            {
-              exact: true,
-              path: '/assembly',
-              component: '@/pages/assembly',
-            },
-            {
-              exact: true,
-              path: '/',
-              component: '@/pages/case',
-            },
-            {
-              exact: true,
-              path: '/case',
-              component: '@/pages/case',
-            },
-            {
-              exact: true,
-              path: '/tools',
-              component: '@/pages/tools'
-            },
-            {
-              exact: true,
-              path: '/http',
-              component: '@/pages/http'
-            },
-            {
-              redirect: '/error',
-            }
-          ]
-        }
+          component: 'main',
+        },
       ],
     },
-
   ],
-  mfsu: {},
-  fastRefresh: {},
-  dynamicImport: {
-    loading: '@/components/Loading/LazyLoading'
-  },
-  nodeModulesTransform: {
-    type: 'none',
-  },
+
+  npmClient: 'yarn',
+  dva: {},
+  plugins: ['@umijs/plugins/dist/dva'],
   chainWebpack,
-  devServer: {
-    port: 8001,
-    host: '0.0.0.0',
-    hot: true
+  proxy: {
+    '/api': {
+      target: 'http://127.0.0.1:12003',
+      changeOrigin: true,
+    },
   },
+  targets: {
+    chrome: 80,
+  },
+  links: [{ rel: 'icon', type: 'image/ico', sizes: '32x32', href: '/static/front/logo.ico' }],
+  headScripts: [
+    `if (localStorage.getItem('app-local-storage-versions') !== 'v4') {
+      localStorage.clear();
+      localStorage.setItem('app-local-storage-versions', 'v4');
+    }`,
+    `if (window.electronApi) { window.electronApi.startServerForSpawn() }`,
+
+    {
+      src: 'https://www.googletagmanager.com/gtag/js?id=G-V8M4E5SF61',
+      async: true,
+    },
+  ],
+  favicons: ['logo.ico'],
   define: {
-    __APP_NAME__: "TestHub",
-    __UMI_ENV__: "local",
-    __BUILD_TIME__: "2024-01-14",
-    __APP_VERSION__: '1.0.3',
-    __APP_PORT__: 12003,
-  }
+    __UMI_ENV__: process.env.UMI_ENV,
+    __ENV__: process.env.UMI_ENV,
+    __BUILD_TIME__: transitionTimezoneTimestamp(new Date().getTime()),
+    __APP_NAME__: process.env.APP_NAME,
+    __DOC_URL__: "http://www.nsrule.com",
+    __APP_VERSION__: process.env.APP_VERSION,
+    __APP_PORT__: process.env.APP_PORT,
+  },
+  esbuildMinifyIIFE: true,
 });

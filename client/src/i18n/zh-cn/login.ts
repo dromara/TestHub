@@ -1,12 +1,13 @@
 export default {
-    'login.title.slogan': '第二懂你的自动化测试工具',
-    'login.text.userName': '用户名',
-    'login.text.password': '密码',
-    'login.msg.notNull': '不能为空',
-    'login.msg.userNameLength': '用户名长度必须在18个字符之内',
-    'login.msg.passwordLength': '密码长度必须在6到12个字符之间',
-    'login.text.rememberMe': '记住密码',
-    'login.text.forgot': '忘记密码',
-    'login.title.name': '登陆',
-
-}
+  'login.text.logout': '退出登录',
+  'login.text.welcome': '欢迎使用 Chat2DB',
+  'login.text.tips': 'Chat2DB 账号仅用于团队协作管理',
+  'login.text.tips.title': '为什么需要登录？',
+  'login.text.setting': '设 置',
+  'login.form.user': '用户名',
+  'login.form.user.placeholder': '请输入用户名',
+  'login.form.password': '密码',
+  'login.form.password.placeholder': '请输入密码',
+  'login.button.login': '登 录',
+  'login.tips.defaultPassword': '默认用户名和密码均为: chat2db',
+};

@@ -1,38 +1,14 @@
-import { Button, Drawer } from 'antd';
-import React, { useContext, createContext, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import classnames from 'classnames';
+import styles from './index.less';
+import Draggable from '@/components/base/Draggable';
 
-
-const Cvvv = () => {
-    const [envOpen, setEnvOpen] = useState(false);
-    return (
-        <>
-            <Button type="primary" onClick={() => {
-                setEnvOpen(true)
-
-            }}>
-                打开
-            </Button>
-
-            <Drawer title="配置环境"
-                placement="right"
-                onClose={() => { setEnvOpen(false) }}
-                open={envOpen}
-                width={800}
-                maskClosable={false}
-                forceRender={true}
-                // destroyOnClose={true}
-                extra={
-                    <Button type="primary" onClick={() => {
-                        setEnvOpen(false)
-
-                    }}>
-                        保存
-                    </Button>
-                }>
-                内容
-            </Drawer>
-        </>
-    );
-};
-
-export default Cvvv;
+function App() {
+  return (
+    <Draggable className={styles.httpConsoleContainer} layout="column">
+      <div className={styles.httpConsoleInfo}>xinxi</div>
+      <div className={styles.httpConsoleResult}>执行结果</div>
+    </Draggable>
+  );
+}
+export default App;

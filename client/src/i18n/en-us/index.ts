@@ -1,18 +1,19 @@
-import caseI18n from './caseI18n';
-import layouts from './layouts';
+import common from './common';
+import menu from './menu';
 import setting from './setting';
-import pluginEnUs from '@/components/testHub/plugins/i18n/plugin-en-us';
-import testhub from './testhub';
-import app from './app';
 import login from './login';
+import editTable from './editTable';
+import editTableData from './editTableData';
+import httpEnUs from '@/components/TestHub/http/i18n/en-us';
+import { LangType } from '@/constants';
 
 export default {
-  lang: 'en',
-  ...login,
-  ...app,
+  lang: LangType.EN_US,
+  ...common,
   ...setting,
-  ...layouts,
-  ...caseI18n,
-  ...pluginEnUs,
-  ...testhub
+  ...menu,
+  ...login,
+  ...editTable,
+  ...editTableData,
+  ...httpEnUs
 };

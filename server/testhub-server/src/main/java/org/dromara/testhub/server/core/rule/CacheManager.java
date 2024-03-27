@@ -142,7 +142,11 @@ public class CacheManager {
         List<RuleProjectSimpleResDto> resDtos = new ArrayList<>();
         for (String key:PROJECT_MAP.keySet()) {
             RuleProjectResDto project = PROJECT_MAP.get(key);
-            resDtos.add(new RuleProjectSimpleResDto(project.getId(),project.getCode(),project.getName()));
+            RuleProjectSimpleResDto resDto = new RuleProjectSimpleResDto();
+            resDto.setId(project.getId());
+            resDto.setCode(project.getCode());
+            resDto.setName(project.getName());
+            resDtos.add(resDto);
         }
         return resDtos;
     }

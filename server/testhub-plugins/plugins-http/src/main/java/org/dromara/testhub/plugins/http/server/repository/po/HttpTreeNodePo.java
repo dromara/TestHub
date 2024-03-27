@@ -38,4 +38,59 @@ public class HttpTreeNodePo extends BasePo<HttpTreeNodePo> implements Serializab
      */
     private String projectCode;
 
+
+
+    private String nodeType;
+
+
+    /**
+     * 环境编码
+     */
+    private String envCode;
+
+    /**
+     * 请求方式
+     */
+    private String method;
+
+    /**
+     * 请求路径
+     */
+    private String url;
+
+    /**
+     * rest参数
+     */
+    private String restStr;
+
+    /**
+     * header参数
+     */
+    private String headerStr;
+
+    /**
+     * cookie参数
+     */
+    private String cookieStr;
+
+    /**
+     * param参数
+     */
+    private String paramStr;
+
+    /**
+     * 请求体类型
+     */
+    private String bodyType;
+
+    /**
+     * 请求体语言
+     */
+    private String bodyLanguage;
+
+    /**
+     * 请求体数据
+     */
+    private String bodyData;
+
 }

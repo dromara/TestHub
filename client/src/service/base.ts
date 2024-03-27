@@ -1,13 +1,16 @@
-import { extend, ResponseError } from 'umi-request';
+import { extend, ResponseError, type RequestOptionsInit } from 'umi-request';
 import { message } from 'antd';
-import { getSatoken } from '@/utils/localStorage';
+import { navigate } from '@/utils';
+import { getLocalPort, getRemoteUrl, getSatoken } from '@/utils/localStorage';
 
 export type IErrorLevel = 'toast' | 'prompt' | 'critical' | false;
 export interface IOptions {
   method?: 'get' | 'post' | 'put' | 'delete';
-  mock?: boolean;
   errorLevel?: 'toast' | 'prompt' | 'critical' | false;
   delayTime?: number | true;
+  outside?: boolean;
+  isFullPath?: boolean;
+  dynamicUrl?: boolean;
 }
 
 // TODO:
@@ -37,14 +40,16 @@ enum ErrorCode {
 const noNeedToastErrorCode = [ErrorCode.NEED_LOGGED_IN];
 
 // 桌面端的服务器地址
-const desktopServiceUrl = `http://127.0.0.1:${__APP_PORT__ || '12003'}`;
+const desktopServiceUrl = `http://127.0.0.1:${getLocalPort() || '12003'}`;
 
 // 非桌面端的服务器地址
-const prodServiceUrl = location.origin;
+const prodServiceUrl = window.location.protocol + '//' + window.location.hostname + ":" + getLocalPort();
+// const prodServiceUrl = location.origin;
 
 // 是否自定义了 _BaseURL || 是否为桌面端地址
-const baseURL = localStorage.getItem('_BaseURL')
-  || (location.href.indexOf('dist/index.html') > -1 ? desktopServiceUrl : prodServiceUrl);
+const baseURL =
+  getRemoteUrl() ||
+  (location.href.indexOf('dist/index.html') > -1 ? desktopServiceUrl : prodServiceUrl);
 
 window._BaseURL = baseURL;
 
@@ -54,6 +59,12 @@ const errorHandler = (error: ResponseError, errorLevel: IErrorLevel) => {
   const errorText = codeMessage[response.status] || response.statusText;
   const { status } = response;
   if (errorLevel === 'toast') {
+    // notification.open({
+    //   type: 'error',
+    //   message: status,
+    //   description: errorText,
+    //   placement: 'topRight',
+    // });
     message.error(`${status}: ${errorText}`);
   }
 };
@@ -65,7 +76,6 @@ const request = extend({
     'Content-Type': 'application/json',
     Accept: 'application/json',
     satoken: getSatoken(),
-    // satoken: Cookies.get('satoken'),
   },
 });
 
@@ -74,38 +84,44 @@ request.interceptors.request.use((url, options) => {
     ...options,
     headers: {
       ...options.headers,
-    }
-  }
+    },
+  };
   return {
     options: myOptions,
   };
 });
 
-request.interceptors.response.use(async (response, options) => {
+request.interceptors.response.use(async (response) => {
   const res = await response.clone().json();
-
-  const { code, codeMessage } = res;
+  const { code } = res;
   if (code === ErrorCode.NEED_LOGGED_IN) {
-    // window.location.href = '#/login?callback=' + window.location.hash.substr(1);
-    const callback = window.location.hash.substr(1).split('?')[0];
-    window.location.href =
-      '#/login?' + (callback === '/login' ? '' : `callback=${callback}`);
+    navigate('/login');
+    // const callback = window.location.hash.substr(1).split('?')[0];
+    // window.location.href = '#/login' + (callback === '/login' ? '' : `?callback=${callback}`);
   }
 
   return response;
 });
 
-export default function createRequest<P = void, R = {}>(
-  url: string,
-  options: IOptions,
-) {
-  const { method = 'get', errorLevel = 'toast', delayTime } = options;
+export default function createRequest<P = void, R = void>(url: string, options?: IOptions) {
+  // 路由跳转
+  const {
+    method = 'get',
+    errorLevel = 'toast',
+    delayTime,
+    isFullPath,
+    dynamicUrl,
+  } = options || {};
 
-  // 是否需要mock
-  const _baseURL = baseURL;
-  return function (params: P) {
+  return function (params: P, restParams?: RequestOptionsInit) {
+    // 是否需要mock
+    const _baseURL = (baseURL) || '';
+    // if (url === '/api/rdb/ddl/list') {
+    //   debugger;
+    // }
     // 在url上按照定义规则拼接params
     const paramsInUrl: string[] = [];
+
     const _url = url.replace(/:(.+?)\b/, (_, name: string) => {
       const value = params[name];
       paramsInUrl.push(name);
@@ -133,40 +149,56 @@ export default function createRequest<P = void, R = {}>(
         case 'put':
           dataName = 'data';
           break;
+        default:
+          dataName = 'params';
+          break;
       }
-      console.log(`请求的地址=${_baseURL}${_url}`)
-      request[method](`${_baseURL}${_url}`, { [dataName]: params }).then((res) => {
-        if (!res) return;
-        const { code, msg, data } = res;
-        if (
-          code !== "000000" &&
-          errorLevel === 'toast' &&
-          !noNeedToastErrorCode.includes(code)
-        ) {
+
+      let eventualUrl = `${_baseURL}${_url}`;
+      eventualUrl = isFullPath ? url : eventualUrl;
+
+      // 动态的url
+      if (dynamicUrl) {
+        eventualUrl = params as string;
+      }
+
+      request[method](eventualUrl, { [dataName]: params, ...restParams })
+        .then((res) => {
+          if (!res) return;
+          const { code, msg, errorDetail, solutionLink, traceId, data } = res;
+          if (code !== "000000" && errorLevel === 'toast' && !noNeedToastErrorCode.includes(code)) {
+            console.log(traceId)
+            delayTimeFn(() => {
+              window._notificationApi({
+                requestUrl: eventualUrl,
+                requestParams: JSON.stringify(params),
+                code,
+                msg,
+                errorDetail,
+                solutionLink,
+              });
+              // message.error(`${errorCode}: ${errorMessage}`);
+              reject(`${code}: ${msg}`);
+            }, delayTime);
+            return;
+          }
+          // 有些loading效果添加强制延时效果可能会更好看, 可行性待商榷
           delayTimeFn(() => {
-            message.error(`${code}: ${msg}`);
-            reject(`${code}: ${msg}`);
-          }, delayTime)
-          return
-        }
-        // 有些loding效果添加强制延时效果可能会更好看, 可行性待商榷
-        delayTimeFn(() => {
-          resolve(data);
-        }, delayTime)
-      })
+            resolve(data);
+          }, delayTime);
+        })
         .catch((error) => {
-          console.log('catch error', error);
           delayTimeFn(() => {
             errorHandler(error, errorLevel);
             reject(error);
-          }, delayTime)
+          }, delayTime);
         });
     });
   };
 }
 
 // 简单的延时函数
-function delayTimeFn(callback: Function, time: number | true | undefined) {
+function delayTimeFn(callback: () => void, time: number | true | undefined) {
   if (time) {
     const timer = setTimeout(() => {
       callback();

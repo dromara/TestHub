@@ -7,7 +7,7 @@ import org.dromara.testhub.nsrule.core.parser.BoundParser;
 import org.dromara.testhub.nsrule.core.parser.BoundParserFreeMarker;
 import org.dromara.testhub.plugins.http.actions.model.Body;
 import org.dromara.testhub.plugins.http.core.HttpModel;
-import org.dromara.testhub.plugins.http.server.dto.HttpTreeNodeReqDto;
+import org.dromara.testhub.plugins.http.server.dto.HttpApiReqDto;
 import org.dromara.testhub.sdk.action.convert.BaseConvert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,7 +18,7 @@ public class ApiConvert {
     @Autowired
     private BaseConvert baseConvert;
 
-    public HttpModel apiReq2Model(HttpTreeNodeReqDto reqDto) {
+    public HttpModel apiReq2Model(HttpApiReqDto reqDto) {
         HttpModel httpModel = new HttpModel();
         httpModel.setUrl(reqDto.getUrl());
         httpModel.setTimeout(reqDto.getTimeout());
@@ -33,9 +33,9 @@ public class ApiConvert {
         return httpModel;
     }
 
-    public Body bodyReq2Model(HttpTreeNodeReqDto.BodyReqDto reqDto) {
+    public Body bodyReq2Model(HttpApiReqDto.BodyReqDto reqDto) {
         if (reqDto == null) {
-            reqDto = new HttpTreeNodeReqDto.BodyReqDto();
+            reqDto = new HttpApiReqDto.BodyReqDto();
         }
         Body body = new Body();
         body.setLanguage(reqDto.getLanguage());

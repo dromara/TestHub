@@ -5,9 +5,10 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.Length;
 import org.springframework.validation.annotation.Validated;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 
@@ -20,12 +21,12 @@ public class LoginReqDto {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "用户名")
-    @NotNull
+    @NotNull(message = "用户名不能为空")
     private String userName;
 
     @NotNull
     @ApiModelProperty(value = "密码")
-    @Length(min = 6, max = 10, message = "密码6位到10位")
+    @NotNull(message = "用户名密码")
     private String password;
 
 

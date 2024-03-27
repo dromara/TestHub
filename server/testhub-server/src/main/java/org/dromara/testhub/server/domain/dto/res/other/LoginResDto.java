@@ -6,7 +6,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.dromara.testhub.server.domain.dto.res.rule.RuleProjectSimpleResDto;
 import org.springframework.validation.annotation.Validated;
+
+import java.util.List;
 
 
 @Validated
@@ -34,9 +37,10 @@ public class LoginResDto {
     private String token;
 
     @ApiModelProperty(value = "成功或失败")
-    private boolean flag;
+    private boolean flag = false;
 
-
+    @ApiModelProperty(value = "项目列表")
+    private List<RuleProjectSimpleResDto> projectDtos;
 
 }
 

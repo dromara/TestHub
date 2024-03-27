@@ -27,7 +27,7 @@
         <!-- 跳过测试 -->
         <maven.test.skip>true</maven.test.skip>
         <!-- 当前项目的版本 用了flatten 仅修改这一个地方即可-->
-        <revision>1.0.3-SNAPSHOT</revision>
+        <revision>1.0.4-SNAPSHOT</revision>
         <java.version>17</java.version>
 
         <maven.compiler.source>17</maven.compiler.source>

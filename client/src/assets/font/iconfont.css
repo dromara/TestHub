@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 4148545 */
-  src: url('iconfont.woff2?t=1698235172768') format('woff2'),
-       url('iconfont.woff?t=1698235172768') format('woff'),
-       url('iconfont.ttf?t=1698235172768') format('truetype');
+  src: url('iconfont.woff2?t=1711374129120') format('woff2'),
+       url('iconfont.woff?t=1711374129120') format('woff'),
+       url('iconfont.ttf?t=1711374129120') format('truetype');
 }
 
 .iconfont {
@@ -11,6 +11,54 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-zhuanhuanxiaoxizifuji:before {
+  content: "\e61f";
+}
+
+.icon-dui:before {
+  content: "\e715";
+}
+
+.icon-wenjianjiansuo:before {
+  content: "\e64e";
+}
+
+.icon-piliangbianji:before {
+  content: "\e617";
+}
+
+.icon-shusandian-:before {
+  content: "\e81d";
+}
+
+.icon-closel:before {
+  content: "\e6d5";
+}
+
+.icon-jian:before {
+  content: "\e6aa";
+}
+
+.icon-yingyong:before {
+  content: "\e630";
+}
+
+.icon-app2:before {
+  content: "\e6f2";
+}
+
+.icon-appguifan:before {
+  content: "\e60e";
+}
+
+.icon-Http-outlined:before {
+  content: "\e713";
+}
+
+.icon-api:before {
+  content: "\e63b";
 }
 
 .icon-xiezuoxing:before {

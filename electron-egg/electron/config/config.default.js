@@ -13,7 +13,7 @@ module.exports = (appInfo) => {
    * 应用模式配置
    */
   config.developmentMode = {
-    default: 'vue',
+    default: 'react',
     mode: {
       vue: {
         hostname: 'localhost',
@@ -45,8 +45,8 @@ module.exports = (appInfo) => {
    */
   config.windowsOption = {
     title: 'TestHub',
-    width: 980,
-    height: 650,
+    width: 1309,
+    height: 800,
     minWidth: 800,
     minHeight: 650,
     webPreferences: {

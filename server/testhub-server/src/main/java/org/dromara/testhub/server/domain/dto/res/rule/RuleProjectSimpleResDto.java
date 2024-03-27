@@ -20,4 +20,7 @@ public class RuleProjectSimpleResDto {
 
     @ApiModelProperty(value = "名称")
     private String name;
+
+    @ApiModelProperty(value = "详情")
+    private String description;
 }

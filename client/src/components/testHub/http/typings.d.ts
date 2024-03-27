@@ -49,15 +49,6 @@ declare namespace HTTP {
         projectCode?: string;
         /** 路径 */
         url?: string;
-    };
-    type KVResDto = {
-        /** 描述 */
-        desc?: string;
-        /** id */
-        id?: number;
-        /** 属性 */
-        key?: string;
-        /** 值 */
-        value?: string;
+        name?: string;
     };
 }

@@ -2,16 +2,20 @@ package org.dromara.testhub.plugins.http.server.domain.service;
 
 
 import org.dromara.testhub.plugins.http.server.dto.*;
-import org.dromara.testhub.sdk.action.dto.res.TreeNodeResDto;
+import org.dromara.testhub.sdk.action.dto.res.TreeNodeResDto2;
 
-import java.util.List;
+import java.util.Map;
 
 
 public interface HttpTreeService {
-    List<TreeNodeResDto> getTree(String projectCode);
+    Map<String, TreeNodeResDto2> getTree(String projectCode);
 
-    HttpTreeNodeResDto getOne(Long id);
+    HttpApiResDto getOne(Long id);
 
-    TreeNodeResDto save(HttpTreeNodeReqDto reqDto);
-    HttpApiSendResDto send(HttpTreeNodeReqDto reqDto) throws Exception;
+    TreeNodeResDto2 rename(HttpRenameDto renameDto);
+
+    HttpApiResDto saveApi(HttpApiReqDto reqDto, String model);
+    TreeNodeResDto2 saveDir(HttpDirDto reqDto, String model);
+
+    HttpApiSendResDto send(HttpApiReqDto reqDto) throws Exception;
 }

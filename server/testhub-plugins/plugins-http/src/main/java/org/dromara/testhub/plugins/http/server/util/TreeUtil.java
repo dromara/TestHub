@@ -1,7 +1,9 @@
 package org.dromara.testhub.plugins.http.server.util;
 
-import org.dromara.testhub.plugins.http.server.repository.po.HttpTreeNode1Po;
+import org.dromara.testhub.plugins.http.server.repository.po.HttpTreeNodePo;
+import org.dromara.testhub.sdk.action.dto.res.TreeNodeDataResDto;
 import org.dromara.testhub.sdk.action.dto.res.TreeNodeResDto;
+import org.dromara.testhub.sdk.action.dto.res.TreeNodeResDto2;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,13 +11,59 @@ import java.util.List;
 import java.util.Map;
 
 public class TreeUtil {
+    private static String ROOT = "0";
+    public static String TYPE_DIR = "DIR";
+    public static String TYPE_API = "API";
 
-    public static List<TreeNodeResDto> convert(List<HttpTreeNode1Po> httpTreeNodes) {
+    public static Map<String, TreeNodeResDto2> convert2(List<HttpTreeNodePo> httpTreeNodes) {
+        Map<String, TreeNodeResDto2> map = new HashMap<>();
+        TreeNodeResDto2 root = new TreeNodeResDto2();
+        root.setIndex(ROOT);
+        root.setIsFolder(true);
+        TreeNodeDataResDto rootNodeData = new TreeNodeDataResDto();
+        rootNodeData.setName("");
+        rootNodeData.setKey(ROOT);
+        root.setData(rootNodeData);
+        map.put(ROOT, root);
+
+        for (HttpTreeNodePo node : httpTreeNodes) {
+            map.put(getKey(node), getTreeNodeResDto(node));
+        }
+
+        for (HttpTreeNodePo node : httpTreeNodes) {
+            map.get(getParentKey(node)).getChildren().add(getKey(node));
+        }
+
+        return map;
+    }
+    private static String getKey(HttpTreeNodePo po) {
+        return String.valueOf(po.getId());
+    }
+
+    private static String getParentKey(HttpTreeNodePo po) {
+        return po.getParentId() == 0 ? ROOT : String.valueOf(po.getParentId());
+    }
+
+    public static TreeNodeResDto2 getTreeNodeResDto(HttpTreeNodePo po) {
+        TreeNodeResDto2 treeNodeResDto2 = new TreeNodeResDto2();
+        treeNodeResDto2.setIsFolder(TYPE_DIR.equalsIgnoreCase(po.getNodeType()));
+        TreeNodeDataResDto nodeDataResDto = new TreeNodeDataResDto();
+        nodeDataResDto.setKey(getKey(po));
+        nodeDataResDto.setName(po.getName());
+        nodeDataResDto.setNodeType(po.getNodeType());
+        nodeDataResDto.setParentKey(getParentKey(po));
+//        nodeDataResDto.setInfo(po);
+        treeNodeResDto2.setData(nodeDataResDto);
+        treeNodeResDto2.setIndex(getKey(po));
+        return treeNodeResDto2;
+    }
+
+    public static List<TreeNodeResDto> convert(List<HttpTreeNodePo> httpTreeNodes) {
         List<TreeNodeResDto> treeNodeResDtos = new ArrayList<>();
         // 创建一个映射，将 id 映射到相应的节点
         Map<Long, TreeNodeResDto> nodeMap = new HashMap<>();
 
-        for (HttpTreeNode1Po httpTreeNode : httpTreeNodes) {
+        for (HttpTreeNodePo httpTreeNode : httpTreeNodes) {
             TreeNodeResDto treeNodeResDto = new TreeNodeResDto();
             treeNodeResDto.setKey(String.valueOf(httpTreeNode.getId()));
             treeNodeResDto.setParentKey(String.valueOf(httpTreeNode.getParentId()));
@@ -32,7 +80,7 @@ public class TreeUtil {
         }
 
         // 遍历构建树
-        for (HttpTreeNode1Po httpTreeNode : httpTreeNodes) {
+        for (HttpTreeNodePo httpTreeNode : httpTreeNodes) {
             if (httpTreeNode.getParentId() != 0) {
                 TreeNodeResDto parent = nodeMap.get(httpTreeNode.getParentId());
                 if (parent != null) {
