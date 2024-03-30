@@ -11,6 +11,10 @@ DOCKER_IMAGE_NAME="testhub"
 DOCKERHUB_REPO="vinc02131"
 DOCKER_USERNAME="vinc02131"
 
+
+rm -rf ./frontend/*
+
+
 # 拷贝jar包
 cp ../server/testhub-server/target/testhub-server-$DOCKER_IMAGE_TAG-SNAPSHOT.jar ./backend/TestHub.jar
 
@@ -32,10 +36,8 @@ docker tag $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG $DOCKERHUB_REPO/$DOCKER_IMAGE_NA
 echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 
 # 推送镜像到 Docker Hub
-docker push $DOCKERHUB_REPO/$DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG
+# docker push $DOCKERHUB_REPO/$DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG
 
 注销 Docker Hub
 docker logout
-
-rm -rf ./frontend/*
 rm ./backend/TestHub.jar

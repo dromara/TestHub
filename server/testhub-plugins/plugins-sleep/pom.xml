@@ -12,6 +12,7 @@
 
     <groupId>org.dromara.testhub.plugins</groupId>
     <artifactId>plugins-sleep</artifactId>
+    <version>${revision}</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

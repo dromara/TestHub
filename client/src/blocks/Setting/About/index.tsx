@@ -3,7 +3,7 @@ import styles from './index.less';
 import i18n from '@/i18n';
 import BrandLogo from '@/components/base/BrandLogo';
 import { formatDate, getUserTimezoneTimestamp } from '@/utils/date';
-import Contact from '@/components/TestHub/Contact';
+import Contact from '@/components/base/Contact';
 
 interface IProps {}
 

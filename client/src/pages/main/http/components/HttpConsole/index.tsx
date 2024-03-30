@@ -27,7 +27,29 @@ export interface IHttpConsoleRefFunction {
 }
 
 const colorMap = { GET: 'blue', POST: 'green', PUT: 'orange', DELETE: 'red' };
-
+function HttpConsole2(props: IProps, ref: ForwardedRef<IHttpConsoleRefFunction>) {
+  const currentProject = getCurrentProject();
+  const requestViewRef = useRef();
+  const [form] = Form.useForm();
+  const [page, setPage] = useState(props.consoleInfo.page);
+  const { httpPage, dispatch, consoleInfo } = props;
+  const [showResult, setShowResult] = useState<boolean>(httpPage.showResult);
+  const [data, setData] = useState<HTTP.HttpRequestResDto>(
+    consoleInfo.data == undefined
+      ? {
+          method: 'GET',
+          body: {
+            type: 'none',
+            language: 'json',
+            datas: [],
+          },
+        }
+      : consoleInfo.data,
+  );
+  console.log(consoleInfo.data);
+  console.log(data);
+  return <>asd</>;
+}
 function HttpConsole(props: IProps, ref: ForwardedRef<IHttpConsoleRefFunction>) {
   const currentProject = getCurrentProject();
   const requestViewRef = useRef();
@@ -316,4 +338,4 @@ function HttpConsole(props: IProps, ref: ForwardedRef<IHttpConsoleRefFunction>) 
   );
 }
 
-export default HttpConsole;
+export default HttpConsole2;

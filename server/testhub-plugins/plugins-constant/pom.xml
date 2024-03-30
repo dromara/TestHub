@@ -13,7 +13,7 @@
 
     <groupId>org.dromara.testhub.plugins</groupId>
     <artifactId>plugins-constant</artifactId>
-
+    <version>${revision}</version>
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>

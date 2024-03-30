@@ -5,7 +5,7 @@ import classnames from 'classnames';
 import styles from './index.less';
 import contactImg from '@/assets/img/contact.jpeg';
 import { GithubOutlined, WechatOutlined } from '@ant-design/icons';
-import Iconfont from '../../base/Iconfont';
+import Iconfont from '../Iconfont';
 
 interface IProps {}
 

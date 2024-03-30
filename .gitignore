@@ -16,3 +16,4 @@ electron-egg/public/dist/*
 electron-egg/public/!dist/
 electron-egg/build/extraResources/data
 client/.vscode
+docker/frontend

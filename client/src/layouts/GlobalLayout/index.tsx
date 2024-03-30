@@ -12,7 +12,7 @@ import GlobalComponent from '../init/GlobalComponent';
 import styles from './index.less';
 import ServerLoading from './ServerLoading';
 import Setting from '@/blocks/Setting';
-import Contact from '@/components/TestHub/Contact';
+import Contact from '@/components/base/Contact';
 import { Outlet } from 'umi';
 import { ipcApiRoute } from '@/electron/main';
 import { ipc } from '@/electron/ipcRenderer';

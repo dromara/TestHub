@@ -53,14 +53,14 @@ const initNavConfig: INavItem[] = [
   //   iconFontSize: 24,
   //   component: <MainTest />,
   // },
-  // {
-  //   key: 'http',
-  //   isLoad: false,
-  //   name: 'HTTP',
-  //   icon: '\ue63b',
-  //   iconFontSize: 24,
-  //   component: <Http />,
-  // },
+  {
+    key: 'http',
+    isLoad: false,
+    name: 'HTTP',
+    icon: '\ue63b',
+    iconFontSize: 24,
+    component: <Http />,
+  },
   {
     key: 'tools',
     isLoad: false,

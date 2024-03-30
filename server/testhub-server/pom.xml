@@ -68,17 +68,6 @@
             <version>${revision}</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.dromara.testhub.plugins</groupId>
-            <artifactId>plugins-constant</artifactId>
-            <version>${revision}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.dromara.testhub.plugins</groupId>
-            <artifactId>plugins-convert</artifactId>
-            <version>${revision}</version>
-        </dependency>
 
         <dependency>
             <groupId>org.dromara.testhub.plugins</groupId>

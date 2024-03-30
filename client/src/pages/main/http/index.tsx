@@ -32,6 +32,7 @@ const recognizeIcon = (nodeType: string) => {
 };
 
 function Http(props: IProps) {
+  console.log('Http');
   const [leftShow, setLeftShow] = useState(true);
   const { httpPage, dispatch } = props;
   const currentProject = getCurrentProject();
