@@ -13,7 +13,7 @@ export type Props = {
   data: HTTP.HttpRequestResDto;
   effective?: boolean;
   onDataChange?: Function;
-  // onPageChange?: Function;
+  onPageChange?: Function;
   activeKey?: string;
 };
 
@@ -36,7 +36,7 @@ const RequestView = React.memo(
       // }
     };
 
-    console.log(props.data);
+    // console.log(props.data);
 
     const onBodyChange = (body: HTTP.BodyResDto) => {
       const requestNew = request;

@@ -19,7 +19,7 @@ function HttpRigth(props: IProps) {
   const { dispatch, httpPage, icon } = props;
   const consoles = httpPage.consoles;
   const currentProject = getCurrentProject();
-  console.log(consoles);
+  // console.log(props.httpPage.consoles);
 
   const tabItems = useMemo(() => {
     return consoles?.map((item) => {

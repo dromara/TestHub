@@ -27,29 +27,7 @@ export interface IHttpConsoleRefFunction {
 }
 
 const colorMap = { GET: 'blue', POST: 'green', PUT: 'orange', DELETE: 'red' };
-function HttpConsole2(props: IProps, ref: ForwardedRef<IHttpConsoleRefFunction>) {
-  const currentProject = getCurrentProject();
-  const requestViewRef = useRef();
-  const [form] = Form.useForm();
-  const [page, setPage] = useState(props.consoleInfo.page);
-  const { httpPage, dispatch, consoleInfo } = props;
-  const [showResult, setShowResult] = useState<boolean>(httpPage.showResult);
-  const [data, setData] = useState<HTTP.HttpRequestResDto>(
-    consoleInfo.data == undefined
-      ? {
-          method: 'GET',
-          body: {
-            type: 'none',
-            language: 'json',
-            datas: [],
-          },
-        }
-      : consoleInfo.data,
-  );
-  console.log(consoleInfo.data);
-  console.log(data);
-  return <>asd</>;
-}
+
 function HttpConsole(props: IProps, ref: ForwardedRef<IHttpConsoleRefFunction>) {
   const currentProject = getCurrentProject();
   const requestViewRef = useRef();
@@ -57,6 +35,7 @@ function HttpConsole(props: IProps, ref: ForwardedRef<IHttpConsoleRefFunction>) 
   const [page, setPage] = useState(props.consoleInfo.page);
   const { httpPage, dispatch, consoleInfo } = props;
   const [showResult, setShowResult] = useState<boolean>(httpPage.showResult);
+  // console.log(consoleInfo.data);
   const [data, setData] = useState<HTTP.HttpRequestResDto>(
     consoleInfo.data == undefined
       ? {
@@ -66,11 +45,14 @@ function HttpConsole(props: IProps, ref: ForwardedRef<IHttpConsoleRefFunction>) 
             language: 'json',
             datas: [],
           },
+          rests: [],
+          headers: [],
+          cookices: [],
         }
       : consoleInfo.data,
   );
-  console.log(consoleInfo.data);
-  console.log(data);
+
+  // console.log(data);
 
   useEffect(() => {
     setShowResult(httpPage.showResult);
@@ -322,7 +304,7 @@ function HttpConsole(props: IProps, ref: ForwardedRef<IHttpConsoleRefFunction>) 
             onPageChange={(activeKey) => {
               const newPage = page;
               newPage.activeKey = activeKey;
-              dispatchPage(newPage);
+              // dispatchPage(newPage);
             }}
             activeKey={
               page != null ? (page.activeKey ? page.activeKey : data.method == 'GET' ? 'Params' : 'Body') : undefined
@@ -338,4 +320,4 @@ function HttpConsole(props: IProps, ref: ForwardedRef<IHttpConsoleRefFunction>) 
   );
 }
 
-export default HttpConsole2;
+export default HttpConsole;

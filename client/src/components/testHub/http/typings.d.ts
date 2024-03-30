@@ -50,5 +50,6 @@ declare namespace HTTP {
         /** 路径 */
         url?: string;
         name?: string;
+        timeout?: number;
     };
 }

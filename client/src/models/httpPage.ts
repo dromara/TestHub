@@ -113,10 +113,11 @@ const HttpPageModel: IHttpPageType = {
                     key: payload.node.key,
                     name: payload.node.name,
                     status: payload.status ? payload.status : ConsoleStatus.SAVED,
-                    data: payload.node.info,
-                    oldData: cloneDeep(payload.node.info),
+                    data: (JSON.parse(JSON.stringify(payload.node.info)) as HTTP.HttpRequestResDto),
+                    oldData: cloneDeep((JSON.parse(JSON.stringify(payload.node.info)) as HTTP.HttpRequestResDto)),
                     page: payload.page == undefined ? {} : payload.page,
                 }
+
                 oldConsoles.push(console);
                 return { ...state, consoles: [...oldConsoles], activeKey: payload.node.key };
             } else {
@@ -170,7 +171,6 @@ const HttpPageModel: IHttpPageType = {
             return { ...state, showResult: payload };
         },
         editConsoleName(state, { payload }) {
-            console.log(payload)
             const oldConsoles: ConsoleInfo<HttpPageData, HttpPageInfo>[] = state.consoles;
             const index = oldConsoles.findIndex(item => item.key == payload.key);
             const oldConsole = oldConsoles[index];
@@ -288,33 +288,45 @@ const HttpPageModel: IHttpPageType = {
         *newApiConsole({ payload, callback }, { put, select }) {
             try {
                 const key = (yield systemService.getId()) as string;
-                const node = {
-                    key: key,
-                    parentKey: payload.parentId,
+
+                const info = {
+                    id: parseInt(key),
+                    parentId: payload.parentId,
+                    projectCode: payload.projectCode,
                     name: payload.name,
-                    nodeType: "API",
-                    info: undefined,
-                    info1: {
-                        id: parseInt(key),
-                        parentId: payload.parentId,
-                        projectCode: payload.projectCode,
-                        name: payload.name,
-                        envCode: null,
-                        url: null,
-                        method: "GET",
-                        timeout: 60,
-                        body: {
-                            type: "none",
-                            language: "json",
-                            datas: []
-                        },
-                        headers: [], params: [], rests: [], cookices: []
-                    }
+                    method: "POST",
+                    timeout: 60,
+                    body: {
+                        type: "raw",
+                        language: "json",
+                        datas: []
+                    },
+                    headers: [], params: [], rests: [], cookices: []
                 }
+
+
+                // 妈的有鬼👻
+
+                // 输出后 这个body的type = raw
+                console.log(info)
+
+                // 输出后 这个body的type = none
+                console.log(JSON.stringify(info))
+
+                // 输出后 这个body的type = none
+                console.log((JSON.parse(JSON.stringify(info)) as HTTP.HttpRequestResDto))
+
+
                 yield put({
                     type: 'addConsole',
                     payload: {
-                        node: node,
+                        node: {
+                            key: key,
+                            parentKey: payload.parentId,
+                            name: payload.name,
+                            nodeType: "API",
+                            info: (JSON.parse(JSON.stringify(info)) as HTTP.HttpRequestResDto)
+                        },
                         status: ConsoleStatus.UNTRACKED
                     },
                 });
