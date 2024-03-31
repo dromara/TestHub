@@ -1,12 +1,20 @@
 package org.dromara.testhub.server.domain.service;
 
-import org.dromara.testhub.server.domain.dto.req.other.TreeInfoReqDto;
+import org.dromara.testhub.plugins.http.server.dto.HttpRenameDto;
 import org.dromara.testhub.sdk.action.dto.res.TreeNodeResDto;
+import org.dromara.testhub.sdk.action.dto.res.TreeNodeResDto2;
+import org.dromara.testhub.server.domain.dto.req.other.RenameDto;
+import org.dromara.testhub.server.domain.dto.req.other.TreeInfoReqDto;
 
-import java.util.List;
+import java.util.Map;
 
 public interface TreeService {
-    List<TreeNodeResDto> getByTreeType(String treeType);
+
+    Map<String, TreeNodeResDto2> getCaseTree(String projectCode);
+
+    TreeNodeResDto2 rename(RenameDto renameDto);
+
     TreeNodeResDto save(TreeInfoReqDto treeInfoReqDto);
     TreeNodeResDto update(Long id,TreeInfoReqDto treeInfoReqDto);
+
 }

@@ -1,34 +1,26 @@
-import React, { useState } from 'react';
+import React, { useRef } from 'react';
+import { ImperativePanelGroupHandle, Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
 
-const MyComponent = () => {
-  const [selectedKey, setSelectedKey] = useState('key1');
+function MyComponent() {
+  const ref = useRef<ImperativePanelGroupHandle>(null);
 
-  const handleChange = (event) => {
-    setSelectedKey(event.target.value);
+  const resetLayout = () => {
+    const panelGroup = ref.current;
+    if (panelGroup) {
+      // Reset each Panel to 50% of the group's width
+      panelGroup.setLayout([50, 50]);
+    }
   };
-
-  const Component1 = () => <div>Component 1</div>;
-  const Component2 = () => <div>Component 2</div>;
-  const Component3 = () => <div>Component 3</div>;
-
-  const componentMap = {
-    key1: Component1,
-    key2: Component2,
-    key3: Component3,
-  };
-
-  const SelectedComponent = componentMap[selectedKey];
 
   return (
-    <div>
-      <select value={selectedKey} onChange={handleChange}>
-        <option value="key1">Component 1</option>
-        <option value="key2">Component 2</option>
-        <option value="key3">Component 3</option>
-      </select>
-      <SelectedComponent />
-    </div>
+    <>
+      <PanelGroup direction="horizontal" ref={ref}>
+        <Panel>left</Panel>
+        <PanelResizeHandle />
+        <Panel>right</Panel>
+      </PanelGroup>
+    </>
   );
-};
+}
 
 export default MyComponent;

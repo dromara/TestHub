@@ -3,6 +3,7 @@ import registerMessage from './registerMessage';
 import registerNotification from './registerNotification';
 import { getLang, setLang } from '@/utils/localStorage';
 import { LangType } from '@/constants';
+import initCaseXml from '@/components/TestHub/MonacoEditor/MyMonacoEditor/language/casexml';
 
 const init = () => {
   clearOlderLocalStorage();
@@ -11,6 +12,8 @@ const init = () => {
 
   registerMessage();
   registerNotification();
+
+  initCaseXml();
 };
 
 // 初始化语言

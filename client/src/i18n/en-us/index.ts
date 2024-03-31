@@ -1,15 +1,19 @@
 import common from './common';
 import menu from './menu';
-import setting from './setting';
 import login from './login';
-import httpEnUs from '@/components/TestHub/http/i18n/en-us';
+import caseUS from './caseUS';
+import setting from './setting';
 import { LangType } from '@/constants';
+import httpEnUs from '@/components/TestHub/http/i18n/en-us';
+import pluginEnUs from '@/components/TestHub/plugins/i18n/plugin-en-us';
 
 export default {
   lang: LangType.EN_US,
   ...common,
   ...setting,
   ...menu,
+  ...caseUS,
   ...login,
-  ...httpEnUs
+  ...httpEnUs,
+  ...pluginEnUs
 };

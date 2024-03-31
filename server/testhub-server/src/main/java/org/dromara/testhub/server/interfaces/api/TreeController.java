@@ -1,16 +1,18 @@
 package org.dromara.testhub.server.interfaces.api;
 
-import org.dromara.testhub.server.domain.dto.req.other.TreeInfoReqDto;
-import org.dromara.testhub.sdk.action.dto.res.TreeNodeResDto;
-import org.dromara.testhub.server.domain.service.TreeService;
-import org.dromara.testhub.framework.web.ResultResponse;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
+import org.dromara.testhub.framework.web.ResultResponse;
+import org.dromara.testhub.sdk.action.dto.res.TreeNodeResDto;
+import org.dromara.testhub.sdk.action.dto.res.TreeNodeResDto2;
+import org.dromara.testhub.server.domain.dto.req.other.RenameDto;
+import org.dromara.testhub.server.domain.dto.req.other.TreeInfoReqDto;
+import org.dromara.testhub.server.domain.service.TreeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Api(tags = {"类目树"})
@@ -20,14 +22,13 @@ public class TreeController {
     @Autowired
     private TreeService treeService;
 
-    @ApiOperation(value = "获取项目中的树", tags = {"类目树"}, nickname = "getByTreeType")
+    @ApiOperation(value = "获取HTTP树", tags = {"插件http"}, nickname = "getTree")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "操作是否成功,000000:成功，否则失败")})
-    @GetMapping(value = "/getByTreeType/{treeType}", produces = {"application/json"})
-    public ResultResponse<List<TreeNodeResDto>> getByTreeType(@ApiParam(value = "树类型", required = true) @PathVariable("treeType") String treeType) {
-        List<TreeNodeResDto> list = treeService.getByTreeType(treeType);
-        return ResultResponse.ok(list);
+    @GetMapping(value = "/getTree/{projectCode}", produces = {"application/json"})
+    public ResultResponse<Map<String, TreeNodeResDto2>> getTree(@ApiParam(value = "项目编码", required = true)
+                                                                @PathVariable("projectCode")String projectCode) {
+        return ResultResponse.ok(treeService.getCaseTree(projectCode));
     }
-
     @ApiOperation(value = "保存树", tags = {"类目树"}, nickname = "saveTree")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "000000:成功，否则失败")})
     @PostMapping(consumes = {"application/json"}, produces = {"application/json"})
@@ -42,6 +43,10 @@ public class TreeController {
         return ResultResponse.ok(treeService.update(id,treeInfoReqDto));
     }
 
-
-
+    @ApiOperation(value = "重命名", tags = {"类目树"}, nickname = "rename")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "000000:成功，否则失败")})
+    @PostMapping(value = "/rename",consumes = {"application/json"}, produces = {"application/json"})
+    public ResultResponse<TreeNodeResDto2> rename(@Valid @RequestBody RenameDto reqDto) {
+        return ResultResponse.ok(treeService.rename(reqDto));
+    }
 }

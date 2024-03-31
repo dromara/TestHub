@@ -1,4 +1,4 @@
-import { HttpApiSendResDto } from "../server";
+export * from './testHub';
 
 export enum ConsoleStatus {
   //参考 git status
@@ -16,8 +16,4 @@ export interface ConsoleInfo<D, P> {
   page: P; // 页面临时不需要保存的数据
 }
 
-//http相关的
-export interface HttpConsoleInfo {
-  activeKey?: string;
-  resultData?: HttpApiSendResDto;
-}
+

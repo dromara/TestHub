@@ -14,6 +14,7 @@ import { ConsoleInfo, ConsoleStatus } from '@/typings/client';
 import Draggable from '@/components/base/Draggable';
 import { ProFormText } from '@ant-design/pro-components';
 import { TreeNodeResDto } from '@/typings';
+import { ModelType } from '@/components/base/Draggable';
 const { Option } = Select;
 
 interface IProps {
@@ -286,7 +287,16 @@ function HttpConsole(props: IProps, ref: ForwardedRef<IHttpConsoleRefFunction>) 
           </Col>
         </Row>
       </div>
-      <Draggable className={styles.httpConsoleContainer} secondShow={httpPage.showResult} layout="column">
+      <Draggable
+        className={styles.httpConsoleContainer}
+        model={ModelType.SECOND}
+        show={httpPage.showResult}
+        defaultSize={50}
+        maxSize={100}
+        minSize={0}
+        secondShow={httpPage.showResult}
+        layout="column"
+      >
         <div className={styles.httpConsole}>
           <RequestView
             key={`RequestView-` + consoleInfo.key}

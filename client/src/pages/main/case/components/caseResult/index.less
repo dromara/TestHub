@@ -1,0 +1,24 @@
+//@import '../../../../var.less';
+
+.caseResult {
+  opacity: 1;
+  height: 100%;
+  display: flex;
+  // flex-direction: column;
+}
+.caseResultRight {
+  width: 0px;
+  flex: 1;
+  overflow: auto;
+  // flex-direction: column;
+}
+.caseResultLeft {
+  position: relative;
+  width: 260px;
+  min-width: 260px;
+  max-width: 300px;
+  // background-color: var(--color-bg-200);
+  overflow: hidden;
+  transition: width 0.2s background 0.3s;
+  border-right: 2px solid var(--color-bg-200);
+}

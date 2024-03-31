@@ -1,4 +1,5 @@
-import { IEditorOptions } from '@/components/MonacoEditor';
+import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
+export type IEditorOptions = monaco.editor.IStandaloneEditorConstructionOptions;
 
 export const editorDefaultOptions: IEditorOptions = {
   fontFamily:
@@ -26,7 +27,7 @@ export const editorDefaultOptions: IEditorOptions = {
   insertSpaces: true, // 插入空格
   autoClosingQuotes: 'always', // 自动闭合引号
   detectIndentation: false, // 检测缩进
-  wordWrap: 'on', // 自动换行
+  wordWrap: 'off', // 自动换行
   fixedOverflowWidgets: true, // 固定溢出小部件
   // renderLineHighlight: 'none', // 渲染行高亮
   codeLens: false, // 代码镜头

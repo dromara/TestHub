@@ -1,4 +1,4 @@
-import React, { ForwardedRef, forwardRef, useEffect, useImperativeHandle, useState } from 'react';
+import React, { ForwardedRef, forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 
 import cs from 'classnames';
 import styles from './index.less';
@@ -39,6 +39,7 @@ const MyMonacoEditor = (props: IProps, ref: ForwardedRef<IExportRefFunction>) =>
       onChange(defaultValue);
     }
   }, [defaultValue]);
+
   useEffect(() => {
     initMonacoTheme();
   }, []);
@@ -47,6 +48,7 @@ const MyMonacoEditor = (props: IProps, ref: ForwardedRef<IExportRefFunction>) =>
     setEditor(editor);
     setMonaco(monaco); // 保存 monaco 实例以供后续使用
     editor.focus();
+    shortcutKey?.(editor, monaco);
   };
 
   useImperativeHandle(ref, () => ({

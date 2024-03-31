@@ -22,6 +22,8 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,7 +50,13 @@ public class AppExceptionHandler {
     @ExceptionHandler(AppException.class)
     public ResultResponse handleRRException(AppException e) {
         logger.error(e.getMessage(), e);
-        return ResultResponse.error(StringUtils.isBlank(e.getCode()) ? "500" : e.getCode(), e.getMessage());
+        return ResultResponse.error(StringUtils.isBlank(e.getCode()) ? "500" : e.getCode(), e.getMessage(),getStackTraceAsString(e));
+    }
+    private static String getStackTraceAsString(Throwable throwable) {
+        StringWriter stringWriter = new StringWriter();
+        PrintWriter printWriter = new PrintWriter(stringWriter);
+        throwable.printStackTrace(printWriter);
+        return stringWriter.toString();
     }
 
     @ExceptionHandler(NoHandlerFoundException.class)

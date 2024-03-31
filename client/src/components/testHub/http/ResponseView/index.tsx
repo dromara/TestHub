@@ -7,7 +7,7 @@ import styles from './index.less';
 import classnames from 'classnames';
 import './index.less';
 import { v4 as uuid } from 'uuid';
-import MyMonacoEditor from '../../MyMonacoEditor';
+import MyMonacoEditor from '../../MonacoEditor/MyMonacoEditor';
 
 export type Props = {
   data?: HttpApiSendResDto;

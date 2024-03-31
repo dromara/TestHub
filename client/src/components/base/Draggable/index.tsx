@@ -1,39 +1,49 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ImperativePanelHandle, Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
+import {
+  ImperativePanelGroupHandle,
+  ImperativePanelHandle,
+  Panel,
+  PanelGroup,
+  PanelResizeHandle,
+} from 'react-resizable-panels';
 import classnames from 'classnames';
 import styles from './index.less';
 
+export enum ModelType {
+  FIRST = 'FIRST',
+  SECOND = 'SECOND',
+  // All = 'ALL',
+}
 interface IProps {
   className?: string;
-  firstShow?: boolean;
-  secondShow?: boolean;
+  model?: ModelType;
+  show?: boolean;
+
   children: any; //TODO: TS，约定接受一个数组
   defaultSize?: number;
   maxSize?: number;
+  minSize?: number;
   layout?: 'row' | 'column';
   showLine?: boolean;
   onResize?: (firstSize: number, secondSize: number) => void;
 }
 
 function Draggable(props: IProps) {
-  const firstRef = useRef<ImperativePanelHandle>(null);
-  const secondRef = useRef<ImperativePanelHandle>(null);
-  const dividerRef = useRef<HTMLDivElement | null>(null);
+  const ref = useRef<ImperativePanelGroupHandle>(null);
   const {
     children,
     className,
     layout = 'row',
-    firstShow = true,
-    secondShow = true,
+    model = ModelType.FIRST,
+    show = true,
     defaultSize = 50,
-    maxSize,
+    maxSize = 100,
+    minSize = 50,
     onResize = (firstSize: number, secondSize: number) => {},
   } = props;
 
   const [dragging, setDragging] = useState(false);
   const [initFlag, setInitFlag] = useState(true);
-  const [firstFlag, setFirstFlag] = useState(true);
-  const [secondFlag, setSecondFlag] = useState(true);
 
   const moveHandle = () => {
     if (!initFlag) {
@@ -46,33 +56,25 @@ function Draggable(props: IProps) {
   };
 
   useEffect(() => {
-    const panel = firstRef.current;
-    if (panel) {
-      if (firstFlag) {
-        setFirstFlag(false);
-        return;
-      }
-      if (firstShow) {
-        panel.expand();
+    const panelGroup = ref.current;
+    if (panelGroup) {
+      if (show) {
+        if (model == ModelType.FIRST) {
+          // panelGroup.setLayout([99, 1]);
+          panelGroup.setLayout([100 - defaultSize, defaultSize]);
+        } else {
+          // panelGroup.setLayout([1, 99]);
+          panelGroup.setLayout([defaultSize, 100 - defaultSize]);
+        }
       } else {
-        panel.collapse();
+        if (model == ModelType.FIRST) {
+          panelGroup.setLayout([0, 100]);
+        } else {
+          panelGroup.setLayout([100, 0]);
+        }
       }
     }
-  }, [firstShow]);
-  useEffect(() => {
-    const panel = secondRef.current;
-    if (panel) {
-      if (secondFlag) {
-        setSecondFlag(false);
-        return;
-      }
-      if (secondShow) {
-        panel.expand();
-      } else {
-        panel.collapse();
-      }
-    }
-  }, [secondShow]);
+  }, [show]);
 
   return (
     <PanelGroup
@@ -86,15 +88,28 @@ function Draggable(props: IProps) {
         moveHandle();
         onResize(data[0], data[1]);
       }}
+      ref={ref}
     >
-      <Panel collapsible ref={firstRef} defaultSize={defaultSize} maxSize={maxSize} order={0}>
+      <Panel
+        collapsible={model == ModelType.FIRST ? true : false}
+        defaultSize={model == ModelType.SECOND ? defaultSize : 100 - defaultSize}
+        minSize={model == ModelType.SECOND ? minSize : undefined}
+        maxSize={model == ModelType.SECOND ? maxSize : undefined}
+        order={0}
+      >
         {children[0]}
       </Panel>
       <PanelResizeHandle className={styles.divider}>
-        <div ref={dividerRef} className={classnames(styles.dividerCenter, { [styles.dividerDragging]: dragging })} />
+        <div className={classnames(styles.dividerCenter, { [styles.dividerDragging]: dragging })} />
       </PanelResizeHandle>
 
-      <Panel collapsible ref={secondRef} order={1}>
+      <Panel
+        collapsible={model == ModelType.SECOND ? true : false}
+        defaultSize={model == ModelType.FIRST ? defaultSize : 100 - defaultSize}
+        minSize={model == ModelType.FIRST ? minSize : undefined}
+        maxSize={model == ModelType.FIRST ? maxSize : undefined}
+        order={1}
+      >
         {children[1]}
       </Panel>
     </PanelGroup>

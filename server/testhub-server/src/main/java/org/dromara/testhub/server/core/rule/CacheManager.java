@@ -170,6 +170,11 @@ public class CacheManager {
             }
         }
     }
+    public static synchronized void caseRename(RuleConfig config, String projectCode) {
+        RuleProjectResDto projectResDto = getProject(projectCode);
+        RuleProject ruleProject = config.getProjectMap().get(projectCode);
+
+    }
 
 
     //重新建立类目树

@@ -1,27 +1,30 @@
 package org.dromara.testhub.server.domain.service.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.dromara.testhub.framework.exception.TestHubException;
+import org.dromara.testhub.nsrule.core.executer.context.RuleConfig;
+import org.dromara.testhub.sdk.action.dto.res.TreeNodeResDto;
+import org.dromara.testhub.sdk.action.dto.res.TreeNodeResDto2;
+import org.dromara.testhub.server.core.rule.CacheManager;
+import org.dromara.testhub.server.core.rule.DbManager;
 import org.dromara.testhub.server.domain.convert.TreeInfoConvert;
+import org.dromara.testhub.server.domain.dto.req.other.RenameDto;
+import org.dromara.testhub.server.domain.dto.req.other.TreeInfoReqDto;
+import org.dromara.testhub.server.domain.dto.res.rule.RuleProjectResDto;
+import org.dromara.testhub.server.domain.service.TreeService;
+import org.dromara.testhub.server.domain.util.CaseTreeUtil;
 import org.dromara.testhub.server.infrastructure.repository.dao.TreeInfoMapper;
 import org.dromara.testhub.server.infrastructure.repository.dao.UserMapper;
 import org.dromara.testhub.server.infrastructure.repository.po.TreeInfoPo;
-import org.dromara.testhub.nsrule.core.executer.context.RuleConfig;
-import org.dromara.testhub.framework.exception.TestHubException;
-import org.dromara.testhub.server.core.rule.DbManager;
-import org.dromara.testhub.server.core.util.TreeUtil;
-import org.dromara.testhub.server.domain.dto.req.other.TreeInfoReqDto;
-import org.dromara.testhub.sdk.action.dto.res.TreeNodeResDto;
-import org.dromara.testhub.server.domain.service.TreeService;
-import org.dromara.testhub.server.core.rule.CacheManager;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.dromara.testhub.server.infrastructure.repository.po.UserPo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service("treeService")
@@ -37,12 +40,30 @@ public class TreeServiceImpl implements TreeService {
     @Autowired
     private UserMapper userMapper;
 
+
     @Override
-    public List<TreeNodeResDto> getByTreeType(String treeType) {
-        QueryWrapper<TreeInfoPo> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("tree_type",treeType);
-        List<TreeInfoPo> treeInfoPos = treeInfoMapper.selectList(queryWrapper);
-        return TreeUtil.convert(treeInfoPos);
+    public Map<String, TreeNodeResDto2> getCaseTree(String projectCode) {
+        if (CacheManager.getProject(projectCode) == null) {
+            throw new TestHubException("找不到所属项目");
+        }
+        RuleProjectResDto projectResDto = CacheManager.getProject(projectCode);
+        List<TreeNodeResDto> ruleTrees = projectResDto.getRuleTrees();
+        //先解析出来吧
+        List<TreeNodeResDto> ruleTreesAll = CaseTreeUtil.collectAllNodes(ruleTrees);
+
+        return CaseTreeUtil.convert2(ruleTreesAll);
+    }
+
+    @Override
+    public TreeNodeResDto2 rename(RenameDto renameDto) {
+        TreeInfoPo po = treeInfoMapper.selectById(Long.parseLong(renameDto.getKey()));
+        if(po==null){
+            throw new TestHubException("找不到类目");
+        }
+        po.setName(renameDto.getName());
+        treeInfoMapper.updateById(po);
+        CacheManager.reBuildTreeNode(dbManager,config,po.getTreeType().substring(0,po.getTreeType().lastIndexOf("_")));
+        return CaseTreeUtil.getTreeNodeResDto(po);
     }
 
     @Override

@@ -42,6 +42,10 @@ public class ResultResponse<T> implements Serializable {
     @ApiModelProperty(position = 40)
     private T data;
 
+    @JsonProperty(index = 50)
+    @ApiModelProperty(position = 50)
+    private String detail;
+
     public ResultResponse() {
 
     }
@@ -101,6 +105,14 @@ public class ResultResponse<T> implements Serializable {
         ResultResponse dto = new ResultResponse<Void>();
         dto.code = code;
         dto.msg = msg;
+        dto.traceId = MDC.get(TraceInterceptor.TRACE_ID);
+        return dto;
+    }
+    public static <T> ResultResponse error(String code, String msg,String detail) {
+        ResultResponse dto = new ResultResponse<Void>();
+        dto.code = code;
+        dto.msg = msg;
+        dto.detail = detail;
         dto.traceId = MDC.get(TraceInterceptor.TRACE_ID);
         return dto;
     }

@@ -1,4 +1,4 @@
-import { ThemeType } from '@/constants';
+import { OSType, ThemeType } from '@/constants';
 import lodash, { isEqual } from 'lodash';
 import { getModel, removeCurrentProject, removeSatoken, removeUserInfo, setSatoken } from './localStorage';
 
@@ -199,6 +199,18 @@ export function getApplicationMessage() {
     userAgent,
   };
 }
+// os is mac or windows
+export const getOS = function (): OSType {
+  var agent = navigator.userAgent.toLowerCase();
+  var isMac = /macintosh|mac os x/i.test(navigator.userAgent);
+  if (agent.indexOf("win32") >= 0 || agent.indexOf("wow32") >= 0 || agent.indexOf("win64") >= 0 || agent.indexOf("wow64") >= 0) {
+    return OSType.WIN
+  } else if (isMac) {
+    return OSType.MAC
+  } else {
+    return OSType.RESTS
+  }
+}()
 
 // os is mac or windows
 export function osNow(): {

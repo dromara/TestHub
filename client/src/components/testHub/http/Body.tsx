@@ -8,7 +8,7 @@ import { useDebounceFn } from 'ahooks';
 import { RuleParamResDto } from '@/typings';
 import classnames from 'classnames';
 import { v4 as uuid } from 'uuid';
-import MyMonacoEditor from '../MyMonacoEditor';
+import MyMonacoEditor from '../MonacoEditor/MyMonacoEditor';
 export type Props = {
   data: HTTP.BodyResDto;
   effective?: boolean;

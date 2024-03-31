@@ -1,4 +1,4 @@
-import { ConsoleInfo, ConsoleStatus, HttpConsoleInfo } from '@/typings/client';
+import { ConsoleInfo, ConsoleStatus } from '@/typings/client';
 
 import httpService, { } from '@/service/plugins/http/httpApi';
 import { HTTP } from '@/components/TestHub/http/typings';
@@ -18,6 +18,12 @@ export interface HttpPageData extends HTTP.HttpRequestResDto {
 }
 export interface HttpPageInfo extends HttpConsoleInfo {
 
+}
+
+//http相关的
+export interface HttpConsoleInfo {
+    activeKey?: string;
+    resultData?: HttpApiSendResDto;
 }
 
 
@@ -299,7 +305,8 @@ const HttpPageModel: IHttpPageType = {
                     body: {
                         type: "raw",
                         language: "json",
-                        datas: []
+                        datas: [],
+                        content: "{}"
                     },
                     headers: [], params: [], rests: [], cookices: []
                 }

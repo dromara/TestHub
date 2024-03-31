@@ -165,16 +165,17 @@ export default function createRequest<P = void, R = void>(url: string, options?:
       request[method](eventualUrl, { [dataName]: params, ...restParams })
         .then((res) => {
           if (!res) return;
-          const { code, msg, errorDetail, solutionLink, traceId, data } = res;
+          const { code, msg, detail, solutionLink, traceId, data } = res;
           if (code !== "000000" && errorLevel === 'toast' && !noNeedToastErrorCode.includes(code)) {
             console.log(traceId)
             delayTimeFn(() => {
               window._notificationApi({
                 requestUrl: eventualUrl,
                 requestParams: JSON.stringify(params),
-                code,
-                msg,
-                errorDetail,
+                traceId,
+                errorCode: code,
+                errorMessage: msg,
+                errorDetail: detail,
                 solutionLink,
               });
               // message.error(`${errorCode}: ${errorMessage}`);

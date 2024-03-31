@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import classnames from 'classnames';
 import styles from './index.less';
-import Draggable from '@/components/base/Draggable';
+import Draggable, { ModelType } from '@/components/base/Draggable';
 import Iconfont from '@/components/base/Iconfont';
 
 interface IProps {
@@ -34,9 +34,11 @@ export default function BasePage(props: IProps) {
   return (
     <Draggable
       className={classnames(styles.basePage, className)}
-      defaultSize={15}
-      maxSize={20}
-      firstShow={isUnfold}
+      model={ModelType.FIRST}
+      show={isUnfold}
+      defaultSize={85}
+      maxSize={100}
+      minSize={80}
       onResize={(firstSize: number, secondSize: number) => {
         if (firstSize == 0 || firstSize < 0) {
           if (isUnfold) {

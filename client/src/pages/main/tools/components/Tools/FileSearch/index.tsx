@@ -5,7 +5,7 @@ import { InboxOutlined, SearchOutlined } from '@ant-design/icons';
 import type { UploadFile, Upload, UploadProps } from 'antd';
 // eslint-disable-next-line no-duplicate-imports
 import { Button, Select, message } from 'antd';
-import MyMonacoEditor, { IExportRefFunction } from '@/components/TestHub/MyMonacoEditor';
+import MyMonacoEditor, { IExportRefFunction } from '@/components/TestHub/MonacoEditor/MyMonacoEditor';
 import Dragger from 'antd/es/upload/Dragger';
 import { getStoreKeys, setStoreKeys } from './store';
 import Iconfont from '@/components/base/Iconfont';

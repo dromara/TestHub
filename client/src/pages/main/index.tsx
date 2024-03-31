@@ -20,7 +20,7 @@ import Setting from '@/blocks/Setting';
 
 import styles from './index.less';
 import { useUpdateEffect } from '@/hooks';
-import useMonacoTheme from '@/components/TestHub/MyMonacoEditor/useMonacoTheme';
+import useMonacoTheme from '@/components/TestHub/MonacoEditor/MyMonacoEditor/useMonacoTheme';
 import ProjectSelect from '@/components/TestHub/ProjectSelect';
 import { getCurrentProject } from '@/utils/localStorage';
 import MainTest from './test';
@@ -29,14 +29,14 @@ import Case from './case';
 import Tools from './tools';
 
 const initNavConfig: INavItem[] = [
-  // {
-  //   key: 'case',
-  //   isLoad: false,
-  //   name: '用例',
-  //   iconFontSize: 24,
-  //   icon: '\ue6b6',
-  //   component: <Case />,
-  // },
+  {
+    key: 'case',
+    isLoad: false,
+    name: '用例',
+    iconFontSize: 24,
+    icon: '\ue6b6',
+    component: <Case />,
+  },
   // {
   //   key: 'assembly',
   //   isLoad: false,

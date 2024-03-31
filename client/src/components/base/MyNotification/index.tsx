@@ -9,6 +9,7 @@ import styles from './index.less';
 interface IProps {
   type?: IconType;
   message?: React.ReactNode;
+  traceId: string;
   /** 错误代码 */
   errorCode: string;
   /** 错误信息 */
@@ -31,19 +32,21 @@ function MyNotification() {
   const [props, setProps] = useState<IProps>();
 
   window._notificationApi = useCallback((myProps: IProps) => {
-    const { errorCode, errorMessage, solutionLink } = myProps;
+    const { traceId, errorCode, errorMessage, solutionLink, errorDetail } = myProps;
     setProps(myProps);
     const btn = (
       <Space>
-        <Button
-          type="link"
-          size="small"
-          onClick={() => {
-            setOpen(true);
-          }}
-        >
-          {i18n('common.notification.detail')}
-        </Button>
+        {errorDetail && (
+          <Button
+            type="link"
+            size="small"
+            onClick={() => {
+              setOpen(true);
+            }}
+          >
+            {i18n('common.notification.detail')}
+          </Button>
+        )}
         {solutionLink && (
           <Button type="link" size="small" target="_blank" href={solutionLink}>
             {i18n('common.notification.solution')}
@@ -119,6 +122,7 @@ function MyNotification() {
         }}
         zIndex={99999}
       >
+        <div className={styles.errorDetail}>traceId:{props?.traceId}</div>
         <div className={styles.errorDetail}>{props?.errorDetail}</div>
       </Modal>
     </>
