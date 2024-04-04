@@ -8,7 +8,6 @@ import { CasePageData, CasePageInfo } from '@/models/casePage';
 import StateIndicator from '@/components/base/StateIndicator';
 
 interface IProps {
-  dispatch: any;
   isRunIng: boolean;
   consoleInfo: ConsoleInfo<CasePageData, CasePageInfo>;
 }
@@ -18,9 +17,15 @@ function CaseResult(props: IProps) {
   const { executionResult, runXmlParam } = consoleInfo.page;
   return (
     <>
-      {executionResult == undefined && <StateIndicator state="empty" />}
-      {executionResult != undefined && runXmlParam != undefined && (
-        <CaseResultRight consoleInfo={consoleInfo} executionResult={executionResult} runXmlParam={runXmlParam} />
+      {props.isRunIng && <StateIndicator state={'loading'} />}
+      {!props.isRunIng && executionResult == undefined && <StateIndicator state={'empty'} />}
+      {!props.isRunIng && executionResult != undefined && runXmlParam != undefined && (
+        <CaseResultRight
+          key={executionResult.id}
+          consoleInfo={consoleInfo}
+          executionResult={executionResult}
+          runXmlParam={runXmlParam}
+        />
       )}
     </>
   );

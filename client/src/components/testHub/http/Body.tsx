@@ -97,6 +97,7 @@ const Body = forwardRef((props: Props, ref) => {
     <div className={props.className}>
       <Row style={{ height: 35 }} align="middle">
         <Col span={18}>
+          {/* <Radio.Group onChange={onChange}> */}
           <Radio.Group onChange={onChange} value={data.type == undefined ? 'none' : data.type}>
             <Radio value={'none'}>none</Radio>
             <Radio value={'form-data'}>form-data</Radio>
@@ -110,16 +111,18 @@ const Body = forwardRef((props: Props, ref) => {
             <Space wrap>
               <Select
                 value={language}
-                style={{ width: 90 }}
-                bordered={false}
+                style={{ width: 70 }}
                 options={[
                   { value: 'json', label: 'JSON' },
                   { value: 'text', label: 'TEXT' },
-                  // { value: 'xml', label: 'XML' },
+                  { value: 'xml', label: 'XML' },
                   // { value: 'html', label: 'HTML' },
                   // { value: 'javascript', label: 'JavaScript' },
                 ]}
                 onChange={(e) => {
+                  const newData = data;
+                  newData.language = e;
+                  setData({ ...newData });
                   setLanguage(e);
                 }}
               />
@@ -165,15 +168,17 @@ const Body = forwardRef((props: Props, ref) => {
       >
         <ProCard split="vertical">
           <MyMonacoEditor
-            language={'json'}
+            language={language}
             defaultValue={data.content}
             onChange={(text) => {
-              const newData = data;
-              newData.content = text;
-              newData.type = 'raw';
-              myUseDebounceFn('', () => {
-                setData({ ...newData });
-              });
+              if (data.content != text) {
+                const newData = data;
+                newData.content = text;
+                newData.type = 'raw';
+                myUseDebounceFn('', () => {
+                  setData({ ...newData });
+                });
+              }
             }}
           />
         </ProCard>

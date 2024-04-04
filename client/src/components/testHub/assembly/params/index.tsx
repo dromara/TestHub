@@ -1,8 +1,7 @@
 import i18n from '@/i18n';
 
 import { BarsOutlined, CheckCircleOutlined } from '@ant-design/icons';
-import { EditableFormInstance, ProColumns } from '@ant-design/pro-components';
-import { EditableProTable } from '@ant-design/pro-components';
+import { EditableFormInstance, ProColumns, EditableProTable } from '@ant-design/pro-components';
 import { Dropdown, Menu, Modal, Radio, RadioChangeEvent, Space, Switch, message } from 'antd';
 import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { RuleParamResDto } from '@/typings';
@@ -14,6 +13,7 @@ import styles from './index.less';
 import classNames from 'classnames';
 import { MenuProps } from 'antd/lib';
 import MenuLabel from '@/components/base/MenuLabel';
+import MyMonacoEditor from '../../MonacoEditor/MyMonacoEditor';
 
 export type Props = {
   params: RuleParamResDto[];
@@ -32,12 +32,6 @@ export enum MenuType {
 }
 
 const Params = forwardRef((props: Props, ref) => {
-  const [themeSeting] = useTheme();
-  const [theme, setTheme] = useState(themeSeting.backgroundColor == 'dark' ? 'BlackTheme' : 'default');
-  useEffect(() => {
-    setTheme(themeSeting.backgroundColor == 'dark' ? 'BlackTheme' : 'default');
-  }, [themeSeting]);
-
   const editorFormRef = useRef<EditableFormInstance<RuleParamResDto>>();
   const [datas, setDatas] = useState<RuleParamResDto[]>(props.params);
   const [editableKeys, setEditableRowKeys] = useState<React.Key[]>([]);
@@ -364,7 +358,7 @@ const Params = forwardRef((props: Props, ref) => {
             optionType="button"
           />
         </div>
-        <MonacoEditor
+        <MyMonacoEditor
           width={'100%'}
           language={language}
           height={400}
@@ -372,23 +366,7 @@ const Params = forwardRef((props: Props, ref) => {
             run(text, setInfo);
           }}
           // theme="vs"
-          value={info}
-          theme={theme}
-          options={{
-            minimap: { enabled: false },
-            scrollBeyondLastLine: false, // 设置编辑器是否可以滚动到最后一行之后
-            automaticLayout: true, // 自动布局
-            scrollbar: {
-              verticalScrollbarSize: 6,
-              horizontalScrollbarSize: 6,
-              verticalSliderSize: 6,
-              horizontalSliderSize: 6,
-              verticalHasArrows: false,
-              horizontalHasArrows: false,
-              arrowSize: 0,
-              useShadows: true,
-            },
-          }}
+          defaultValue={info}
         />
       </Modal>
     </>

@@ -303,10 +303,10 @@ const HttpPageModel: IHttpPageType = {
                     method: "POST",
                     timeout: 60,
                     body: {
-                        type: "raw",
+                        type: "none",
                         language: "json",
                         datas: [],
-                        content: "{}"
+                        content: ""
                     },
                     headers: [], params: [], rests: [], cookices: []
                 }

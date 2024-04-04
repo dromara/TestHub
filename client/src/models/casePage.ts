@@ -1,4 +1,4 @@
-import { ConsoleInfo, ConsoleStatus, HttpConsoleInfo } from '@/typings/client';
+import { ConsoleInfo, ConsoleStatus } from '@/typings/client';
 
 import httpService, { } from '@/service/plugins/http/httpApi';
 import treeService, { } from '@/service/treeApi';
@@ -46,9 +46,9 @@ export interface ICasePageType {
         setConsolePage: Reducer<any>;//设置页面信息
         setConsoleData: Reducer<any>;//设置页面数据
         saveConsoleData: Reducer<any>;//保存页面数据  后台保存之后
-        setSendResult: Reducer<any>;//设置执行结果
         setShowResult: Reducer<any>;//设置执行结果
         setExecutionResult: Reducer<any>;//设置运行结果
+        newCaseConsole: Reducer<any>;//新建用例控制台tab
 
     };
     effects: {
@@ -57,7 +57,6 @@ export interface ICasePageType {
         saveTree: Effect;//新增类目树
         updateTree: Effect;//编辑类目树
         rename: Effect;//重命名树节点、用例
-        newCaseConsole: Effect;//新建用例控制台tab
         formatXml: Effect;//格式化内容
         saveCaseFileContent: Effect;//保存或更新规则
         parserXml: Effect;//解析规则
@@ -74,7 +73,6 @@ const HttpPageModel: ICasePageType = {
         consoles: [],
 
     },
-
     reducers: {
         putTree(state, { payload }) {
             const oldTrees: Map<string, TreeNodeResDto<CasePageData>> = state.trees;
@@ -173,6 +171,14 @@ const HttpPageModel: ICasePageType = {
             oldConsoles[oldConsoles.findIndex(item => item.key == payload.key)].page.executionResult = payload.executionResult;
             return { ...state, consoles: oldConsoles, showResult: true };
         },
+        newCaseConsole(state, { payload }) {
+            // eslint-disable-next-line max-len
+            const oldConsoles: ConsoleInfo<CasePageData, CasePageInfo>[] = state.consoles;
+            const console: IConsoleIndo<TreeNodeResDto> = { name: payload.name, key: payload.key, status: ConsoleStatus.DRAFT, data: tree };
+            oldConsoles.push(console);
+            oldConsoles[oldConsoles.findIndex(item => item.key == payload.key)].data = rule;
+            return { ...state, consoles: oldConsoles };
+        },
     },
     effects: {
         *loadTrees({ payload, callback }, { put, select }) {
@@ -249,62 +255,6 @@ const HttpPageModel: ICasePageType = {
                 console.log();
             }
         },
-        *newCaseConsole({ payload, callback }, { put, select }) {
-            try {
-                const key = (yield systemService.getId()) as string;
-
-                const info = {
-                    id: parseInt(key),
-                    parentId: payload.parentId,
-                    projectCode: payload.projectCode,
-                    name: payload.name,
-                    method: "POST",
-                    timeout: 60,
-                    body: {
-                        type: "raw",
-                        language: "json",
-                        datas: [],
-                        content: "{}"
-                    },
-                    headers: [], params: [], rests: [], cookices: []
-                }
-
-
-                // 妈的有鬼👻
-
-                // 输出后 这个body的type = raw
-                console.log(info)
-
-                // 输出后 这个body的type = none
-                console.log(JSON.stringify(info))
-
-                // 输出后 这个body的type = none
-                console.log((JSON.parse(JSON.stringify(info)) as HTTP.HttpRequestResDto))
-
-
-                yield put({
-                    type: 'addConsole',
-                    payload: {
-                        node: {
-                            key: key,
-                            parentKey: payload.parentId,
-                            name: payload.name,
-                            nodeType: "API",
-                            info: (JSON.parse(JSON.stringify(info)) as HTTP.HttpRequestResDto)
-                        },
-                        status: ConsoleStatus.UNTRACKED
-                    },
-                });
-
-                if (callback && typeof callback === 'function') {
-                    callback();
-                }
-            }
-            catch {
-                console.log();
-            }
-        },
-
         *formatXml({ payload, callback }, { put, call }) {
             try {
                 const documentStr = (yield caseService.formatXml({
@@ -348,15 +298,6 @@ const HttpPageModel: ICasePageType = {
             }
         },
         *executionXml({ payload, callback }, { put, select }) {
-
-            // let oldConsoles = (yield select((state: { appPage: { caseConsoles: any; }; }) => state.appPage.caseConsoles)) as IConsoleIndo<TreeNodeResDto>[];
-            // const index = oldConsoles.findIndex(item => item.key === payload.key);
-            // oldConsoles[index].executionResult = undefined;
-            // yield put({
-            //   type: 'setCaseConsole',
-            //   payload: oldConsoles[index],
-            // });
-
             try {
                 const executionResult = (yield caseService.executionXml({ ...payload.runXmlParam, params: Object.fromEntries(payload.runXmlParam.params) })) as ExecutionResult;
                 yield put({

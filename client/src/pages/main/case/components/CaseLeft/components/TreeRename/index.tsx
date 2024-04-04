@@ -1,13 +1,10 @@
 import React from 'react';
 import i18n from '@/i18n';
-import { IHttpPageState } from '@/models/httpPage';
 import { TreeNodeResDto } from '@/typings';
-import { getCurrentProject } from '@/utils/localStorage';
-import { ModalForm, ProFormSelect, ProFormText, ProFormTreeSelect } from '@ant-design/pro-components';
+import { ModalForm, ProFormText } from '@ant-design/pro-components';
 import { TreeItem } from 'react-complex-tree';
 
 interface IProps {
-  httpPage: IHttpPageState;
   dispatch: any;
   functionRename: string;
   functionPutTree: string;

@@ -90,9 +90,9 @@ export function getTheme(): ThemeType {
   if (themeColor) {
     return themeColor
   }
-  localStorage.setItem('theme', ThemeType.Light)
+  localStorage.setItem('theme', ThemeType.FollowOs)
   // 默认主题色
-  return ThemeType.Light
+  return ThemeType.FollowOs
 }
 
 export function setTheme(theme: ThemeType) {

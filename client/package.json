@@ -12,7 +12,7 @@
     "lint": "umi lint",
     "postinstall": "umi setup",
     "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",
-    "start": "cross-env UMI_ENV=local cross-env APP_NAME=TestHub cross-env APP_VERSION=1.0.4 cross-env APP_PORT=12003 umi dev",
+    "start": "cross-env UMI_ENV=local cross-env APP_NAME=TestHub cross-env APP_VERSION=1.0.4 cross-env APP_PORT=12003 umi dev ",
     "build:web": "cross-env UMI_ENV=web cross-env APP_NAME=TestHub cross-env APP_VERSION=1.0.4 cross-env APP_PORT=12003 umi build",
     "build:desktop": "cross-env UMI_ENV=desktop cross-env APP_NAME=TestHub cross-env APP_VERSION=1.0.4 cross-env APP_PORT=12003 umi build"
   },
@@ -28,13 +28,13 @@
     "copy-to-clipboard": "^3.3.3",
     "echarts": "^5.4.2",
     "echarts-for-react": "^3.0.2",
-    "electron-log": "^4.4.8",
     "event-source-polyfill": "^1.0.31",
     "highlight.js": "^11.9.0",
     "lodash": "^4.17.21",
     "markdown-it-link-attributes": "^4.0.1",
     "monaco-editor": "^0.44.0",
     "monaco-editor-esm-webpack-plugin": "^2.1.0",
+    "monaco-editor-nls": "^3.1.0",
     "monaco-editor-webpack-plugin": "^7.0.1",
     "node-machine-id": "^1.1.12",
     "react-complex-tree": "^2.3.4",
@@ -43,8 +43,9 @@
     "react-list": "^0.8.17",
     "react-monaco-editor": "^0.54.0",
     "react-resizable-panels": "^2.0.3",
-    "react-resize-detector": "^10.0.1",
+    "react-resize-detector": "^9.1.0",
     "react-sortablejs": "^6.1.4",
+    "react-sticky-box": "^2.0.5",
     "react-transition-group": "^4.4.5",
     "sql-formatter": "^13.0.4",
     "styled-components": "^6.0.1",
@@ -85,56 +86,5 @@
   },
   "engines": {
     "node": ">=16"
-  },
-  "build": {
-    "appId": "com.chat2db",
-    "directories": {
-      "output": "release/"
-    },
-    "productName": "Chat2DB",
-    "asar": false,
-    "files": [
-      "dist/**/*",
-      "static/",
-      "src/main",
-      "versions/**/*",
-      "package.json",
-      "!node_modules/**/*",
-      "node_modules/uuid",
-      "node_modules/electron-log",
-      "node_modules/node-machine-id"
-    ],
-    "nsis": {
-      "oneClick": false,
-      "perMachine": false,
-      "allowElevation": true,
-      "allowToChangeInstallationDirectory": true,
-      "createDesktopShortcut": true,
-      "deleteAppDataOnUninstall": false,
-      "shortcutName": "Chat2DB"
-    },
-    "mac": {
-      "icon": "src/assets/logo/logo.icns",
-      "target": [
-        "zip",
-        "dmg"
-      ]
-    },
-    "win": {
-      "target": [
-        {
-          "target": "nsis"
-        }
-      ],
-      "publisherName": "Chat2DB",
-      "icon": "src/assets/logo/logo.ico"
-    },
-    "linux": {
-      "maintainer": "Chat2DB, huanyueyaoqin@qq.com",
-      "category": "Network;",
-      "target": [
-        "AppImage"
-      ]
-    }
   }
 }

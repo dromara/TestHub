@@ -1,7 +1,9 @@
 import { defineConfig } from 'umi';
 import { transitionTimezoneTimestamp } from './src/utils/webpack';
+import MonacoWebpackPlugin from 'monaco-editor-webpack-plugin';
 
-const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
+// const MonacoEditorEsmWebpackPlugin = require('monaco-editor-esm-webpack-plugin');
+
 
 const chainWebpack = (config: any, { webpack }: any) => {
   config.plugin('monaco-editor').use(MonacoWebpackPlugin, [
@@ -65,7 +67,8 @@ export default defineConfig({
   chainWebpack,
   proxy: {
     '/api': {
-      target: 'http://127.0.0.1:12003',
+      // target: 'http://127.0.0.1:12003',
+      target: 'http://173.168.1.154:12003',
       changeOrigin: true,
     },
   },

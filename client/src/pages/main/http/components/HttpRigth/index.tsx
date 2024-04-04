@@ -3,7 +3,7 @@ import classnames from 'classnames';
 import styles from './index.less';
 import Empty from '@/components/base/Empty';
 import { ConsoleInfo, ConsoleStatus } from '@/typings/client';
-import Tabs, { ITabItem } from '@/components/TestHub/Tabs';
+import Tabs, { ITabItem } from '@/components/base/Tabs';
 import { IHttpPageState } from '@/models/httpPage';
 import HttpConsole from '../HttpConsole';
 import { getCurrentProject } from '@/utils/localStorage';

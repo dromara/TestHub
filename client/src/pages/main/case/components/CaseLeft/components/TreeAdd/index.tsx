@@ -1,5 +1,5 @@
 import i18n from '@/i18n';
-import { HttpPageData, IHttpPageState } from '@/models/httpPage';
+import { ICasePageState } from '@/models/casePage';
 import { TreeNodeResDto } from '@/typings';
 import { getCurrentProject } from '@/utils/localStorage';
 import { ModalForm, ProFormText } from '@ant-design/pro-components';
@@ -7,7 +7,7 @@ import { message } from 'antd';
 import React from 'react';
 
 interface IProps {
-  casePage: IHttpPageState;
+  casePage: ICasePageState;
   dispatch: any;
   parentKey?: string;
   callback: () => void;

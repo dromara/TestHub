@@ -4,9 +4,14 @@ import registerNotification from './registerNotification';
 import { getLang, setLang } from '@/utils/localStorage';
 import { LangType } from '@/constants';
 import initCaseXml from '@/components/TestHub/MonacoEditor/MyMonacoEditor/language/casexml';
+// import zh_CN from 'monaco-editor-nls/locale/zh-hans';
+// import { setLocaleData } from 'monaco-editor-nls';
 
 const init = () => {
   clearOlderLocalStorage();
+
+  // 设置语言数据
+  // setLocaleData(zh_CN);
 
   initLang();
 

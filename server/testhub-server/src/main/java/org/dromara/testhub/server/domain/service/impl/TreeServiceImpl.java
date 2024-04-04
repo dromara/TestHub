@@ -5,6 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.dromara.testhub.framework.exception.TestHubException;
 import org.dromara.testhub.nsrule.core.executer.context.RuleConfig;
+import org.dromara.testhub.plugins.http.server.repository.po.HttpTreeNodePo;
+import org.dromara.testhub.plugins.http.server.util.TreeUtil;
+import org.dromara.testhub.sdk.action.dto.req.TreeDirDto;
 import org.dromara.testhub.sdk.action.dto.res.TreeNodeResDto;
 import org.dromara.testhub.sdk.action.dto.res.TreeNodeResDto2;
 import org.dromara.testhub.server.core.rule.CacheManager;
@@ -30,6 +33,8 @@ import java.util.Map;
 @Service("treeService")
 public class TreeServiceImpl implements TreeService {
     @Autowired
+    private RuleConfig ruleConfig;
+    @Autowired
     private DbManager dbManager;
     @Autowired
     private RuleConfig config;
@@ -52,6 +57,37 @@ public class TreeServiceImpl implements TreeService {
         List<TreeNodeResDto> ruleTreesAll = CaseTreeUtil.collectAllNodes(ruleTrees);
 
         return CaseTreeUtil.convert2(ruleTreesAll);
+    }
+
+    @Override
+    public TreeNodeResDto2 saveCaseTree(TreeDirDto reqDto, String model) {
+        if (StringUtils.isEmpty(reqDto.getProjectCode()) || ruleConfig.getProject(reqDto.getProjectCode()) == null) {
+            throw new TestHubException("找不到所属项目:" + reqDto.getProjectCode());
+        }
+        TreeInfoPo po = treeInfoConvert.reqDir2po(reqDto);
+        save(po,model,reqDto.getProjectCode());
+        TreeNodeResDto2 treeNodeResDto2 = CaseTreeUtil.getTreeNodeResDto(po);
+        CacheManager.reBuildTreeNode(dbManager,config,reqDto.getProjectCode());
+        return treeNodeResDto2;
+    }
+
+    private void save(TreeInfoPo po, String model,String projectCode){
+        boolean update = "update".equalsIgnoreCase(model);
+        if (po.getParentId() != 0) {
+            //0表示根节点
+            TreeInfoPo parent = treeInfoMapper.selectById(po.getParentId());
+            if(parent==null){
+                throw new TestHubException("找不到父节点的ID");
+            }
+            po.setTreeType(parent.getTreeType());
+        }else {
+            po.setTreeType(projectCode+"_CASE");
+        }
+        if (update) {
+            treeInfoMapper.updateById(po);
+        } else {
+            treeInfoMapper.insert(po);
+        }
     }
 
     @Override

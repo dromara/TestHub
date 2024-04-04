@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import ReactResizeDetector from 'react-resize-detector';
-import { Badge, Card, Collapse, Descriptions, Tag } from 'antd';
+import { Badge, Card, Collapse, Descriptions, Tabs, Tag, theme } from 'antd';
 import styles from './index.less';
 import classnames from 'classnames';
 import { ConsoleInfo, ExecutionXmlReqDto } from '@/typings';
@@ -11,6 +11,8 @@ import MyReactJson from '@/components/TestHub/myReactJson';
 import ErrorBoundary from '@/components/TestHub/errorBoundary';
 import i18n from '@/i18n';
 import { CasePageData, CasePageInfo } from '@/models/casePage';
+import StickyBox from 'react-sticky-box';
+import { TabsProps } from 'antd/lib';
 
 const { Panel } = Collapse;
 
@@ -21,52 +23,37 @@ interface IProps {
   runXmlParam: ExecutionXmlReqDto;
 }
 
-const operationTabList = (executionResult: ExecutionResult, runXmlParam: ExecutionXmlReqDto) => {
-  const reDatas: CardTabListType[] = [];
-  let i = 0;
-
-  executionResult.flowResults?.map((flowResult, index) => {
-    const flow = executionResult.ruleFlow?.flows.find((item) => item.code == flowResult.code);
-    if (runXmlParam?.flows && runXmlParam?.flows.filter((item) => item == flowResult.code).length > 0) {
-      reDatas.push({
-        key: i + '',
-        tab:
-          flowResult.errorNumber == 0 ? (
-            flow?.name || flow?.code
-          ) : (
-            <Badge size="small" count={flowResult.errorNumber}>
-              {flow?.name || flow?.code}
-            </Badge>
-          ),
-      });
-      i = i + 1;
-    }
-  });
-  return reDatas;
-};
-
 function caseResultRight(props: IProps) {
   const { executionResult, runXmlParam } = props;
-  const [tabStatus, seTabStatus] = useState<number>(0);
-  const onOperationTabChange = (key: string) => {
-    seTabStatus(parseInt(key));
-  };
 
-  return (
-    <>
-      <Card
-        className={classnames(styles.verticalTabsCard)}
-        bordered={false}
-        tabList={operationTabList(executionResult, runXmlParam)}
-        onTabChange={onOperationTabChange}
-      >
+  const {
+    token: { colorBgContainer },
+  } = theme.useToken();
+
+  const items = new Array(executionResult.ruleFlow?.flows.length).fill(null).map((_, index) => {
+    return {
+      label: executionResult.ruleFlow?.flows[index].name
+        ? executionResult.ruleFlow?.flows[index].name
+        : executionResult.ruleFlow?.flows[index].code,
+      key: index + '',
+      children: (
         <Flow
-          flowResult={executionResult.flowResults[tabStatus]}
+          flowResult={executionResult.flowResults[index]}
           executionResult={executionResult}
           runXmlParam={runXmlParam}
         />
-      </Card>
-    </>
+      ),
+    };
+  });
+  const renderTabBar: TabsProps['renderTabBar'] = (props, DefaultTabBar) => (
+    <StickyBox offsetTop={0} offsetBottom={0} style={{ zIndex: 1 }}>
+      <DefaultTabBar {...props} style={{ background: colorBgContainer }} />
+    </StickyBox>
+  );
+  return (
+    <div style={{ paddingLeft: 16, paddingRight: 16, paddingBottom: 16 }}>
+      <Tabs defaultActiveKey={'0'} renderTabBar={renderTabBar} items={items} />
+    </div>
   );
 }
 interface IRunInfoProps {
@@ -104,7 +91,7 @@ const Flow = (props: IRunInfoProps) => {
                 onResize={(width, height) => {
                   setWidth(width || 0);
                 }}
-              ></ReactResizeDetector>
+              />
               <Descriptions column={width > 300 ? (width / 100 > 7 ? 4 : width / 100 - 2) : 2} size="small">
                 <Descriptions.Item label={<b>{i18n('case.text.actionCode')}</b>}>{item.actionCode}</Descriptions.Item>
                 <Descriptions.Item label={<b>{i18n('case.text.actionName')}</b>}>{item.actionName}</Descriptions.Item>

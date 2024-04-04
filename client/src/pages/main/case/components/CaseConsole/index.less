@@ -38,6 +38,13 @@
           }
         }
         .right {
+          .f-single-line();
+          display: flex;
+          justify-content: flex-end;
+
+          span {
+            margin: 0px 20px;
+          }
         }
       }
       .monacoEditor {
@@ -50,9 +57,12 @@
     min-width: 20vw;
     height: 100%;
     flex: 1;
-    display: flex;
-    flex-direction: column;
-    background-color: var(--color-bg-base);
-    overflow: hidden;
+    overflow: scroll;
   }
+}
+
+.f-single-line() {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }

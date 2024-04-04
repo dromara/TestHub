@@ -36,43 +36,43 @@
         <dependency>
             <groupId>org.dromara.testhub.plugins</groupId>
             <artifactId>plugins-check</artifactId>
-            <version>${revision}</version>
+            <version>1.0.4-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.dromara.testhub.plugins</groupId>
             <artifactId>plugins-sleep</artifactId>
-            <version>${revision}</version>
+            <version>1.0.4-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>org.dromara.testhub.plugins</groupId>
             <artifactId>plugins-compare</artifactId>
-            <version>${revision}</version>
+            <version>1.0.4-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>org.dromara.testhub.plugins</groupId>
             <artifactId>plugins-sql</artifactId>
-            <version>${revision}</version>
+            <version>1.0.4-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>org.dromara.testhub.plugins</groupId>
             <artifactId>plugins-constant</artifactId>
-            <version>${revision}</version>
+            <version>1.0.4-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>org.dromara.testhub.plugins</groupId>
             <artifactId>plugins-convert</artifactId>
-            <version>${revision}</version>
+            <version>1.0.4-SNAPSHOT</version>
         </dependency>
 
 
         <dependency>
             <groupId>org.dromara.testhub.plugins</groupId>
             <artifactId>plugins-http</artifactId>
-            <version>${revision}</version>
+            <version>1.0.4-SNAPSHOT</version>
         </dependency>
 
     </dependencies>

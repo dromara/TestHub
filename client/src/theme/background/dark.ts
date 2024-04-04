@@ -52,6 +52,12 @@ const antdLightTheme = {
     colorBorder: '#373e4766',
     colorBorderSecondary: '#373e4766',
     controlItemBgActive: '#f1f1f414',
+    colorBgSpotlight: '#536176',
+
+    caseResultSuccessBg: "#2D5D36",
+    caseResultSuccessBorder: "#2D5D36",
+    caseResultErrorBg: "#802D2D",
+    caseResultErrorBorder: "#802D2D",
   },
 };
 

@@ -50,6 +50,14 @@ const antdLightTheme = {
     colorBgElevated: '#ffffff',
     colorBorder: 'rgba(211, 211, 212, 0.4)',
     colorBorderSecondary: 'rgba(211, 211, 212, 0.4)',
+
+
+    colorBgSpotlight: 'rgba(181, 181, 181, 1)',
+
+    caseResultSuccessBg: "#f6ffed",
+    caseResultSuccessBorder: "#b7eb8f",
+    caseResultErrorBg: "#fff2f0",
+    caseResultErrorBorder: "#f1bdb4",
   },
 };
 

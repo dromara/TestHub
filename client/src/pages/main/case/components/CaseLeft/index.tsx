@@ -9,9 +9,10 @@ import { Spin } from 'antd';
 import { CaseNodeType } from '../..';
 import TreeAdd from './components/TreeAdd';
 import TreeRename from './components/TreeRename';
-import ApiAdd from './components/ApiAdd';
+import ApiAdd from './components/CaseAdd';
 import { getCurrentProject } from '@/utils/localStorage';
 import { ICasePageState } from '@/models/casePage';
+import CaseAdd from './components/CaseAdd';
 interface IProps {
   casePage: ICasePageState;
   dispatch: any;
@@ -22,7 +23,7 @@ interface IProps {
 function CaseLeft(props: IProps) {
   const { dispatch, casePage, recognizeIcon } = props;
   const [dirFlag, setDirFlag] = useState<string>();
-  const [addApiFlag, setAddApiFlag] = useState<string>();
+  const [addCaseFlag, setAddCaseFlag] = useState<string>();
   const [renameFlag, setRenameFlag] = useState<TreeItem>();
   return (
     <>
@@ -45,6 +46,7 @@ function CaseLeft(props: IProps) {
               payload: item.index,
               callback: (data) => {
                 node.data.info = data;
+                // console.log(JSON.stringify(item.data));
                 dispatch({
                   type: 'casePage/addConsole',
                   payload: {
@@ -70,10 +72,10 @@ function CaseLeft(props: IProps) {
               },
             });
             closeTabsMenu.push({
-              label: <MenuLabel icon={'\ue713'} label="新增接口" />,
+              label: <MenuLabel icon={'\ue713'} label="新增用例" />,
               key: 'ue713',
               onClick: () => {
-                setAddApiFlag('0');
+                setAddCaseFlag('0');
               },
             });
             return closeTabsMenu;
@@ -92,10 +94,10 @@ function CaseLeft(props: IProps) {
                 },
               });
               closeTabsMenu.push({
-                label: <MenuLabel icon={'\ue713'} label="新增接口" />,
+                label: <MenuLabel icon={'\ue713'} label="新增用例" />,
                 key: 'ue713',
                 onClick: () => {
-                  setAddApiFlag(item.index);
+                  setAddCaseFlag(item.index);
                 },
               });
             }
@@ -111,17 +113,23 @@ function CaseLeft(props: IProps) {
           }}
         />
       )}
-      {/* <TreeAdd
+      <CaseAdd
+        parentKey={addCaseFlag}
+        dispatch={props.dispatch}
+        callback={() => {
+          setAddCaseFlag(undefined);
+        }}
+      />
+      <TreeAdd
         parentKey={dirFlag}
         casePage={casePage}
         dispatch={props.dispatch}
         callback={() => {
           setDirFlag(undefined);
         }}
-      /> */}
+      />
       <TreeRename
         thisNode={renameFlag}
-        httpPage={casePage}
         dispatch={props.dispatch}
         functionRename="casePage/rename"
         functionPutTree="casePage/putTree"

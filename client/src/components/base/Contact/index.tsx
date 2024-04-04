@@ -21,7 +21,11 @@ const Contact = (props: IProps) => {
             code="&#xe686;"
             onClick={() => window.open('https://gitee.com/dromara/TestHub')}
           />
-          <Tooltip placement="bottom" title={<img style={{ width: 150, height: 145 }} src={contactImg} />}>
+          <Tooltip
+            placement="bottom"
+            title={<img style={{ width: 150, height: 145 }} src={contactImg} />}
+            // trigger="click"
+          >
             <WechatOutlined className={classnames(styles.icon, styles.notFirst)} />
           </Tooltip>
         </div>

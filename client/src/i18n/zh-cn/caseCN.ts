@@ -23,7 +23,7 @@ export default {
     'case.text.code': '编码',
     'case.text.unsaved': '草稿',
     'case.text.saved': '已保存',
-    'case.text.change': '变更',
+    'case.text.change': '已变更',
 
     'case.message.executionConfigMessage': '执行参数配置',
 

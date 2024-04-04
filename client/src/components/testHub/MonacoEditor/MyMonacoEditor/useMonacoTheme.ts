@@ -3,9 +3,15 @@ import { useTheme } from '@/hooks/useTheme';
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 import { ThemeType } from '@/constants';
 
+
+
+
+
 // 如果用户点击的不是可复制的元素，就清空选中的内容
 function useMonacoTheme() {
   const [appTheme] = useTheme();
+
+
   // 监听主题色变化切换编辑器主题色
   useEffect(() => {
     const { colorPrimary, colorBgBase, colorTextBase } = window._AppThemePack;
@@ -15,7 +21,7 @@ function useMonacoTheme() {
       'editor.selectionBackground': colorPrimary + '50', // 选中文本的背景色
       // 'editorLineNumber.foreground': colorPrimary, // 行号颜色
       'editorLineNumber.activeForeground': colorPrimary, // 当前行号颜色
-      // 'editorCursor.foreground': colorPrimary, // 光标颜色
+      'editorCursor.foreground': colorPrimary, // 光标颜色
       'editorRuler.foreground': colorPrimary + '15', // 右侧竖线颜色
       'editor.foreground': colorTextBase, // 文本颜色
       'editor.background': colorBgBase, //背景色

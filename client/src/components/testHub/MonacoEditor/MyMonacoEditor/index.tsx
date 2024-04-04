@@ -13,14 +13,18 @@ export type IEditorOptions = monaco.editor.IStandaloneEditorConstructionOptions;
 export type IEditorContentChangeEvent = monaco.editor.IModelContentChangedEvent;
 
 interface IProps {
-  language?: string;
+  width?: string | number;
+  height?: string | number;
   className?: string;
-  options?: IEditorOptions;
+  language?: string;
   needDestroy?: boolean;
   defaultValue?: string;
+  options?: IEditorOptions;
+
+  onChange?: (text) => void;
   didMount?: (editor: IEditorIns) => any;
   shortcutKey?: (editor, monaco) => void;
-  onChange?: (text) => void;
+  addAction?: Array<{ id: string; label: string; action: (selectedText: string, ext?: string) => void }>;
 }
 
 export interface IExportRefFunction {
@@ -49,6 +53,7 @@ const MyMonacoEditor = (props: IProps, ref: ForwardedRef<IExportRefFunction>) =>
     setMonaco(monaco); // 保存 monaco 实例以供后续使用
     editor.focus();
     shortcutKey?.(editor, monaco);
+    createAction(editor);
   };
 
   useImperativeHandle(ref, () => ({
@@ -58,9 +63,38 @@ const MyMonacoEditor = (props: IProps, ref: ForwardedRef<IExportRefFunction>) =>
     appendMonacoValue(editor, monaco, text, range);
   };
 
+  const createAction = (editor: IEditorIns) => {
+    // 用于控制切换该菜单键的显示
+    editor.createContextKey('shouldShowAction', true);
+
+    if (!props.addAction || !props.addAction.length) {
+      return;
+    }
+
+    props.addAction.forEach((action) => {
+      const { id: _id, label, action: runFn } = action;
+      editor.addAction({
+        id: _id,
+        label,
+        // 控制该菜单键显示
+        precondition: 'shouldShowAction',
+        // 该菜单键位置
+        contextMenuGroupId: 'navigation',
+        contextMenuOrder: 1.5,
+        // 点击该菜单键后运行
+        run: (ed: IEditorIns) => {
+          const selectedText = editor.getModel()?.getValueInRange(editor.getSelection()!) || '';
+          runFn(selectedText);
+        },
+      });
+    });
+  };
+
   return (
     <>
       <MonacoEditor
+        width={props.width}
+        height={props.height}
         className={cs(className, styles.editorContainer)}
         language={language}
         onChange={(text) => {

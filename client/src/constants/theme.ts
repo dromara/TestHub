@@ -1,7 +1,6 @@
 export enum ThemeType {
   Light = 'light',
   Dark = 'dark',
-  DarkDimmed = 'darkDimmed',
   FollowOs = 'followOs',
 }
 

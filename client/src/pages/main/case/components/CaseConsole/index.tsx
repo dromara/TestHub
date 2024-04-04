@@ -16,6 +16,7 @@ import { RuleResDto } from '@/typings/server/case';
 import { CaseNodeType } from '../..';
 import CaseRunParam, { ICaseRunParamRef } from '../caseRunParam';
 import StateIndicator from '@/components/base/StateIndicator';
+import CaseResult from '../caseResult';
 
 interface IProps {
   caseCode: string;
@@ -149,16 +150,16 @@ export default function CaseConsole(props: IProps) {
         if (flag) {
           setParamOpen(true);
         } else {
-          // if (iconsole.runXmlParam) {
-          //   //参数不同 流程不同 进入重新设置
-          //   // setParamOpen(true);
-          //   //否则直接运行
-          //   const runXmlParam = iconsole.runXmlParam;
-          //   runXmlParam.documentStr = text;
-          //   onExec(runXmlParam);
-          // } else {
-          //   setParamOpen(true);
-          // }
+          if (consoleInfo.page.runXmlParam) {
+            //参数不同 流程不同 进入重新设置
+            // setParamOpen(true);
+            //否则直接运行
+            const runXmlParam = consoleInfo.page.runXmlParam;
+            runXmlParam.documentStr = consoleInfo.data.fileContent;
+            onExec(runXmlParam);
+          } else {
+            setParamOpen(true);
+          }
         }
       },
     });
@@ -184,10 +185,7 @@ export default function CaseConsole(props: IProps) {
         runXmlParam: runXmlParam,
       },
       callback: (executionResult: ExecutionResult) => {
-        // delay(() => {
-        // console.log(JSON.stringify(executionResult));
         setIsRunIng(false);
-        // }, 30000)
       },
     });
   };
@@ -268,7 +266,7 @@ export default function CaseConsole(props: IProps) {
         className={classnames(styles.caseConsolePage)}
         model={ModelType.SECOND}
         show={show}
-        defaultSize={show ? 50 : 100}
+        defaultSize={show ? 60 : 100}
         minSize={50}
         maxSize={100}
         onResize={(firstSize: number, secondSize: number) => {
@@ -290,7 +288,8 @@ export default function CaseConsole(props: IProps) {
               <div className={styles.left}>{renderOptBtn()}</div>
               <div className={styles.right}>
                 <span>
-                  {i18n('case.text.dir')}:{' 文件夹'}
+                  {i18n('case.text.dir')}:{' '}
+                  {consoleInfo.data.treeId == 0 ? '根' : casePage.trees[consoleInfo.data.treeId + '']['data']['name']}
                   {/* {props.iconsole.data.data?.treeId == 0
                     ? i18n('case.text.root')
                     : findNodeByKey(appPage.curProject?.ruleTrees || [], props.iconsole.data.data?.treeId + '').name} */}
@@ -332,7 +331,7 @@ export default function CaseConsole(props: IProps) {
                     label: i18n('case.tip.run'),
                     keybindings: [monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyR],
                     run: () => {
-                      // onRunParam(false);
+                      onRunParam(false);
                     },
                   });
                   editor.addAction({
@@ -340,7 +339,7 @@ export default function CaseConsole(props: IProps) {
                     label: i18n('case.tip.debug'),
                     keybindings: [monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyD],
                     run: () => {
-                      // onRunParam(true);
+                      onRunParam(true);
                     },
                   });
                   editor.addAction({
@@ -352,13 +351,44 @@ export default function CaseConsole(props: IProps) {
                     },
                   });
                 }}
+                addAction={[
+                  {
+                    id: 'format',
+                    label: i18n('case.tip.format'),
+                    action: (selectedText: string) => {
+                      format();
+                    },
+                  },
+                  {
+                    id: 'save',
+                    label: i18n('case.tip.save'),
+                    action: (selectedText: string) => {
+                      onSave(true);
+                    },
+                  },
+                  {
+                    id: 'run',
+                    label: i18n('case.tip.run'),
+                    action: (selectedText: string) => {
+                      onRunParam(false);
+                    },
+                  },
+                  {
+                    id: 'debug',
+                    label: i18n('case.tip.debug'),
+                    action: (selectedText: string) => {
+                      onRunParam(true);
+                    },
+                  },
+                ]}
               />
             </div>
           </div>
         </div>
-        <div className={styles.caseConsoleRight}>
-          {consoleInfo?.page?.executionResult != undefined && <>{JSON.stringify(consoleInfo?.page?.executionResult)}</>}
-          {consoleInfo?.page?.executionResult == undefined && <StateIndicator state="empty" />}
+        <div className={classnames([styles.caseConsoleRight])}>
+          <CaseResult isRunIng={isRunIng} consoleInfo={consoleInfo} />
+          {/* {consoleInfo?.page?.executionResult != undefined && <>{JSON.stringify(consoleInfo?.page?.executionResult)}</>} */}
+          {/* {consoleInfo?.page?.executionResult == undefined && <StateIndicator state="empty" />} */}
         </div>
       </Draggable>
 

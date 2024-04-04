@@ -22,7 +22,8 @@ const initialTheme = () => {
   const localStoragePrimaryColor = getPrimaryColor();
 
   // 判断localStorage的theme在不在ThemeType中, 如果存在就用localStorageTheme
-  let backgroundColor = ThemeType.Light;
+  // let backgroundColor = ThemeType.Light;
+  let backgroundColor = ThemeType.FollowOs;
   if (Object.values(ThemeType).includes(localStorageTheme)) {
     backgroundColor = localStorageTheme;
   }
