@@ -1,0 +1,43 @@
+logging:
+  level:
+    org:
+      flywaydb: debug
+spring:
+  flyway:
+    enabled: true
+    locations: classpath:config/migration/h2
+  datasource:
+    #数据库驱动
+    driver-class-name: org.h2.Driver
+    #数据库链接
+    url: jdbc:h2:file:./data/db/data/h2db
+    #数据库账号
+    username: root
+    #数据库密码
+    password: 123qwe
+    #druid数据库链接池配置
+    type: com.alibaba.druid.pool.DruidDataSource
+    #   数据源其他配置
+    #初始化时建立物理连接的个数
+    initial-size: 5
+    #最小连接池数量
+    min-idle: 5
+    #最大连接池数量 maxIdle已经不再使用
+    max-active: 20
+    #获取连接时最大等待时间，单位毫秒
+    max-wait: 60000
+
+    #用来检测连接是否有效的sql 必须是一个查询语句
+    #mysql中为 select 'x'
+    #oracle中为 select 1 from dual
+    validation-query: select 'x'
+  h2:
+    console:
+      path: /db
+      enabled: true #开启web console功能
+      settings:
+        trace: false
+        web-admin-password: 123qwe
+
+
+

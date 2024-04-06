@@ -1,8 +1,0 @@
-
-org.dromara.testhub.nsrule.core.executer.mode.base.function.impl.FunctionAdd
-org.dromara.testhub.nsrule.core.executer.mode.base.function.impl.FunctionSub
-org.dromara.testhub.nsrule.core.executer.mode.base.function.impl.FunctionMult
-org.dromara.testhub.nsrule.core.executer.mode.base.function.impl.FunctionDiv
-
-org.dromara.testhub.nsrule.core.executer.mode.base.function.impl.FunctionSize
-org.dromara.testhub.nsrule.core.executer.mode.base.function.impl.FunctionLength

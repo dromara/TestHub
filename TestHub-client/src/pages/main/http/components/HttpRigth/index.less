@@ -1,0 +1,26 @@
+.httpPageRight {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  .httpPageTabs {
+    height: auto;
+  }
+  .httpPageContent {
+    flex: 1;
+    position: relative;
+
+    .windowContent {
+      z-index: 2;
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      height: 100%;
+      width: 100%;
+    }
+
+    .concealTab {
+      opacity: 0;
+      z-index: 1;
+    }
+  }
+}

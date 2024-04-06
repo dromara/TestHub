@@ -1,0 +1,31 @@
+.responseViewContainer {
+  width: 100%;
+  height: 100%;
+}
+
+.responseViewContainerTabs {
+  width: 100%;
+  height: 100%;
+
+  .ant-tabs {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    .ant-tabs-nav {
+      height: auto;
+    }
+
+    .ant-tabs-content-holder {
+      flex: 1;
+      overflow: scroll;
+
+      .ant-tabs-content {
+        height: 100%;
+        .ant-tabs-tabpane-active {
+          height: 100%;
+        }
+      }
+    }
+  }
+}

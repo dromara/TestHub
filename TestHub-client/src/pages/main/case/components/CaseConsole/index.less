@@ -1,0 +1,68 @@
+.caseConsolePage {
+  .caseConsoleLeft {
+    // height: calc(100% - 10px);
+    height: 100%;
+    overflow: hidden;
+    // padding: 0 0 10px 0;
+    .console {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      height: 100%;
+      .operatingArea {
+        // flex-shrink: 0;
+        height: 30px;
+        background-color: var(--color-bg-secondary);
+        border-bottom: 1px solid var(--color-border-secondary);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .left {
+          display: flex;
+          padding-left: 10px;
+          .iconDiv {
+            width: 30px;
+            height: 30px;
+            display: flex;
+            justify-content: center; /* 水平居中 */
+            align-items: center; /* 垂直居中 */
+            .icon {
+              font-size: 16px;
+              color: var(--color-primary);
+              cursor: pointer;
+            }
+            &:hover {
+              background-color: var(--color-hover-bg);
+            }
+          }
+        }
+        .right {
+          .f-single-line();
+          display: flex;
+          justify-content: flex-end;
+
+          span {
+            margin: 0px 20px;
+          }
+        }
+      }
+      .monacoEditor {
+        flex: 1;
+        overflow: hidden;
+      }
+    }
+  }
+  .caseConsoleRight {
+    min-width: 20vw;
+    height: 100%;
+    flex: 1;
+    overflow: scroll;
+  }
+}
+
+.f-single-line() {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

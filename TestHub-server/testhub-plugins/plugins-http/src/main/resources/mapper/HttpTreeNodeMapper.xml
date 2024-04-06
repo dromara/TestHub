@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.dromara.testhub.plugins.http.server.repository.dao.HttpTreeNodeMapper">
+    <resultMap type="org.dromara.testhub.plugins.http.server.repository.po.HttpTreeNodePo" id="poMap">
+        <id property="id" column="id"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="name" column="name"/>
+        <result property="projectCode" column="project_code"/>
+        <result property="nodeType" column="node_type"/>
+
+        <result property="envCode" column="env_code"/>
+        <result property="method" column="method"/>
+        <result property="url" column="url"/>
+        <result property="restStr" column="rest_str"/>
+        <result property="cookieStr" column="cookie_str"/>
+        <result property="headerStr" column="header_str"/>
+        <result property="paramStr" column="param_str"/>
+        <result property="bodyType" column="body_type"/>
+        <result property="bodyLanguage" column="body_language"/>
+        <result property="bodyData" column="body_data"/>
+
+
+        <result property="deleted" column="deleted"/>
+        <result property="createUserId" column="create_user_id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="modifyUserId" column="modify_user_id"/>
+        <result property="modifyTime" column="modify_time"/>
+    </resultMap>
+</mapper>

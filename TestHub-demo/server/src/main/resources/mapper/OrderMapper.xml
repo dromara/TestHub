@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.goddess.server.dao.OrderMapper">
+    <resultMap type="com.goddess.server.entity.Order" id="poMap">
+        <result property="id" column="id" />
+        <result property="code" column="code" />
+        <result property="acctId" column="acct_id" />
+        <result property="orderQty" column="order_qty" />
+        <result property="orderPrice" column="order_price" />
+        <result property="orderAmt" column="order_amt" />
+    </resultMap>
+</mapper>

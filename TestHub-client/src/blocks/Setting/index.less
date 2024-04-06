@@ -1,0 +1,101 @@
+@import '../../styles/var.less';
+
+.box {
+  .f-icon-button();
+}
+
+.settingIcon {
+  color: var(--custom-color-icon);
+
+  &:hover {
+    color: var(--color-primary);
+  }
+}
+
+// .setText {
+//   color: var(--custom-primary);
+//   font-size: 16px;
+
+//   &:hover {
+//     text-decoration: underline;
+//   }
+// }
+
+.title {
+  font-size: 14px;
+  margin-bottom: 10px;
+
+  i {
+    margin-left: 10px;
+    color: var(--color-primary);
+  }
+}
+
+.content {
+  margin-bottom: 15px;
+}
+
+.modalBox {
+  display: flex;
+  margin: -16px;
+  height: 70vh;
+  overflow-y: auto;
+  border-radius: var(--border-radius-l-g);
+}
+
+.menus {
+  width: 200px;
+  background-color: var(--color-bg-subtle);
+  padding: 20px;
+  position: sticky;
+  top: 0;
+
+  .menusTitle {
+    font-size: 16px;
+    padding-bottom: 10px;
+  }
+
+  .menuItem {
+    margin: 10px 0px;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    .prefixIcon {
+      font-size: 16px;
+      margin-right: 10px;
+    }
+
+    .rightSlot {
+      flex: 1;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .rightSlotAbout {
+      i {
+        font-size: 18px;
+        color: var(--color-error);
+      }
+    }
+  }
+
+  .activeMenu {
+    color: var(--color-primary);
+    background-color: var(--color-hover-bg);
+  }
+}
+
+.menuContent {
+  min-height: 400px;
+  padding: 20px;
+  flex: 1;
+
+  .menuContentTitle {
+    font-size: 16px;
+    padding-bottom: 20px;
+  }
+}

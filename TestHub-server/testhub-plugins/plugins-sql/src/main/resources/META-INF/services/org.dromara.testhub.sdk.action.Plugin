@@ -1,0 +1,3 @@
+org.dromara.testhub.plugins.sql.actions.SqlPlugin
+org.dromara.testhub.plugins.sql.actions.SqlBeginPlugin
+org.dromara.testhub.plugins.sql.actions.SqlCommitPlugin

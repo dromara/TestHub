@@ -1,9 +1,0 @@
-  _____                    _      _  _            _
- |_   _|   ___     ___    | |_   | || |   _  _   | |__
-   | |    / -_)   (_-<    |  _|  | __ |  | +| |  | '_ \
-  _|_|_   \___|   /__/_   _\__|  |_||_|   \_,_|  |_.__/
-
-  * Maintainer: 18733123202@163.com & Team TestHub
-  * OfficialWebsite: http://nsrule.com/
-  * SourceCode: https://github.com/dromara/TestHub
-  * PoweredBy:  SpringBoot${spring-boot.formatted-version}

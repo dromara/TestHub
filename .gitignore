@@ -17,3 +17,6 @@ electron-egg/public/!dist/
 electron-egg/build/extraResources/data
 client/.vscode
 docker/frontend
+TestHub-electron/build/jre/win_jre
+TestHub-electron/build/jre/mac_jre
+TestHub-docker/frontend

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration scan="true" >
+<!--    <include resource="org/springframework/boot/logging/logback/defaults.xml" />-->
+<!--    &lt;!&ndash; 彩色日志 &ndash;&gt;-->
+<!--    &lt;!&ndash; 彩色日志依赖的渲染类 &ndash;&gt;-->
+    <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
+<!--&lt;!&ndash;    <conversionRule conversionWord="wex" converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter" />&ndash;&gt;-->
+<!--&lt;!&ndash;    <conversionRule conversionWord="wEx" converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter" />&ndash;&gt;-->
+
+<!--    <springProperty scope="context" name="logDir" source="logging.path" defaultValue="logs"/>-->
+<!--    <springProperty scope="context" name="appName" source="spring.application.name"  defaultValue="center"/>-->
+<!--    <springProperty scope="context" name="port" source="server.port"/>-->
+<!--&lt;!&ndash;    <conversionRule conversionWord="ip" converterClass="com.goddess.testhub.framwork.trace.LogIpConfig" />&ndash;&gt;-->
+
+<!--    &lt;!&ndash;格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度 %msg：日志消息，%n是换行符 [%thread] &ndash;&gt;-->
+    <property name="pattern" value="%d{yyyy-MM-dd HH:mm:ss:SSS} %clr(%level) [%X{traceId}] [%thread] %logger.%M %L - %msg%n"/>
+
+
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+<!--        <encoder class="com.goddess.testhub.framwork.trace.ExceptionTracePatternLayoutEncoder">-->
+            <pattern>${pattern}</pattern>
+        </encoder>
+    </appender>
+
+
+
+
+
+
+<!--    <appender name="SYSTEM_ERROR_FILE"-->
+<!--              class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+<!--        <File>${logDir}/${appName}/error.log</File>-->
+<!--        <filter class="ch.qos.logback.classic.filter.LevelFilter">-->
+<!--            <level>ERROR</level>-->
+<!--            <onMatch>ACCEPT</onMatch>-->
+<!--            <onMismatch>DENY</onMismatch>-->
+<!--        </filter>-->
+<!--        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">-->
+<!--            <fileNamePattern>${logDir}/history/${appName}/error.%d{yyyy-MM-dd}.%i</fileNamePattern>-->
+<!--            <maxHistory>14</maxHistory>-->
+<!--            <maxFileSize>20MB</maxFileSize>-->
+<!--        </rollingPolicy>-->
+<!--        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">-->
+<!--            <pattern>${pattern}</pattern>-->
+<!--            <charset>UTF-8</charset>-->
+<!--        </encoder>-->
+<!--    </appender>-->
+
+<!--    <appender name="SYSTEM_ALL_FILE"-->
+<!--              class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+<!--        <File>${logDir}/${appName}/info.log</File>-->
+
+<!--        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">-->
+<!--            <fileNamePattern>${logDir}/history/${appName}/info.%d{yyyy-MM-dd}.%i</fileNamePattern>-->
+<!--            <maxHistory>14</maxHistory>-->
+<!--            <maxFileSize>20MB</maxFileSize>-->
+<!--        </rollingPolicy>-->
+<!--        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">-->
+<!--            <pattern>${pattern}</pattern>-->
+<!--            <charset>UTF-8</charset>-->
+<!--        </encoder>-->
+<!--    </appender>-->
+
+
+    <root level="info">
+        <appender-ref ref="console" />
+    </root>
+
+    <logger name="com.dromara.testhub.*.infrastructure.repository.dao.*" level="DEBUG" additivity="false">
+        <appender-ref ref="console" />
+    </logger>
+    <logger name="org.dromara.testhub.plugins.*.server.repository.dao.*" level="DEBUG" additivity="false">
+        <appender-ref ref="console" />
+    </logger>
+</configuration>
