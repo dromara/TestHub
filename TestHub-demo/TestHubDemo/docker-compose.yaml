@@ -3,7 +3,7 @@ version: "3" # 表示该 Docker-Compose 文件使用的是 Version 3 file
 services:
   ######################################################################################################  TestHub
   testhub:
-    image: vinc02131/testhub:1.0.2
+    image: vinc02131/testhub:1.0.4
     hostname: testhub
     container_name: testhub
     ports:

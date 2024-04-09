@@ -19,6 +19,7 @@ TestHub 提供直观易用界面，直观设计测试流程。简单拖放和连
 [gitee](https://gitee.com/dromara/TestHub) [github](https://github.com/dromara/TestHub)
 
 ## 工程目录
+
 <div align="center">
 
 | 目录   | 说明                           |
@@ -34,9 +35,8 @@ TestHub 提供直观易用界面，直观设计测试流程。简单拖放和连
 </div>
 
 <div align="center">
-    <img src="https://gitee.com/dromara/TestHub/raw/main/static/img/概览.jpg" alt="Image" width="100%" >
+    <img src="https://gitee.com/dromara/TestHub/raw/main/TestHub-static/img/概览.jpg" alt="Image" width="100%" >
 </div>
-
 
 ## 演示视频
 
@@ -52,14 +52,14 @@ https://www.bilibili.com/video/BV1X94y1v7ak/?spm_id_from=333.337.search-card.all
 演示环境有问题 请微信：
 
 <div align="center">
-    <img src="https://gitee.com/dromara/TestHub/raw/main/static/contact.jpeg" alt="Image" width="300" >
+    <img src="https://gitee.com/dromara/TestHub/raw/main/TestHub-static/contact.jpeg" alt="Image" width="300" >
 </div>
 
 ## 部署
 
 ### 安装包下载
 
-https://url84.ctfile.com/d/49656084-58580094-6ad8ce?p=3738 (访问密码: 3738)
+Testhub 1.0.4: https://url37.ctfile.com/d/42659137-60695737-5e2d86?p=3710 (访问密码: 3710)
 
 ### docker 部署 演示 demo
 
@@ -72,7 +72,7 @@ git clone https://gitee.com/dromara/TestHub.git
 切换到 演示 demo 的 docker compose 配置中
 
 ```
-cd TestHub/demo/TestHubDemo/
+cd TestHub/TestHub-demo/TestHubDemo/
 ```
 
 启动 TestHubDemo
@@ -93,8 +93,6 @@ docker-compose up -d
 
 </div>
 
-
-
 前端接口地址 http://127.0.0.1:11018/
 
 后端接口文档 http://127.0.0.1:12003/swagger-ui/index.html#/
@@ -104,13 +102,13 @@ docker-compose up -d
 获取 TestHub 镜像
 
 ```
-docker pull vinc02131/testhub:1.0.2
+docker pull vinc02131/testhub:1.0.4
 ```
 
 运行
 
 ```
-docker run -d -p 12003:12003 -p 11018:11018 vinc02131/testhub:1.0.2
+docker run -d -p 12003:12003 -p 11018:11018 vinc02131/testhub:1.0.4
 ```
 
 前端接口地址 http://127.0.0.1:11018/
@@ -155,47 +153,48 @@ git clone https://gitee.com/dromara/TestHub.git
 
 ## 迭代方向
 
-
 <div align="center">
 
-| 功能           | 支持 |
-| -------------- | ---- |
-| 执行计划管理   |      |
-|                |      |
-| 前端拖拉拽配置 |      |
+| 功能               | 支持 |
+| ------------------ | ---- |
+| 执行计划管理       |      |
+| 百宝箱             |      |
+| websocket 测试工具 |      |
+| mock 模块          |      |
+| 前端拖拉拽配置     |      |
 
 </div>
 
 ## 软件界面
+
 <div align="center">
-    <img src="https://gitee.com/dromara/TestHub/raw/main/static/img/环境级参数.jpg" alt="Image" width="100%" >
+    <img src="https://gitee.com/dromara/TestHub/raw/main/TestHub-static/img/环境级参数.jpg" alt="Image" width="100%" >
 </div>
 
 <div align="center">
-    <img src="https://gitee.com/dromara/TestHub/raw/main/static/img/全局行为.jpg" alt="Image" width="100%" >
+    <img src="https://gitee.com/dromara/TestHub/raw/main/TestHub-static/img/全局行为.jpg" alt="Image" width="100%" >
 </div>
 
 <div align="center">
-    <img src="https://gitee.com/dromara/TestHub/raw/main/static/img/check_loop.png" alt="Image" width="100%" >
+    <img src="https://gitee.com/dromara/TestHub/raw/main/TestHub-static/img/check_loop.png" alt="Image" width="100%" >
 </div>
 
 <div align="center">
-    <img src="https://gitee.com/dromara/TestHub/raw/main/static/img/check_obj.png" alt="Image" width="100%" >
+    <img src="https://gitee.com/dromara/TestHub/raw/main/TestHub-static/img/check_obj.png" alt="Image" width="100%" >
 </div>
 
 <div align="center">
-    <img src="https://gitee.com/dromara/TestHub/raw/main/static/img/check.png" alt="Image" width="100%" >
+    <img src="https://gitee.com/dromara/TestHub/raw/main/TestHub-static/img/check.png" alt="Image" width="100%" >
 </div>
 
 <div align="center">
-    <img src="https://gitee.com/dromara/TestHub/raw/main/static/img/convert.png" alt="Image" width="100%" >
+    <img src="https://gitee.com/dromara/TestHub/raw/main/TestHub-static/img/convert.png" alt="Image" width="100%" >
 </div>
 
 <div align="center">
-    <img src="https://gitee.com/dromara/TestHub/raw/main/static/img/http.png" alt="Image" width="100%" >
+    <img src="https://gitee.com/dromara/TestHub/raw/main/TestHub-static/img/http.png" alt="Image" width="100%" >
 </div>
 
 <div align="center">
-    <img src="https://gitee.com/dromara/TestHub/raw/main/static/img/sql.png" alt="Image" width="100%" >
+    <img src="https://gitee.com/dromara/TestHub/raw/main/TestHub-static/img/sql.png" alt="Image" width="100%" >
 </div>
-

@@ -16,7 +16,6 @@ export default navbar([
   { text: "🪀github", link: "https://github.com/dromara/TestHub" },
   { text: "🤝Dromara组织", link: "https://dromara.org/zh/" },
   { text: "🔍常见问题", link: "/issue" },
-  { text: "🔧构建", link: "/build" },
   { text: "💡更新日志", link: "/log" },
   // { text: "🎎贡献者", link: "/doc/developer.md" },
   { text: "👪加入交流群", link: "/group", },

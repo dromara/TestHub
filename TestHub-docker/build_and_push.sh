@@ -36,7 +36,7 @@ docker tag $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG $DOCKERHUB_REPO/$DOCKER_IMAGE_NA
 echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 
 # 推送镜像到 Docker Hub
-# docker push $DOCKERHUB_REPO/$DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG
+docker push $DOCKERHUB_REPO/$DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG
 
 #注销 Docker Hub
 docker logout

@@ -20,3 +20,5 @@ docker/frontend
 TestHub-electron/build/jre/win_jre
 TestHub-electron/build/jre/mac_jre
 TestHub-docker/frontend
+TestHub-electron/out
+TestHub-electron/node_modules

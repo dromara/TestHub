@@ -6,7 +6,7 @@ export default defineUserConfig({
 
   lang: "zh-CN",
   title: "TestHub",
-  description: "vuepress-theme-hope 的文档演示",
+  description: "TestHub 的文档演示",
 
   theme,
 
