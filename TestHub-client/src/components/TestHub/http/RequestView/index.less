@@ -1,0 +1,67 @@
+.requestViewContainer {
+  width: 100%;
+  height: 100%;
+}
+.requestViewContainerTabs {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  .ant-tabs {
+    height: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+
+    .ant-tabs-nav {
+      height: auto;
+      margin: 0;
+    }
+
+    .ant-tabs-content-holder {
+      flex: 1;
+      // overflow: scroll;
+
+      .ant-tabs-content {
+        height: 100%;
+
+        .ant-tabs-tabpane-active {
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+
+          .body {
+            flex: 1;
+            .bodyRow {
+              height: 100%;
+              display: flex;
+              .ant-pro-card {
+                flex: 1;
+                overflow: scroll;
+              }
+            }
+          }
+          .ant-pro-card {
+            flex: 1;
+            overflow: scroll;
+          }
+        }
+      }
+    }
+  }
+}
+
+.body {
+  height: 100%;
+  .bodyRow {
+    height: calc(100% - 35px);
+    display: flex;
+    flex-direction: column;
+    .ant-pro-card {
+      flex: 1;
+      overflow: scroll;
+    }
+  }
+}

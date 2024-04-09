@@ -1,0 +1,60 @@
+.draggableRow > .divider {
+  width: 1px;
+  position: relative;
+  background-color: var(--color-border);
+
+  .dividerCenter {
+    width: 100%;
+    height: 100%;
+  }
+  .dividerDragging {
+    background-color: var(--color-primary-bg);
+    cursor: col-resize;
+    width: 6px;
+    top: 0px;
+    bottom: 0px;
+    z-index: 100;
+    transform: translateX(-50%);
+  }
+  &:hover {
+    .dividerCenter {
+      background-color: var(--color-primary-bg);
+      cursor: col-resize;
+      width: 6px;
+      top: 0px;
+      bottom: 0px;
+      z-index: 100;
+      transform: translateX(-50%);
+    }
+  }
+}
+
+.draggableColumn > .divider {
+  height: 1px;
+  position: relative;
+  background-color: var(--color-border);
+  .dividerCenter {
+    width: 100%;
+    height: 100%;
+  }
+  .dividerDragging {
+    background-color: var(--color-primary-bg);
+    cursor: col-resize;
+    height: 6px;
+    top: 0px;
+    bottom: 0px;
+    z-index: 100;
+    transform: translateY(-50%);
+  }
+  &:hover {
+    .dividerCenter {
+      background-color: var(--color-primary-bg);
+      cursor: col-resize;
+      height: 6px;
+      top: 0px;
+      bottom: 0px;
+      z-index: 100;
+      transform: translateY(-50%);
+    }
+  }
+}
